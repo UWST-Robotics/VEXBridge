@@ -2,6 +2,7 @@ import {atom} from "jotai";
 import {valuesOverTimeAtom} from "../useValuesOverTime.ts";
 import NTValue from "../../../types/nt/NTValue.ts";
 import TimestampedValue from "../../../types/TimestampedValue.ts";
+import {maxTimeWindowAtom} from "../useMaxTimeWindow.ts";
 
 export interface UpdateValueOverTimeProps {
     path: string;
@@ -34,7 +35,8 @@ export const updateValueOverTimeAtom = atom(null, (get, set, props: UpdateValueO
 
     // Remove values that are too old
     const currentTime = Date.now();
-    while (newValuesOverTime.length > 0 && newValuesOverTime[0].time < currentTime - MAX_TIME_WINDOW)
+    const maxTimeWindow = get(maxTimeWindowAtom);
+    while (newValuesOverTime.length > 0 && newValuesOverTime[0].time < currentTime - maxTimeWindow)
         newValuesOverTime.shift();
 
     // Set the new values over time

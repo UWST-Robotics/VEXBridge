@@ -5,8 +5,8 @@ import useCurrentTime from "../../../hooks/common/useCurrentTime.ts";
 import useSelectedPath from "../../../hooks/selectedPath/useSelectedPath.ts";
 import useNTValue from "../../../hooks/networkTable/useNTValue.ts";
 import parseNetworkValueToNumber from "../../../utils/parseNetworkValueToNumber.ts";
-import {MAX_TIME_WINDOW} from "../../../hooks/valueOverTime/actions/useUpdateValueOverTime.ts";
 import React from "react";
+import useMaxTimeWindow from "../../../hooks/valueOverTime/useMaxTimeWindow.ts";
 
 export default function SelectedValueChart() {
     const selectedPath = useSelectedPath();
@@ -15,6 +15,7 @@ export default function SelectedValueChart() {
     const [valuesOverTime] = useValuesOverTime(selectedPath || "");
     const [min, max, average] = useSelectedPathStats();
     const currentTime = useCurrentTime(50);
+    const [maxTimeWindow] = useMaxTimeWindow();
 
 
     // Time Functions
@@ -44,7 +45,7 @@ export default function SelectedValueChart() {
                     dataKey={"time"}
                     type={"number"}
                     allowDataOverflow={true}
-                    domain={[currentTime - MAX_TIME_WINDOW, currentTime]}
+                    domain={[currentTime - maxTimeWindow, currentTime]}
                     tickFormatter={formatTime}
                 />
 
