@@ -6,6 +6,7 @@ import {LINES_GROUP, POSE_GROUP} from "../../../types/GroupNames.ts";
 import NetworkPoseRenderer from "./canvasRenderers/poseRenderer/NetworkPoseRenderer.tsx";
 import NetworkLineRenderer from "./canvasRenderers/lineRenderer/NetworkLineRenderer.tsx";
 import useNTGroupInfo from "../../../hooks/networkTable/useNTGroupInfo.ts";
+import CompassRenderer from "./canvasRenderers/CompassRenderer.tsx";
 
 export default function FieldCanvas() {
     const linesGroupInfo = useNTGroupInfo(LINES_GROUP);
@@ -50,6 +51,11 @@ export default function FieldCanvas() {
                     stroke="#676767"
                     strokeWidth={3}
                     listening={false}
+                />
+
+                {/* Compass Directions */}
+                <CompassRenderer
+                    canvasSize={canvasSize}
                 />
 
                 <Group
