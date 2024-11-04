@@ -1,25 +1,15 @@
 import {defineConfig} from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-    plugins: [
-        react()
-    ],
+    root: "src/renderer",
+    base: "/",
+    plugins: [react()],
     server: {
-        // Proxy Socket.IO to the server
-        proxy: {
-            '/socket.io': {
-                target: 'ws://localhost:8080',
-                ws: true,
-                rewriteWsOrigin: true,
-            },
-        }
-    },
-    build: {
-        outDir: "dist/public",
-        emptyOutDir: true
+        port: 3000
     },
     define: {
-        APP_VERSION: JSON.stringify(process.env.npm_package_version)
-    }
+        APP_VERSION: JSON.stringify(process.env.npm_package_version),
+        electronAPI: undefined
+    },
 })
