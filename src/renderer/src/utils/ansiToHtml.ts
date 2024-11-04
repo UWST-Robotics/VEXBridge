@@ -1,5 +1,5 @@
 export default function ansiToHtml(input: string): string {
-    const ansiToHtmlMap: { [key: string]: string } = {
+    const ansiToHtmlMap: Record<string, string> = {
         '30': 'color: black',
         '31': 'color: red',
         '32': 'color: green',

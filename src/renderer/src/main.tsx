@@ -8,8 +8,13 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
+// Get Root
+const root = document.getElementById('root');
+if (!root)
+    throw new Error('Root element not found');
 
-createRoot(document.getElementById('root')!).render(
+// Create React Root
+createRoot(root).render(
     <StrictMode>
         <App/>
     </StrictMode>,

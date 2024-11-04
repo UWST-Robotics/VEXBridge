@@ -6,7 +6,7 @@
   "license": "GPL-3.0",
   "main": "./out/main/main.js",
   "scripts": {
-    "dev": "electron-vite dev -w",
+    "dev": "electron-vite dev -w --sourcemap",
     "build": "tsc --noEmit --composite false && electron-vite build",
     "build:win": "yarn run build && electron-builder --win",
     "build:mac": "yarn run build && electron-builder --mac",
@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
+    "@stylistic/eslint-plugin-ts": "^2.10.1",
     "@types/express": "^5.0.0",
     "@types/node": "^22.8.1",
     "@types/react": "^18.3.11",

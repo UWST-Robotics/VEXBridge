@@ -19,8 +19,8 @@ export const ntGroupInfoAtomFamily = atomFamily((path: string) => atom((get) => 
 
     // Get group of each part
     let group: NTGroupInfo | undefined = root;
-    for (let i = 0; i < pathParts.length; i++) {
-        group = group.children.find((child) => child.name === pathParts[i]);
+    for (const pathPart of pathParts) {
+        group = group.children.find((child) => child.name === pathPart);
         if (group === undefined)
             return undefined;
     }
@@ -28,8 +28,6 @@ export const ntGroupInfoAtomFamily = atomFamily((path: string) => atom((get) => 
     return group;
 
 }, (get, set, groupInfo: NTGroupInfo) => {
-
-    console.log("Setting group info", path, groupInfo);
 
     // This function recursively updates the parent with the new group info
 

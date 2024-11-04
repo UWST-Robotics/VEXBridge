@@ -5,7 +5,7 @@ import SerialPortNT from "./nt/SerialPortNT.ts";
 import ServerNT from "./nt/ServerNT.ts";
 import Logger from "./common/Logger.ts";
 
-export default class BlueBox {
+export default abstract class BlueBox {
     static nt = new NetworkTable();
     static serialTable = new SerialPortNT();
     static serverTable = new ServerNT();

@@ -4,8 +4,9 @@ export interface CompassRendererProps {
     canvasSize: number;
 }
 
-const PADDING = 10;
-const FILL_COLOR = "#999";
+const PADDING = 8;
+const FILL_COLOR = "#777";
+const FONT_SIZE = 16;
 
 export default function CompassRenderer(props: CompassRendererProps) {
     const {canvasSize} = props;
@@ -18,7 +19,7 @@ export default function CompassRenderer(props: CompassRendererProps) {
                 width={canvasSize}
                 text={"90°"}
                 fill={FILL_COLOR}
-                fontSize={20}
+                fontSize={FONT_SIZE}
                 align={"center"}
                 shadowColor={"#000"}
                 shadowBlur={7}
@@ -26,11 +27,11 @@ export default function CompassRenderer(props: CompassRendererProps) {
             />
             <Text
                 x={0}
-                y={canvasSize - PADDING - 20}
+                y={canvasSize - PADDING - FONT_SIZE + 2}
                 width={canvasSize}
                 text={"270°"}
                 fill={FILL_COLOR}
-                fontSize={20}
+                fontSize={FONT_SIZE}
                 align={"center"}
                 shadowColor={"#000"}
                 shadowBlur={7}
@@ -38,11 +39,11 @@ export default function CompassRenderer(props: CompassRendererProps) {
             />
             <Text
                 x={PADDING}
-                y={canvasSize / 2 - 10}
+                y={canvasSize / 2 - FONT_SIZE / 2 + 2}
                 width={canvasSize}
                 text={"180°"}
                 fill={FILL_COLOR}
-                fontSize={20}
+                fontSize={FONT_SIZE}
                 align={"left"}
                 shadowColor={"#000"}
                 shadowBlur={7}
@@ -50,11 +51,11 @@ export default function CompassRenderer(props: CompassRendererProps) {
             />
             <Text
                 x={-PADDING}
-                y={canvasSize / 2 - 10}
+                y={canvasSize / 2 - FONT_SIZE / 2 + 2}
                 width={canvasSize}
                 text={"0°"}
                 fill={FILL_COLOR}
-                fontSize={20}
+                fontSize={FONT_SIZE}
                 align={"right"}
                 shadowColor={"#000"}
                 shadowBlur={7}
