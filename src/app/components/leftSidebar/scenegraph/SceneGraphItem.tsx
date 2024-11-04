@@ -50,7 +50,7 @@ export default function SceneGraphItem(props: SceneGraphItemProps) {
                             whiteSpace: "nowrap",
                             overflow: "hidden",
                             textOverflow: "ellipsis",
-                            maxWidth: 100
+                            maxWidth: 200
                         }}
                     >
                         {valueText}

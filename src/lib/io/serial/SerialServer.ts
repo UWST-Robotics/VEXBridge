@@ -5,6 +5,10 @@ import NTValue from "../../types/NTValue.js";
 import {HEARTBEAT_INTERVAL} from "../../common/Constants.js";
 import VEXSerialParser from "./VEXSerialParser.js";
 import BlueBox from "../../BlueBox.js";
+import {PortInfo} from "../../serial";
+
+const VENDOR_ID = "2888";
+const PRODUCT_ID = "0501";
 
 export default class SerialServer {
 
@@ -32,6 +36,16 @@ export default class SerialServer {
         this.hardware.on("open", this.onOpen.bind(this));
         this.hardware.on("error", this.onError.bind(this));
         this.hardware.on("close", this.onClose.bind(this));
+    }
+
+    static async findVEXPorts() {
+        const allPorts = await SerialPort.list();
+        return allPorts.filter((port) => SerialServer.isVEXPort(port));
+    }
+
+    static isVEXPort(port: PortInfo) {
+        const isVexPort = port.vendorId === VENDOR_ID && port.productId === PRODUCT_ID;
+        return isVexPort && (port.pnpId?.endsWith("2") || port.pnpId?.endsWith("1"));
     }
 
     /**

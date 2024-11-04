@@ -13,10 +13,16 @@ export default class BlueBox {
 
     static web = new WebServer(DEFAULT_NETWORK_PORT);
     static socket = new SocketServer(this.web.httpServer);
-    static serial = new SerialServer(DEFAULT_SERIAL_PORT);
+    static serial: SerialServer | undefined;
 
     static listen() {
         BlueBox.web.listen();
         this.serialTable.pollForChanges();
+        SerialServer.findVEXPorts()
+            .then((ports) => {
+                BlueBox.serial?.close();
+                BlueBox.serial = new SerialServer(ports[0].path || DEFAULT_SERIAL_PORT);
+            })
+            .catch(console.error);
     }
 }

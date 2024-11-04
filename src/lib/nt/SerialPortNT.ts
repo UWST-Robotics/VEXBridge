@@ -1,6 +1,7 @@
 import {SerialPort} from "serialport";
 import {PortInfo} from "../serial.js";
 import BlueBox from "../BlueBox.js";
+import SerialServer from "../io/serial/SerialServer";
 
 const POLL_INTERVAL = 1000;
 
@@ -35,10 +36,14 @@ export default class SerialPortNT {
     }
 
     updatePort(port: PortInfo) {
-        const currentPort = BlueBox.serial.hardware.path;
+        const currentPort = BlueBox.serial?.hardware.path;
         const ntPath = SerialPortNT.getPortNTPath(port);
 
-        BlueBox.serverTable.updateRecord(ntPath + "/isActive", port.path === currentPort);
+        const portName = "friendlyName" in port ? port.friendlyName : port.path;
+
+        BlueBox.serverTable.updateRecord(ntPath + "/name", portName?.toString());
+        BlueBox.serverTable.updateRecord(ntPath + "/isActive", port.path === currentPort)
+        BlueBox.serverTable.updateRecord(ntPath + "/isVEX", SerialServer.isVEXPort(port));
         BlueBox.serverTable.updateRecord(ntPath + "/path", port.path);
         BlueBox.serverTable.updateRecord(ntPath + "/manufacturer", port.manufacturer);
         BlueBox.serverTable.updateRecord(ntPath + "/serialNumber", port.serialNumber);

@@ -31,7 +31,7 @@ export default class SocketServer {
 
         socket.on("setSerialPort", (port: string) => {
             Logger.client(`Setting serial port to ${port}`);
-            BlueBox.serial.close();
+            BlueBox.serial?.close();
             BlueBox.serial = new SerialServer(port);
 
             // Force update all ports
