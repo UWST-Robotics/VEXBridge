@@ -28,5 +28,20 @@ export default abstract class BlueBox {
                 BlueBox.serial = new SerialServer(ports[0].path || DEFAULT_SERIAL_PORT);
             })
             .catch(console.error);
+
+        // Debugging
+        const makeDebugValue = (key: string) => {
+            let value = 0;
+            setInterval(() => {
+                value += Math.random();
+                const record = {key, value: Math.sin(value * 0.01)};
+                BlueBox.nt.addOrUpdate(record);
+                BlueBox.mainWindow?.webContents.send("onUpdateRecord", record);
+            }, 100 * Math.random());
+        };
+
+        makeDebugValue("debug1");
+        makeDebugValue("debug2");
+        makeDebugValue("debug3");
     }
 }

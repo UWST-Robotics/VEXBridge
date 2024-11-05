@@ -1,11 +1,13 @@
 import useCurrentTab from "../../../hooks/navigation/currentTab.ts";
 import {Box} from "@mui/material";
-import GraphValuesOverTime from "./GraphValuesOverTime.tsx";
+import SelectedValuesTable from "./selectedValuesTable/SelectedValuesTable.tsx";
+import MaxTimeWindowInput from "./MaxTimeWindowInput.tsx";
+import SelectedValuesChart from "./chart/SelectedValuesChart.tsx";
 
 export default function GraphPage() {
     const [currentTab] = useCurrentTab();
 
-    if (currentTab !== "graph")
+    if (currentTab !== "graphPage")
         return null;
     return (
         <Box
@@ -18,7 +20,9 @@ export default function GraphPage() {
                 overflowY: "auto",
             }}
         >
-            <GraphValuesOverTime/>
+            <SelectedValuesChart/>
+            <MaxTimeWindowInput/>
+            <SelectedValuesTable/>
         </Box>
     );
 }

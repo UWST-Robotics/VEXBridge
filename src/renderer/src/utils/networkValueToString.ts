@@ -4,7 +4,7 @@ export default function networkValueToString(value: NTValue) {
     if (typeof value === "string")
         return value;
     else if (typeof value === "number")
-        return value.toFixed(1);
+        return value.toFixed(2);
     else if (typeof value === "boolean")
         return value ? "True" : "False";
     else if (value === null)

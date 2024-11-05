@@ -3,6 +3,7 @@ import ColoredListItem from "../../common/ColoredListItem.tsx";
 import NTValue from "../../../types/nt/NTValue.ts";
 import networkValueToString from "../../../utils/networkValueToString.ts";
 import useSelectPath from "../../../hooks/selectedPath/actions/useSelectPath.ts";
+import useIsPathSelected from "../../../hooks/selectedPath/useIsPathSelected.ts";
 
 export interface SceneGraphItemProps {
     name: string;
@@ -12,7 +13,8 @@ export interface SceneGraphItemProps {
 }
 
 export default function SceneGraphItem(props: SceneGraphItemProps) {
-    const enableValueOverTime = useSelectPath();
+    const selectPath = useSelectPath();
+    const isPathSelected = useIsPathSelected(props.path);
 
     const {name, path, value} = props;
 
@@ -23,11 +25,12 @@ export default function SceneGraphItem(props: SceneGraphItemProps) {
         return null;
     return (
         <ColoredListItem
-            intent="success"
+            intent={"success"}
             disablePadding
         >
             <ListItemButton
-                onClick={() => enableValueOverTime(path)}
+                selected={isPathSelected}
+                onClick={() => selectPath(path)}
                 disableGutters
                 dense
                 sx={{
@@ -57,5 +60,5 @@ export default function SceneGraphItem(props: SceneGraphItemProps) {
                 </Box>
             </ListItemButton>
         </ColoredListItem>
-    )
+    );
 }

@@ -33,7 +33,7 @@ export default function Navbar() {
                     iconPosition={"start"}
                 />
                 <Tab
-                    value={"graph"}
+                    value={"graphPage"}
                     label={"Graph"}
                     icon={<BarChart/>}
                     iconPosition={"start"}

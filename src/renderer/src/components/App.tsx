@@ -30,7 +30,7 @@ function App() {
                 <Content/>
             </ThemeProvider>
         </StateProvider>
-    )
+    );
 }
 
-export default App
+export default App;

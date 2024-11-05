@@ -10,7 +10,7 @@ const isMac = process.platform === 'darwin';
 function createWindow() {
     // Create the browser window
     BlueBox.mainWindow = new BrowserWindow({
-        width: 800,
+        width: 1100,
         height: 600,
         useContentSize: true,
         autoHideMenuBar: true,
@@ -62,10 +62,10 @@ app.on('window-all-closed', () => {
     // MacOS apps stay open until the user explicitly quits
     if (!isMac)
         app.quit();
-})
+});
 
 app.on('activate', () => {
     // If there are no windows open, create one
     if (!BlueBox.mainWindow)
         createWindow();
-})
+});

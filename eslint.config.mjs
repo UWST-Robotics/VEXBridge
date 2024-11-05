@@ -1,7 +1,6 @@
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 import eslint from "@eslint/js";
+import react from "eslint-plugin-react";
 
 export default tseslint.config(
     eslint.configs.recommended,
@@ -11,14 +10,9 @@ export default tseslint.config(
         ignores: ['dist', 'out', 'node_modules'],
         files: ['**/*.{ts,tsx}'],
         plugins: {
-            "react-refresh": reactRefresh,
-            "react-hooks": reactHooks,
+            react,
         },
         rules: {
-            'react-refresh/only-export-components': [
-                'warn',
-                {allowConstantExport: true},
-            ],
 
             // Used for static classes
             '@typescript-eslint/no-extraneous-class': 'off',
@@ -28,6 +22,12 @@ export default tseslint.config(
 
             // Used for ANSI parsing
             'no-control-regex': 'off',
+
+            // Require Semi-colons
+            'semi': ['warn', 'always'],
+
+            // Require props to be wrapped in {}
+            'react/jsx-curly-brace-presence': ['warn', {'props': 'always'}],
         },
     },
 )

@@ -4,7 +4,7 @@ import Navbar from "./navbar/navbar.tsx";
 import HardwareStatusPage from "./contentArea/hardwareStatus/HardwareStatusPage.tsx";
 import LogOutputPage from "./contentArea/logOutput/LogOutputPage.tsx";
 import FieldCanvasPage from "./contentArea/fieldCanvas/FieldCanvasPage.tsx";
-import GraphPage from "./contentArea/graph/GraphPage.tsx";
+import GraphPage from "./contentArea/graphPage/GraphPage.tsx";
 
 export default function Content() {
     return (
