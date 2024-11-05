@@ -1,5 +1,6 @@
 {
   "name": "bluebox",
+  "author": "Blue Devil Robotics",
   "description": "BlueBox is a dashboard application for debugging VEX V5 robots.",
   "private": true,
   "version": "0.1.1",

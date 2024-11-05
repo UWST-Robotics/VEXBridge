@@ -1,6 +1,6 @@
 import {Paper, Tab, Tabs} from "@mui/material";
 import useCurrentTab from "../../hooks/navigation/currentTab.ts";
-import {Map, Notes, SettingsEthernet} from "@mui/icons-material";
+import {BarChart, Map, Notes, SettingsEthernet} from "@mui/icons-material";
 
 export default function Navbar() {
     const [tab, setTab] = useCurrentTab();
@@ -30,6 +30,12 @@ export default function Navbar() {
                     value={"field"}
                     label={"Field Map"}
                     icon={<Map/>}
+                    iconPosition={"start"}
+                />
+                <Tab
+                    value={"graph"}
+                    label={"Graph"}
+                    icon={<BarChart/>}
                     iconPosition={"start"}
                 />
             </Tabs>

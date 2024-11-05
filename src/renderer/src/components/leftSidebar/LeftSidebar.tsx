@@ -1,6 +1,6 @@
-import SceneGraph from "./scenegraph/SceneGraph.tsx";
 import StatusHeader from "./status/StatusHeader.tsx";
 import {Paper} from "@mui/material";
+import SceneGraph from "./scenegraph/SceneGraph.tsx";
 
 export default function LeftSidebar() {
     return (
@@ -10,7 +10,8 @@ export default function LeftSidebar() {
                 display: 'flex',
                 flexDirection: 'column',
                 height: '100vh',
-                minWidth: 300
+                minWidth: 300,
+                overflowX: 'hidden'
             }}
         >
             <StatusHeader/>

@@ -4,37 +4,34 @@ import Navbar from "./navbar/navbar.tsx";
 import HardwareStatusPage from "./contentArea/hardwareStatus/HardwareStatusPage.tsx";
 import LogOutputPage from "./contentArea/logOutput/LogOutputPage.tsx";
 import FieldCanvasPage from "./contentArea/fieldCanvas/FieldCanvasPage.tsx";
-import SelectedValueModal from "./modals/selectedValue/SelectedValueModal.tsx";
+import GraphPage from "./contentArea/graph/GraphPage.tsx";
 
 export default function Content() {
     return (
-        <>
-            <Box
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                height: '100vh',
+                width: '100vw',
+            }}
+        >
+            <LeftSidebar/>
+            <Paper
+                elevation={0}
                 sx={{
                     display: 'flex',
-                    flexDirection: 'row',
-                    height: '100vh',
-                    width: '100vw',
+                    flexDirection: 'column',
+                    height: '100%',
+                    width: '100%',
                 }}
             >
-                <LeftSidebar/>
-                <Paper
-                    elevation={0}
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        height: '100%',
-                        width: '100%',
-                    }}
-                >
-                    <Navbar/>
-                    <HardwareStatusPage/>
-                    <LogOutputPage/>
-                    <FieldCanvasPage/>
-                </Paper>
-            </Box>
-
-            <SelectedValueModal/>
-        </>
+                <Navbar/>
+                <HardwareStatusPage/>
+                <LogOutputPage/>
+                <FieldCanvasPage/>
+                <GraphPage/>
+            </Paper>
+        </Box>
     )
 }

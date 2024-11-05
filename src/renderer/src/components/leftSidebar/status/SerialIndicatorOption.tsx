@@ -16,6 +16,10 @@ export default function SerialIndicatorOption(props: SerialOptionProps) {
     const manufacturer = useNTValue(portPath + "/manufacturer");
     const selectPort = () => electronAPI?.setSerialPort(path?.toString() ?? "");
 
+    // Hide deleted ports
+    if (!path)
+        return null;
+
     return (
         <ListItem
             disablePadding

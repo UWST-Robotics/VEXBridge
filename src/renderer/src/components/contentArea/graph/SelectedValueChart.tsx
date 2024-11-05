@@ -1,4 +1,4 @@
-import {CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
+import {CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, XAxis, YAxis} from "recharts";
 import useValuesOverTime from "../../../hooks/valueOverTime/useValuesOverTime.ts";
 import useSelectedPathStats from "../../../hooks/valueOverTime/useSelectedPathStats.ts";
 import useCurrentTime from "../../../hooks/common/useCurrentTime.ts";
@@ -56,17 +56,17 @@ export default function SelectedValueChart() {
                     strokeWidth={3}
                     dot={false}
                 />
-                <Tooltip
-                    labelFormatter={formatTime}
-                    formatter={(value: number) => value.toFixed(2)}
-                    isAnimationActive={false}
-                    contentStyle={{
-                        backgroundColor: '#333',
-                        color: '#fff',
-                        border: 'none',
-                        borderRadius: 10,
-                    }}
-                />
+                {/*<Tooltip*/}
+                {/*    labelFormatter={formatTime}*/}
+                {/*    formatter={(value: number) => value.toFixed(2)}*/}
+                {/*    isAnimationActive={false}*/}
+                {/*    contentStyle={{*/}
+                {/*        backgroundColor: '#333',*/}
+                {/*        color: '#fff',*/}
+                {/*        border: 'none',*/}
+                {/*        borderRadius: 10,*/}
+                {/*    }}*/}
+                {/*/>*/}
 
                 {/* Stats */}
                 <ReferenceLine
