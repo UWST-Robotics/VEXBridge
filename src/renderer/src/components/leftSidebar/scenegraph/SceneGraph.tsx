@@ -7,15 +7,16 @@ export default function SceneGraph() {
     return (
         <Box
             sx={{
-                height: '100%',
-                width: '100%',
-                overflow: 'auto'
+                height: "100%",
+                width: "100%",
+                overflow: "auto"
             }}
         >
             <List
                 sx={{
                     paddingLeft: 2,
-                    paddingRight: 2
+                    paddingRight: 2,
+                    marginTop: 2
                 }}
             >
                 {rootInfo.children.map((child) => (
@@ -27,5 +28,5 @@ export default function SceneGraph() {
                 ))}
             </List>
         </Box>
-    )
+    );
 }

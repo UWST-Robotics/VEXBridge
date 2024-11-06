@@ -28,6 +28,9 @@ export default tseslint.config(
 
             // Require props to be wrapped in {}
             'react/jsx-curly-brace-presence': ['warn', {'props': 'always'}],
+
+            // Enforce double-quotes
+            'quotes': ['warn', 'double'],
         },
     },
 )

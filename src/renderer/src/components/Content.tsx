@@ -5,33 +5,47 @@ import HardwareStatusPage from "./contentArea/hardwareStatus/HardwareStatusPage.
 import LogOutputPage from "./contentArea/logOutput/LogOutputPage.tsx";
 import FieldCanvasPage from "./contentArea/fieldCanvas/FieldCanvasPage.tsx";
 import GraphPage from "./contentArea/graphPage/GraphPage.tsx";
+import Footer from "./footer/Footer.tsx";
 
 export default function Content() {
     return (
         <Box
             sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                height: '100vh',
-                width: '100vw',
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "stretch",
+                alignContent: "stretch",
+                height: "100vh",
+                width: "100vw",
             }}
         >
-            <LeftSidebar/>
-            <Paper
-                elevation={0}
+            <Box
                 sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: '100%',
-                    width: '100%',
+                    flexGrow: 1,
+                    display: "flex",
+                    flexDirection: "row",
+                    overflow: "hidden",
                 }}
             >
-                <Navbar/>
-                <HardwareStatusPage/>
-                <LogOutputPage/>
-                <FieldCanvasPage/>
-                <GraphPage/>
-            </Paper>
+                <LeftSidebar/>
+                <Paper
+                    elevation={0}
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        height: "100%",
+                        width: "100%",
+                    }}
+                >
+                    <Navbar/>
+                    <HardwareStatusPage/>
+                    <LogOutputPage/>
+                    <FieldCanvasPage/>
+                    <GraphPage/>
+                </Paper>
+            </Box>
+
+            <Footer/>
         </Box>
-    )
+    );
 }

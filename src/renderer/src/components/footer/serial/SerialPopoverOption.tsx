@@ -1,19 +1,16 @@
 import {ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
-import {SettingsEthernet, Star} from "@mui/icons-material";
-import useNTValue from "../../../hooks/networkTable/useNTValue.ts";
+import {SettingsEthernet} from "@mui/icons-material";
+import VEXSerialTypeIcon from "./VEXSerialTypeIcon.tsx";
+import SerialPortInfo from "../../../../../types/SerialPortInfo.ts";
 
 export interface SerialOptionProps {
-    portPath: string;
+    port: SerialPortInfo;
 }
 
-export default function SerialIndicatorOption(props: SerialOptionProps) {
-    const {portPath} = props;
+export default function SerialPopoverOption(props: SerialOptionProps) {
+    const {friendlyName, path, vexType} = props.port;
+    const isActive = false;
 
-    const name = useNTValue(portPath + "/name");
-    const path = useNTValue(portPath + "/path");
-    const isActive = useNTValue(portPath + "/isActive");
-    const isVEX = useNTValue(portPath + "/isVEX");
-    const manufacturer = useNTValue(portPath + "/manufacturer");
     const selectPort = () => electronAPI?.setSerialPort(path?.toString() ?? "");
 
     // Hide deleted ports
@@ -23,7 +20,7 @@ export default function SerialIndicatorOption(props: SerialOptionProps) {
     return (
         <ListItem
             disablePadding
-            secondaryAction={isVEX && <Star/>}
+            secondaryAction={<VEXSerialTypeIcon type={vexType}/>}
         >
             <ListItemButton
                 dense
@@ -36,10 +33,9 @@ export default function SerialIndicatorOption(props: SerialOptionProps) {
                     />
                 </ListItemIcon>
                 <ListItemText
-                    primary={name}
-                    secondary={`${manufacturer ?? "N/A"} · ${path ?? "N/A"}`}
+                    primary={friendlyName || path}
                 />
             </ListItemButton>
         </ListItem>
-    )
+    );
 }

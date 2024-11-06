@@ -1,5 +1,5 @@
 import {atom, useAtomValue} from "jotai";
-import SerialPortInfo from "../../types/SerialPortInfo.ts";
+import SerialPortInfo from "../../../../types/SerialPortInfo.ts";
 
 export const serialPortsAtom = atom<SerialPortInfo[]>([]);
 

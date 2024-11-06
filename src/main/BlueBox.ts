@@ -1,20 +1,20 @@
 import NetworkTable from "./nt/NetworkTable.ts";
 import {DEFAULT_SERIAL_PORT} from "./common/Constants.ts";
 import SerialServer from "./serial/SerialServer.ts";
-import SerialPortNT from "./nt/SerialPortNT.ts";
+import SerialPollingService from "./serial/SerialPollingService.ts";
 import ServerNT from "./nt/ServerNT.ts";
 import Logger from "./common/Logger.ts";
 
 export default abstract class BlueBox {
     static nt = new NetworkTable();
-    static serialTable = new SerialPortNT();
+    static serialService = new SerialPollingService();
     static serverTable = new ServerNT();
     static mainWindow: Electron.BrowserWindow | undefined;
 
     static serial: SerialServer | undefined;
 
     static listen() {
-        this.serialTable.pollForChanges();
+        this.serialService.startService();
         SerialServer.findVEXPorts()
             .then((ports) => {
                 // Check if there are any VEX ports
@@ -32,16 +32,17 @@ export default abstract class BlueBox {
         // Debugging
         const makeDebugValue = (key: string) => {
             let value = 0;
+            const offset = Math.random() * 2;
             setInterval(() => {
                 value += Math.random();
-                const record = {key, value: Math.sin(value * 0.01)};
+                const record = {key, value: Math.sin(value * 0.1) + offset};
                 BlueBox.nt.addOrUpdate(record);
                 BlueBox.mainWindow?.webContents.send("onUpdateRecord", record);
             }, 100 * Math.random());
         };
 
-        makeDebugValue("debug1");
-        makeDebugValue("debug2");
-        makeDebugValue("debug3");
+        for (let i = 0; i < 20; i++) {
+            makeDebugValue(`debug${i}`);
+        }
     }
 }
