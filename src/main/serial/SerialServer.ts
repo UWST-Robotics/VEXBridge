@@ -5,8 +5,8 @@ import NTValue from "../../types/NTValue.ts";
 import {HEARTBEAT_INTERVAL} from "../common/Constants.ts";
 import VEXSerialParser from "./VEXSerialParser.ts";
 import BlueBox from "../BlueBox.ts";
-import {PortInfo} from "../serial";
 import VEXSerialType from "../../types/VEXSerialType.ts";
+import getVEXType from "./utils/getVEXType.ts";
 
 
 export default class SerialServer {
@@ -39,23 +39,7 @@ export default class SerialServer {
 
     static async findVEXPorts() {
         const allPorts = await SerialPort.list();
-        return allPorts.filter((port) => SerialServer.getVEXType(port) !== VEXSerialType.NONE);
-    }
-
-    static getVEXType(port: PortInfo) {
-        const isVexPort = port.vendorId === VENDOR_ID && port.productId === PRODUCT_ID;
-        if (!isVexPort)
-            return VEXSerialType.NONE;
-
-        // Brain - 2, Controller - 1, System - 0
-        if (port.pnpId?.endsWith("2"))
-            return VEXSerialType.SYSTEM;
-        else if (port.pnpId?.endsWith("1"))
-            return VEXSerialType.CONTROLLER;
-        else if (port.pnpId?.endsWith("0"))
-            return VEXSerialType.USER;
-        else
-            return VEXSerialType.NONE;
+        return allPorts.filter((port) => getVEXType(port) !== VEXSerialType.NONE);
     }
 
     /**

@@ -2,16 +2,14 @@ import {SerialPort} from "serialport";
 import SerialPortInfo from "../../types/SerialPortInfo.ts";
 import getVEXType from "./utils/getVEXType.ts";
 import BlueBox from "../BlueBox.ts";
+import Service from "../common/Service.ts";
 
-const POLL_INTERVAL = 1000;
+export default class SerialPollingService extends Service {
+    constructor() {
+        super(1000);
+    }
 
-export default class SerialPollingService {
-    pollInterval?: NodeJS.Timeout;
-
-    /**
-     * Update the list of available ports over Network Tables
-     */
-    private async updateAllPorts() {
+    private async updateAsync() {
         const allPorts: SerialPortInfo[] = [];
 
         // Get local ports
@@ -29,14 +27,10 @@ export default class SerialPollingService {
 
         // Send the updated list of ports to renderer
         BlueBox.mainWindow?.webContents.send("onSerialPorts", allPorts);
+
     }
 
-    startService() {
-        // Clear the interval if it exists
-        if (this.pollInterval)
-            clearInterval(this.pollInterval);
-
-        // Update all ports every second
-        this.pollInterval = setInterval(this.updateAllPorts.bind(this), POLL_INTERVAL);
+    update() {
+        this.updateAsync().catch(console.error);
     }
 }

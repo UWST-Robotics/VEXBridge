@@ -8,8 +8,8 @@ export default function assignEvents(ipcMain: Electron.IpcMain) {
         BlueBox.serial = new SerialServer(port);
 
         // Force update all ports
-        BlueBox.serialTable.lastPorts = [];
-        BlueBox.serialTable.updateAllPorts().catch(console.error);
+        //BlueBox.serialTable.lastPorts = [];
+        //BlueBox.serialTable.updateAllPorts().catch(console.error);
     });
 
     ipcMain.on('getAllRecords', () => {
