@@ -57,7 +57,11 @@ export default function SerialPopover(props: SerialPopoverProps) {
                 ))}
                 {serialPorts.length == 0 && (
                     <Typography
-                        sx={{margin: 1, color: "text.disabled"}}
+                        sx={{
+                            margin: 1,
+                            paddingLeft: 2,
+                            color: "text.disabled"
+                        }}
                     >
                         No serial ports found
                     </Typography>
@@ -76,9 +80,14 @@ export default function SerialPopover(props: SerialPopoverProps) {
                     Remote Serial Ports
                 </Typography>
                 <Typography
-                    sx={{margin: 1, color: "text.disabled", textAlign: "center"}}
+                    sx={{
+                        margin: 1,
+                        paddingLeft: 2,
+                        color: "text.disabled",
+                        textAlign: "center"
+                    }}
                 >
-                    Not yet implemented
+                    No remote serial ports found
                 </Typography>
             </List>
         </Popover>

@@ -14,7 +14,7 @@ export default function FieldCanvas() {
     const [windowWidth, windowHeight] = useWindowSize();
 
     const canvasSize = React.useMemo(() => {
-        return Math.min(windowWidth - 340, windowHeight - 100);
+        return Math.min(windowWidth - 340, windowHeight - 130);
     }, [windowWidth, windowHeight]);
 
     return (
@@ -27,7 +27,7 @@ export default function FieldCanvas() {
                 <Rect
                     width={canvasSize}
                     height={canvasSize}
-                    fill="#121212"
+                    fill={"#121212"}
                 />
 
                 {/* Grids */}
@@ -39,7 +39,7 @@ export default function FieldCanvas() {
                     gridSize={12}
                     canvasSize={canvasSize}
                     strokeWidth={1}
-                    strokeColor="#333"
+                    strokeColor={"#333"}
                 />
 
                 {/* Border */}
@@ -48,7 +48,7 @@ export default function FieldCanvas() {
                     y={0}
                     width={canvasSize}
                     height={canvasSize}
-                    stroke="#676767"
+                    stroke={"#676767"}
                     strokeWidth={3}
                     listening={false}
                 />
@@ -76,5 +76,5 @@ export default function FieldCanvas() {
                 </Group>
             </Layer>
         </Stage>
-    )
+    );
 }

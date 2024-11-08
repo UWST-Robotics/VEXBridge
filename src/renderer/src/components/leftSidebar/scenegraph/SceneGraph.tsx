@@ -1,6 +1,7 @@
 import {Box, List} from "@mui/material";
 import useNTGroupInfoRoot from "../../../hooks/networkTable/useNTGroupInfoRoot.ts";
 import SceneGraphGroup from "./SceneGraphGroup.tsx";
+import NonIdealState from "../../common/NonIdealState.tsx";
 
 export default function SceneGraph() {
     const rootInfo = useNTGroupInfoRoot();
@@ -8,8 +9,7 @@ export default function SceneGraph() {
         <Box
             sx={{
                 height: "100%",
-                width: "100%",
-                overflow: "auto"
+                width: "100%"
             }}
         >
             <List
@@ -27,6 +27,12 @@ export default function SceneGraph() {
                     />
                 ))}
             </List>
+
+            {rootInfo.children.length === 0 && (
+                <NonIdealState
+                    description={"No Network Table Data"}
+                />
+            )}
         </Box>
     );
 }
