@@ -1,1 +1,0 @@
-declare const BaseSerialPortInfo = import('../types/BaseSerialPortInfo.ts').default;

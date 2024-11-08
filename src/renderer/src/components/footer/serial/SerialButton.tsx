@@ -1,28 +1,35 @@
 import {Button} from "@mui/material";
-import {SettingsInputHdmi} from "@mui/icons-material";
+import {SettingsInputHdmi, WarningAmber} from "@mui/icons-material";
 import React from "react";
 import SerialPopover from "./SerialPopover.tsx";
-import useNTValue from "../../../hooks/networkTable/useNTValue.ts";
-import {SERVER_GROUP} from "../../../types/GroupNames.ts";
+import useSerialState from "../../../hooks/serialPorts/useSerialState";
 
 export default function SerialButton() {
-    const isConnected = useNTValue(SERVER_GROUP + "/isSerialConnected");
+    const {isConnected, port} = useSerialState();
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+
     return (
         <>
             <Button
                 size={"small"}
                 variant={"text"}
-                color={"inherit"}
-                startIcon={
+                sx={{
+                    color: isConnected ? "inherit" : "text.secondary"
+                }}
+                startIcon={isConnected ? (
                     <SettingsInputHdmi
                         fontSize={"small"}
                         color={"inherit"}
                     />
-                }
+                ) : (
+                    <WarningAmber
+                        fontSize={"small"}
+                        color={"inherit"}
+                    />
+                )}
                 onClick={(e) => setAnchorEl(e.currentTarget)}
             >
-                {isConnected ? "Connected" : "Disconnected"}
+                {isConnected ? port : "Disconnected"}
             </Button>
 
             <SerialPopover

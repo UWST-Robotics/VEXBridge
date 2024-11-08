@@ -6,6 +6,8 @@ import {updateNTValueAtomFamily} from "../networkTable/actions/useUpdateNTValue.
 import NTRecord from "../../../../types/NTRecord.ts";
 import {serialPortsAtom} from "../serialPorts/useSerialPorts.ts";
 import SerialPortInfo from "../../../../types/SerialPortInfo.ts";
+import {serialStateAtom} from "../serialPorts/useSerialState.ts";
+import SerialState from "../../../../types/SerialState.ts";
 
 export default function useElectronEvents() {
     React.useEffect(() => {
@@ -31,6 +33,10 @@ export default function useElectronEvents() {
 
         electronAPI?.onSerialPorts((ports: SerialPortInfo[]) => {
             primaryStore.set(serialPortsAtom, ports);
+        });
+
+        electronAPI?.onSerialState((state: SerialState) => {
+            primaryStore.set(serialStateAtom, state);
         });
 
         electronAPI?.getAllRecords();

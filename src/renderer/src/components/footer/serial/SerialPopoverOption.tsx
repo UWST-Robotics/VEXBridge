@@ -2,14 +2,17 @@ import {ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/materia
 import {SettingsEthernet} from "@mui/icons-material";
 import VEXSerialTypeIcon from "./VEXSerialTypeIcon.tsx";
 import SerialPortInfo from "../../../../../types/SerialPortInfo.ts";
+import useSerialState from "../../../hooks/serialPorts/useSerialState.ts";
 
 export interface SerialOptionProps {
     port: SerialPortInfo;
 }
 
 export default function SerialPopoverOption(props: SerialOptionProps) {
+    const serialState = useSerialState();
+
     const {friendlyName, path, vexType} = props.port;
-    const isActive = false;
+    const isActive = serialState.port === path && serialState.isConnected;
 
     const selectPort = () => electronAPI?.setSerialPort(path?.toString() ?? "");
 

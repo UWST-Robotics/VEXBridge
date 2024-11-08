@@ -29,7 +29,7 @@ export default function SerialPopover(props: SerialPopoverProps) {
         >
             <List>
                 <ListItem disablePadding>
-                    <ListItemButton dense>
+                    <ListItemButton dense onClick={() => electronAPI?.autoConnectSerial()}>
                         <ListItemIcon sx={{minWidth: 40}}>
                             <AutoAwesome color={"inherit"}/>
                         </ListItemIcon>

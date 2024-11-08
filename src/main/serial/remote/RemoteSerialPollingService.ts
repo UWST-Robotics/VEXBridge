@@ -24,7 +24,7 @@ export default class RemoteSerialPollingService extends Service {
 
         for (const ip of this.getDefaultIPs()) {
             try {
-                const queryURL = `http://${ip}:8080/query`;
+                const queryURL = `https://${ip}:8080/query`;
                 const response = await fetch(queryURL);
                 const query = await response.json() as BridgeQuery;
                 queryResults.push(query);

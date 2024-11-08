@@ -1,12 +1,14 @@
 import {contextBridge, ipcRenderer} from "electron";
 import NTRecord from "../types/NTRecord";
 import SerialPortInfo from "../types/SerialPortInfo.ts";
+import SerialState from "../types/SerialState.ts";
 
 const electronAPI = {
 
     // Renderer >> Electron Functions
     setSerialPort: (path: string) => ipcRenderer.send("setSerialPort", path),
     getAllRecords: () => ipcRenderer.send("getAllRecords"),
+    autoConnectSerial: () => ipcRenderer.send("autoConnectSerial"),
 
     // Electron >> Renderer Listeners
     onSetAllRecords: (callback: (records: NTRecord[]) => void) => {
@@ -21,12 +23,17 @@ const electronAPI = {
     onSerialPorts: (callback: (ports: SerialPortInfo[]) => void) => {
         ipcRenderer.on("onSerialPorts", (_, ports: SerialPortInfo[]) => callback(ports));
     },
+    onSerialState: (callback: (state: SerialState) => void) => {
+        ipcRenderer.on("onSerialState", (_, state: SerialState) => callback(state));
+    },
 
     // Remove Listeners (For React Unmounting)
     removeAllListeners: () => {
         ipcRenderer.removeAllListeners("onSetAllRecords");
         ipcRenderer.removeAllListeners("onUpdateRecord");
         ipcRenderer.removeAllListeners("onLog");
+        ipcRenderer.removeAllListeners("onSerialPorts");
+        ipcRenderer.removeAllListeners("onSerialState");
     }
 };
 contextBridge.exposeInMainWorld("electronAPI", electronAPI);

@@ -2,15 +2,15 @@ import {SerialPort} from "serialport";
 import {DelimiterParser} from "@serialport/parser-delimiter";
 
 export default class VEXSerialParser {
-    delimeterParser: DelimiterParser;
+    delimiterParser: DelimiterParser;
 
     constructor(serialPort: SerialPort, onData: (data: string) => void) {
 
         // Wait for "sout" delimiter
-        this.delimeterParser = serialPort.pipe(new DelimiterParser({delimiter: "sout"}));
+        this.delimiterParser = serialPort.pipe(new DelimiterParser({delimiter: "sout"}));
 
         // Remove Null Byte
-        this.delimeterParser.on("data", (data) => {
+        this.delimiterParser.on("data", (data) => {
             // Find index of null byte
             const nullByteIndex = data.indexOf(0);
 

@@ -1,8 +1,8 @@
 export default abstract class Service {
-    private intervalDuration: number;
+    private readonly intervalDuration: number;
     private interval: NodeJS.Timeout | undefined;
 
-    constructor(intervalDuration: number) {
+    protected constructor(intervalDuration: number) {
         this.intervalDuration = intervalDuration;
     }
 

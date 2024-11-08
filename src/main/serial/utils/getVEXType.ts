@@ -1,10 +1,10 @@
-import {PortInfo} from "../../serial";
+import BaseSerialPortInfo from "../../../types/BaseSerialPortInfo.ts";
 import VEXSerialType from "../../../types/VEXSerialType.ts";
 
 const VENDOR_ID = "2888";
 const PRODUCT_ID = "0501";
 
-export default function getVEXType(port: PortInfo) {
+export default function getVEXType(port: BaseSerialPortInfo) {
     // Check if the port is a VEX port
     const isVexPort = port.vendorId === VENDOR_ID && port.productId === PRODUCT_ID;
     if (!isVexPort)

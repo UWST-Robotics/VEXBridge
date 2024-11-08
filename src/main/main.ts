@@ -1,11 +1,11 @@
-import {app, BrowserWindow, ipcMain} from 'electron'
+import {app, BrowserWindow, ipcMain} from "electron";
 import * as Path from "path";
 import assignEvents from "./electron/eventHandler.ts";
-import icon from '../../build/icon.png'
+import icon from "../../build/icon.png";
 import createMenu from "./electron/menuHandler.ts";
 import BlueBox from "./BlueBox.ts";
 
-const isMac = process.platform === 'darwin';
+const isMac = process.platform === "darwin";
 
 function createWindow() {
     // Create the browser window
@@ -16,7 +16,7 @@ function createWindow() {
         autoHideMenuBar: true,
         icon: icon,
         webPreferences: {
-            preload: Path.join(__dirname, '../preload/preload.js')
+            preload: Path.join(__dirname, "../preload/preload.js")
         }
     });
 
@@ -24,22 +24,22 @@ function createWindow() {
     createMenu(BlueBox.mainWindow);
 
     // Load Renderer
-    if (!app.isPackaged && process.env['ELECTRON_RENDERER_URL']) {
+    if (!app.isPackaged && process.env["ELECTRON_RENDERER_URL"]) {
         // Developer Mode
         BlueBox.mainWindow
-            .loadURL(process.env['ELECTRON_RENDERER_URL'])
+            .loadURL(process.env["ELECTRON_RENDERER_URL"])
             .catch(console.error);
         BlueBox.mainWindow.webContents.openDevTools();
     } else {
         // Production Mode
         BlueBox.mainWindow
-            .loadFile(Path.join(__dirname, '../renderer/index.html'))
+            .loadFile(Path.join(__dirname, "../renderer/index.html"))
             .catch(console.error);
         BlueBox.mainWindow.webContents.openDevTools();
     }
 
     // Emitted when the window is closed
-    BlueBox.mainWindow.on('closed', () => {
+    BlueBox.mainWindow.on("closed", () => {
         BlueBox.mainWindow = undefined;
     });
 
@@ -58,13 +58,13 @@ app.whenReady().then(() => {
     createWindow();
 });
 
-app.on('window-all-closed', () => {
+app.on("window-all-closed", () => {
     // MacOS apps stay open until the user explicitly quits
     if (!isMac)
         app.quit();
 });
 
-app.on('activate', () => {
+app.on("activate", () => {
     // If there are no windows open, create one
     if (!BlueBox.mainWindow)
         createWindow();

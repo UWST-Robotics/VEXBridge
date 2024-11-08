@@ -5,8 +5,7 @@ import NTValue from "../../types/NTValue.ts";
 import {HEARTBEAT_INTERVAL} from "../common/Constants.ts";
 import VEXSerialParser from "./VEXSerialParser.ts";
 import BlueBox from "../BlueBox.ts";
-import VEXSerialType from "../../types/VEXSerialType.ts";
-import getVEXType from "./utils/getVEXType.ts";
+import SerialState from "../../types/SerialState.ts";
 
 
 export default class SerialServer {
@@ -14,6 +13,7 @@ export default class SerialServer {
     hardware: SerialPort;
     parser: VEXSerialParser;
     heartbeat: Heartbeat;
+    state: SerialState;
 
     constructor(serialPath: string) {
 
@@ -25,11 +25,18 @@ export default class SerialServer {
 
         // Create Heartbeat
         this.heartbeat = new Heartbeat(HEARTBEAT_INTERVAL, () => {
-            BlueBox.serverTable.updateRecord("isRobotOnline", false);
+            //BlueBox.serverTable.updateRecord("isRobotOnline", false);
         });
 
         // Create Parser
         this.parser = new VEXSerialParser(this.hardware, this.onData.bind(this));
+
+        // Set State
+        this.state = {
+            isConnected: false,
+            port: serialPath
+        };
+        this.setState(this.state);
 
         // Listen for Events
         this.hardware.on("open", this.onOpen.bind(this));
@@ -37,9 +44,9 @@ export default class SerialServer {
         this.hardware.on("close", this.onClose.bind(this));
     }
 
-    static async findVEXPorts() {
-        const allPorts = await SerialPort.list();
-        return allPorts.filter((port) => getVEXType(port) !== VEXSerialType.NONE);
+    setState(state: SerialState) {
+        this.state = state;
+        BlueBox.mainWindow?.webContents.send("onSerialState", state);
     }
 
     /**
@@ -52,18 +59,17 @@ export default class SerialServer {
 
     private onOpen() {
         Logger.info("Serial port opened on " + this.hardware.path);
-        BlueBox.serverTable.updateRecord("isSerialConnected", true);
-        BlueBox.serverTable.updateRecord("isRobotOnline", false);
+        this.setState({...this.state, isConnected: true});
     }
 
     private onError(error: Error) {
         Logger.error(`Serial port error: ${error.message}`);
+        this.setState({...this.state, isConnected: false});
     }
 
     private onClose() {
         Logger.info(`Serial port closed on ${this.hardware.path}`);
-        BlueBox.serverTable.updateRecord("isSerialConnected", false);
-        BlueBox.serverTable.updateRecord("isRobotOnline", false);
+        this.setState({...this.state, isConnected: false});
     }
 
     private onData(data: string) {
@@ -95,8 +101,8 @@ export default class SerialServer {
             else if (data.startsWith("__NTRESET__")) {
 
                 // Reset the network table
-                BlueBox.nt.records = BlueBox.serverTable.getAllRecords();
-                BlueBox.mainWindow?.webContents.send("onSetAllRecords", BlueBox.nt.records);
+                BlueBox.nt.records = [];
+                BlueBox.mainWindow?.webContents.send("onSetAllRecords", []);
             }
 
             // Heartbeat
@@ -106,7 +112,7 @@ export default class SerialServer {
                 this.heartbeat.beat();
 
                 // Update the network table
-                BlueBox.serverTable.updateRecord("isRobotOnline", true);
+                //BlueBox.serverTable.updateRecord("isRobotOnline", true);
             }
 
             // Normal Log
