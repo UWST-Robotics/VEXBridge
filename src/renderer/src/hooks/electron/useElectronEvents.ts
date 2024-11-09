@@ -17,13 +17,7 @@ import {ntGroupInfoRoot} from "../networkTable/useNTGroupInfoRoot.ts";
 export default function useElectronEvents() {
     React.useEffect(() => {
         electronAPI?.onLog((message: string) => {
-            console.log(message);
-            primaryStore.set(logAtom, (prev) => {
-                return [...prev, {
-                    timestamp: new Date(),
-                    message: message
-                }];
-            });
+            primaryStore.set(logAtom, (prev) => prev + message);
         });
         electronAPI?.onUpdateRecord((record: NTRecord) => {
             primaryStore.set(updateNTValueAtomFamily(record.key), record.value);

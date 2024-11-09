@@ -1,38 +1,33 @@
-import Chalk from "chalk";
+import {Instance} from "chalk";
 import BlueBox from "../BlueBox.js";
+
+// Limit to ANSI 256 colors
+const Chalk = new Instance({level: 2});
+
 
 /**
  * Logger class for logging messages to the console and the client
  */
 export default class Logger {
-    static log(prefix: string, data: string) {
-        console.log(`${prefix} ${data}`);
-    }
+    static log(text: string) {
+        console.log(text);
 
-    static tryEmitLog(prefix: string, data: string) {
         try {
-            BlueBox.mainWindow?.webContents.send("onLog", `${prefix} ${data}`);
+            BlueBox.mainWindow?.webContents.send("onLog", text + "\n");
         } catch {
             // Ignore
         }
     }
 
-    static colorHTML(color: string, innerText: string, bgColor?: string) {
-        return `<span style="color: ${color}; background-color: ${bgColor || "transparent"}">${innerText}</span>`;
-    }
-
-    static error(error: string, dontEmit?: boolean) {
-        Logger.log(Chalk.bgRed("[ERROR]"), Chalk.red(error));
-        if (!dontEmit)
-            Logger.tryEmitLog(Logger.colorHTML("#b53232", "[ERROR]"), error);
+    static error(error: string) {
+        Logger.log(Chalk.bgRed("[ERROR] ") + Chalk.red(error));
     }
 
     static info(info: string) {
-        Logger.log(Chalk.blue("[INFO]"), info);
-        Logger.tryEmitLog(Logger.colorHTML("#419fe3", "[INFO]"), info);
+        Logger.log(Chalk.blue("[INFO] ") + info);
     }
 
     static client(info: string) {
-        Logger.log(Chalk.yellow("[CLIENT]"), info);
+        Logger.log(Chalk.yellow("[CLIENT] ") + info);
     }
 }

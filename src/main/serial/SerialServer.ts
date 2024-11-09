@@ -8,7 +8,6 @@ import BlueBox from "../BlueBox.ts";
 import SerialState from "../../types/SerialState.ts";
 import RobotState from "../../types/RobotState.ts";
 
-
 export default class SerialServer {
 
     hardware: SerialPort;
@@ -31,7 +30,10 @@ export default class SerialServer {
         });
 
         // Create Parser
-        this.parser = new VEXSerialParser(this.hardware, this.onData.bind(this));
+        this.parser = new VEXSerialParser();
+        this.hardware.pipe(this.parser);
+        this.parser.on("sout", this.onData.bind(this));
+        this.parser.on("serr", this.onError.bind(this));
 
         // Set State
         this.state = {
@@ -41,9 +43,9 @@ export default class SerialServer {
         this.setState(this.state);
 
         // Listen for Events
-        this.hardware.on("open", this.onOpen.bind(this));
-        this.hardware.on("error", this.onError.bind(this));
-        this.hardware.on("close", this.onClose.bind(this));
+        this.hardware.on("open", this.onSerialOpen.bind(this));
+        this.hardware.on("error", this.onSerialError.bind(this));
+        this.hardware.on("close", this.onSerialClose.bind(this));
     }
 
     setState(state: SerialState) {
@@ -59,23 +61,29 @@ export default class SerialServer {
             this.hardware.close();
     }
 
-    private onOpen() {
+    private onSerialOpen() {
         Logger.info("Serial port opened on " + this.hardware.path);
         this.setState({...this.state, isConnected: true});
     }
 
-    private onError(error: Error) {
+    private onSerialError(error: Error) {
         Logger.error(`Serial port error: ${error.message}`);
         this.setState({...this.state, isConnected: false});
     }
 
-    private onClose() {
+    private onSerialClose() {
         Logger.info(`Serial port closed on ${this.hardware.path}`);
         this.setState({...this.state, isConnected: false});
     }
 
-    private onData(data: string) {
+    private onError(error: string) {
+        BlueBox.mainWindow?.webContents.send("onLog", `\x1b[31m${error}\x1b[0m`);
+    }
+
+    private onData(_data: unknown) {
         try {
+            // Parse Data
+            const data = _data?.toString() ?? "";
 
             // Update Value
             if (data.startsWith("__NTUPDATE__")) {
@@ -89,8 +97,8 @@ export default class SerialServer {
                 let value: NTValue = stringValue;
                 if (lowerCaseValue === "true" || lowerCaseValue === "false")
                     value = stringValue === "true";
-                else if (!isNaN(parseFloat(stringValue)))
-                    value = parseFloat(stringValue);
+                else if (!isNaN(Number(stringValue)))
+                    value = Number(stringValue);
 
 
                 // Update the network table
