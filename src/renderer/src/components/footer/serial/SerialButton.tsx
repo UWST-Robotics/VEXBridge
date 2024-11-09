@@ -13,9 +13,7 @@ export default function SerialButton() {
             <Button
                 size={"small"}
                 variant={"text"}
-                sx={{
-                    color: isConnected ? "inherit" : "text.secondary"
-                }}
+                color={isConnected ? "success" : "error"}
                 startIcon={
                     <SettingsInputHdmi
                         fontSize={"small"}

@@ -6,6 +6,7 @@ import {HEARTBEAT_INTERVAL} from "../common/Constants.ts";
 import VEXSerialParser from "./VEXSerialParser.ts";
 import BlueBox from "../BlueBox.ts";
 import SerialState from "../../types/SerialState.ts";
+import RobotState from "../../types/RobotState.ts";
 
 
 export default class SerialServer {
@@ -113,7 +114,8 @@ export default class SerialServer {
                 this.heartbeat.beat();
 
                 // Update the robot state
-                BlueBox.mainWindow?.webContents.send("onRobotState", {isRobotOnline: true});
+                const robotState: RobotState = {isEnabled: true};
+                BlueBox.mainWindow?.webContents.send("onRobotState", robotState);
             }
 
             // Normal Log

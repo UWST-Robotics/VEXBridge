@@ -10,6 +10,9 @@ import {serialStateAtom} from "../serialPorts/useSerialState.ts";
 import SerialState from "../../../../types/SerialState.ts";
 import RobotState from "../../../../types/RobotState.ts";
 import {robotStateAtom} from "../robot/useRobotState.ts";
+import {ntValueAtomFamily} from "../networkTable/useNTValue.ts";
+import resetAtomFamily from "../../utils/resetAtomFamily.ts";
+import {ntGroupInfoRoot} from "../networkTable/useNTGroupInfoRoot.ts";
 
 export default function useElectronEvents() {
     React.useEffect(() => {
@@ -26,6 +29,16 @@ export default function useElectronEvents() {
             primaryStore.set(updateNTValueAtomFamily(record.key), record.value);
         });
         electronAPI?.onSetAllRecords((records: NetworkTableRecord[]) => {
+
+            // Reset all values
+            resetAtomFamily(ntValueAtomFamily);
+            primaryStore.set(ntGroupInfoRoot, {
+                name: "",
+                path: "",
+                children: []
+            });
+
+            // Set all new values
             records.forEach((record) => {
                 primaryStore.set(updateNTValueAtomFamily(record.key), record.value);
             });
@@ -39,7 +52,7 @@ export default function useElectronEvents() {
         electronAPI?.onRobotState((state: RobotState) => {
             primaryStore.set(robotStateAtom, state);
         });
-        
+
         electronAPI?.getAllRecords();
         return electronAPI?.removeAllListeners;
     }, []);
