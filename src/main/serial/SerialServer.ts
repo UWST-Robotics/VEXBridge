@@ -25,7 +25,8 @@ export default class SerialServer {
 
         // Create Heartbeat
         this.heartbeat = new Heartbeat(HEARTBEAT_INTERVAL, () => {
-            //BlueBox.serverTable.updateRecord("isRobotOnline", false);
+            // Update the robot state
+            BlueBox.mainWindow?.webContents.send("onRobotState", {isRobotOnline: false});
         });
 
         // Create Parser
@@ -111,8 +112,8 @@ export default class SerialServer {
                 // Reset the heartbeat
                 this.heartbeat.beat();
 
-                // Update the network table
-                //BlueBox.serverTable.updateRecord("isRobotOnline", true);
+                // Update the robot state
+                BlueBox.mainWindow?.webContents.send("onRobotState", {isRobotOnline: true});
             }
 
             // Normal Log

@@ -2,6 +2,7 @@ import {contextBridge, ipcRenderer} from "electron";
 import NTRecord from "../types/NTRecord";
 import SerialPortInfo from "../types/SerialPortInfo.ts";
 import SerialState from "../types/SerialState.ts";
+import RobotState from "../types/RobotState.ts";
 
 const electronAPI = {
 
@@ -26,6 +27,9 @@ const electronAPI = {
     onSerialState: (callback: (state: SerialState) => void) => {
         ipcRenderer.on("onSerialState", (_, state: SerialState) => callback(state));
     },
+    onRobotState: (callback: (state: RobotState) => void) => {
+        ipcRenderer.on("onRobotState", (_, state: RobotState) => callback(state));
+    },
 
     // Remove Listeners (For React Unmounting)
     removeAllListeners: () => {
@@ -34,6 +38,7 @@ const electronAPI = {
         ipcRenderer.removeAllListeners("onLog");
         ipcRenderer.removeAllListeners("onSerialPorts");
         ipcRenderer.removeAllListeners("onSerialState");
+        ipcRenderer.removeAllListeners("onRobotState");
     }
 };
 contextBridge.exposeInMainWorld("electronAPI", electronAPI);

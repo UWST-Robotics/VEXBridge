@@ -1,5 +1,5 @@
 import {Button} from "@mui/material";
-import {SettingsInputHdmi, WarningAmber} from "@mui/icons-material";
+import {SettingsInputHdmi} from "@mui/icons-material";
 import React from "react";
 import SerialPopover from "./SerialPopover.tsx";
 import useSerialState from "../../../hooks/serialPorts/useSerialState";
@@ -16,17 +16,12 @@ export default function SerialButton() {
                 sx={{
                     color: isConnected ? "inherit" : "text.secondary"
                 }}
-                startIcon={isConnected ? (
+                startIcon={
                     <SettingsInputHdmi
                         fontSize={"small"}
                         color={"inherit"}
                     />
-                ) : (
-                    <WarningAmber
-                        fontSize={"small"}
-                        color={"inherit"}
-                    />
-                )}
+                }
                 onClick={(e) => setAnchorEl(e.currentTarget)}
             >
                 {isConnected ? port : "Disconnected"}

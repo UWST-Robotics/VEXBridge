@@ -8,6 +8,8 @@ import {serialPortsAtom} from "../serialPorts/useSerialPorts.ts";
 import SerialPortInfo from "../../../../types/SerialPortInfo.ts";
 import {serialStateAtom} from "../serialPorts/useSerialState.ts";
 import SerialState from "../../../../types/SerialState.ts";
+import RobotState from "../../../../types/RobotState.ts";
+import {robotStateAtom} from "../robot/useRobotState.ts";
 
 export default function useElectronEvents() {
     React.useEffect(() => {
@@ -20,27 +22,25 @@ export default function useElectronEvents() {
                 }];
             });
         });
-
         electronAPI?.onUpdateRecord((record: NTRecord) => {
             primaryStore.set(updateNTValueAtomFamily(record.key), record.value);
         });
-
         electronAPI?.onSetAllRecords((records: NetworkTableRecord[]) => {
             records.forEach((record) => {
                 primaryStore.set(updateNTValueAtomFamily(record.key), record.value);
             });
         });
-
         electronAPI?.onSerialPorts((ports: SerialPortInfo[]) => {
             primaryStore.set(serialPortsAtom, ports);
         });
-
         electronAPI?.onSerialState((state: SerialState) => {
             primaryStore.set(serialStateAtom, state);
         });
-
+        electronAPI?.onRobotState((state: RobotState) => {
+            primaryStore.set(robotStateAtom, state);
+        });
+        
         electronAPI?.getAllRecords();
-
         return electronAPI?.removeAllListeners;
     }, []);
 }

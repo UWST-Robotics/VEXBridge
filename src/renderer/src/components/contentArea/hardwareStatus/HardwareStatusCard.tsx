@@ -15,17 +15,17 @@ export default function HardwareStatusCard(props: HardwareStatusCardProps) {
     const type = useNTValue(hardwareGroup.path + "/type");
 
     return (
-        <Card sx={{minWidth: 275}}>
+        <Card sx={{minWidth: 200}}>
             <CardContent>
                 <Typography
-                    variant="h5"
-                    component="div"
+                    variant={"h6"}
+                    component={"div"}
                 >
                     {name || "Unnamed Hardware"}
                 </Typography>
                 <Typography
                     gutterBottom
-                    sx={{color: 'text.secondary', fontSize: 14}}
+                    sx={{color: "text.secondary", fontSize: 14}}
                 >
                     {hardwareGroup.name} · {type || "Unknown"}
                 </Typography>
@@ -35,69 +35,69 @@ export default function HardwareStatusCard(props: HardwareStatusCardProps) {
                         icon={<Thermostat/>}
                         name={"Temperature"}
                         path={hardwareGroup.path + "/temperature"}
-                        suffix="°C"
+                        suffix={"°C"}
                     />
                     <HardwareStatusProperty
                         icon={<Speed/>}
                         name={"Velocity"}
                         path={hardwareGroup.path + "/velocity"}
-                        suffix=" RPM"
+                        suffix={" RPM"}
                     />
                     <HardwareStatusProperty
                         icon={<Refresh/>}
                         name={"Position"}
                         path={hardwareGroup.path + "/position"}
-                        suffix=" ticks"
+                        suffix={" ticks"}
                     />
                     <HardwareStatusProperty
                         icon={<Bolt/>}
                         name={"Current"}
                         path={hardwareGroup.path + "/current"}
-                        suffix="mA"
+                        suffix={"mA"}
                     />
                     <HardwareStatusProperty
                         icon={<Bolt/>}
                         name={"Voltage"}
                         path={hardwareGroup.path + "/voltage"}
-                        suffix="mV"
+                        suffix={"mV"}
                     />
 
                     <HardwareStatusProperty
                         icon={<Explore/>}
                         name={"Heading"}
                         path={hardwareGroup.path + "/heading"}
-                        suffix="°"
+                        suffix={"°"}
                     />
                     <HardwareStatusProperty
                         icon={<Rotate90DegreesCw/>}
                         name={"Pitch"}
                         path={hardwareGroup.path + "/pitch"}
-                        suffix="°"
+                        suffix={"°"}
                     />
                     <HardwareStatusProperty
                         icon={<Rotate90DegreesCw/>}
                         name={"Roll"}
                         path={hardwareGroup.path + "/roll"}
-                        suffix="°"
+                        suffix={"°"}
                     />
                     <HardwareStatusProperty
                         icon={<Rotate90DegreesCw/>}
                         name={"Yaw"}
                         path={hardwareGroup.path + "/yaw"}
-                        suffix="°"
+                        suffix={"°"}
                     />
                     <HardwareStatusProperty
                         icon={<Speed/>}
                         name={"Acceleration"}
                         path={hardwareGroup.path + "/accel"}
-                        suffix=" m/s²"
+                        suffix={" m/s²"}
                     />
 
                     <HardwareStatusProperty
                         icon={<Expand/>}
                         name={"Proximity"}
                         path={hardwareGroup.path + "/proximity"}
-                        suffix="%"
+                        suffix={"%"}
                     />
                     <HardwareStatusProperty
                         icon={<Palette/>}
@@ -126,36 +126,36 @@ export default function HardwareStatusCard(props: HardwareStatusCardProps) {
 
                 <HardwareStatusAlert
                     path={hardwareGroup.path + "/isOverTemp"}
-                    text="Over temperature limit"
+                    text={"Over temperature limit"}
                 />
                 <HardwareStatusAlert
                     path={hardwareGroup.path + "/isOverCurrent"}
-                    text="Over current limit"
+                    text={"Over current limit"}
                 />
                 <HardwareStatusAlert
                     path={hardwareGroup.path + "/isDriverFault"}
-                    text="H-bridge driver fault"
+                    text={"H-bridge driver fault"}
                 />
                 <HardwareStatusAlert
                     path={hardwareGroup.path + "/isDriverOverCurrent"}
-                    text="H-bridge over current"
+                    text={"H-bridge over current"}
                 />
                 <HardwareStatusAlert
                     path={hardwareGroup.path + "/isErrored"}
-                    text="Unknown error"
+                    text={"Unknown error"}
                 />
                 <HardwareStatusAlert
                     path={hardwareGroup.path + "/isCalibrating"}
-                    text="Currently calibrating..."
+                    text={"Currently calibrating..."}
                     severity={"info"}
                 />
 
                 <HardwareStatusAlert
                     isInverted
                     path={hardwareGroup.path + "/isConnected"}
-                    text="Device disconnected"
+                    text={"Device disconnected"}
                 />
             </CardContent>
         </Card>
-    )
+    );
 }
