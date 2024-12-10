@@ -1,5 +1,5 @@
-import react from '@vitejs/plugin-react'
-import {defineConfig, externalizeDepsPlugin} from 'electron-vite'
+import react from "@vitejs/plugin-react";
+import {defineConfig, externalizeDepsPlugin} from "electron-vite";
 
 export default defineConfig({
     main: {
@@ -9,11 +9,11 @@ export default defineConfig({
         plugins: [externalizeDepsPlugin()],
     },
     renderer: {
-        publicDir: 'public',
+        publicDir: "public",
         build: {
             lib: {
-                name: 'BlueBox',
-                entry: 'src/main/main.ts'
+                name: "BlueBox",
+                entry: "src/main/main.ts"
             }
         },
         plugins: [react()],
@@ -25,4 +25,4 @@ export default defineConfig({
             APP_VERSION: JSON.stringify(process.env.npm_package_version),
         },
     }
-})
+});

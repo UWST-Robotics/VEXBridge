@@ -8,6 +8,6 @@
 declare const electronAPI: import("../../preload/preload.ts").default | undefined; // <-- Uses "import" to use d.ts as an ambient module
 
 /**
- * Application version string. Imported from package.json during the build process.
+ * Application version string. Imported from package.json during the assets process.
  */
 declare const APP_VERSION: string | null;

@@ -1,6 +1,6 @@
 import Service from "../../common/Service.ts";
 import BridgeQuery from "../../../types/BridgeQuery.ts";
-import BlueBox from "../../BlueBox.ts";
+import {mainWindow} from "../../main.ts";
 
 export default class RemoteSerialPollingService extends Service {
     constructor() {
@@ -34,7 +34,7 @@ export default class RemoteSerialPollingService extends Service {
         }
 
         // Send the updated list of ports to renderer
-        BlueBox.mainWindow?.webContents.send("onRemoteSerialPorts", queryResults);
+        mainWindow?.webContents.send("onRemoteSerialPorts", queryResults);
     }
 
     update() {

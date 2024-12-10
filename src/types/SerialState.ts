@@ -1,5 +1,5 @@
 export default interface SerialState {
     isConnected: boolean;
-    isAutomatic?: boolean;
+    isAutomaticEnabled?: boolean;
     port?: string;
 }

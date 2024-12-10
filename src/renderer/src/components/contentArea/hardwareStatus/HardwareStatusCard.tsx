@@ -13,12 +13,10 @@ export default function HardwareStatusCard(props: HardwareStatusCardProps) {
     const type = useNTValue(hardwareGroup.path + "/type");
     const faults = useNTValue(hardwareGroup.path + "/faults");
 
-    console.log("HardwareStatusCard", hardwareGroup, name, type, faults, String(faults).length);
-
     return (
         <Box
             sx={{
-                minWidth: 200,
+                minWidth: 300,
                 display: "flex",
                 flexDirection: "column"
             }}

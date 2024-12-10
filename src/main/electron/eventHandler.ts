@@ -1,5 +1,7 @@
 import BlueBox from "../BlueBox.ts";
 import SerialServer from "../serial/SerialServer.ts";
+import {mainWindow} from "../main.ts";
+import StateManager from "./stateManager.ts";
 
 export default function assignEvents(ipcMain: Electron.IpcMain) {
     ipcMain.on("setSerialPort", (_, port) => {
@@ -12,7 +14,9 @@ export default function assignEvents(ipcMain: Electron.IpcMain) {
     });
 
     ipcMain.on("getAllRecords", () => {
-        BlueBox.mainWindow?.webContents.send("onSetAllRecords", BlueBox.nt.records);
+        mainWindow?.webContents.send("onSetAllRecords", BlueBox.nt.records);
+        mainWindow?.webContents.send("serialState", StateManager.serialState);
+        mainWindow?.webContents.send("robotState", StateManager.robotState);
     });
 
     ipcMain.on("autoConnectSerial", () => {

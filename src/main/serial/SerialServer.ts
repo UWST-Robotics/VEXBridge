@@ -5,15 +5,14 @@ import NTValue from "../../types/NTValue.ts";
 import {HEARTBEAT_INTERVAL} from "../common/Constants.ts";
 import VEXSerialParser from "./VEXSerialParser.ts";
 import BlueBox from "../BlueBox.ts";
-import SerialState from "../../types/SerialState.ts";
-import RobotState from "../../types/RobotState.ts";
+import {mainWindow} from "../main.ts";
+import StateManager from "../electron/stateManager.ts";
 
 export default class SerialServer {
 
     hardware: SerialPort;
     parser: VEXSerialParser;
     heartbeat: Heartbeat;
-    state: SerialState;
 
     constructor(serialPath: string) {
 
@@ -25,32 +24,23 @@ export default class SerialServer {
 
         // Create Heartbeat
         this.heartbeat = new Heartbeat(HEARTBEAT_INTERVAL, () => {
-            // Update the robot state
-            BlueBox.mainWindow?.webContents.send("onRobotState", {isRobotOnline: false});
+            StateManager.updateRobotState({isEnabled: false});
         });
 
         // Create Parser
-        this.parser = new VEXSerialParser();
-        this.hardware.pipe(this.parser);
+        this.parser = new VEXSerialParser(this.hardware);
+        // this.hardware.pipe(this.parser);
         this.parser.on("sout", this.onData.bind(this));
         this.parser.on("serr", this.onError.bind(this));
+        this.parser.on("kdbg", this.onDebug.bind(this));
 
         // Set State
-        this.state = {
-            isConnected: false,
-            port: serialPath
-        };
-        this.setState(this.state);
+        StateManager.updateSerialState({isConnected: false, port: serialPath});
 
         // Listen for Events
         this.hardware.on("open", this.onSerialOpen.bind(this));
         this.hardware.on("error", this.onSerialError.bind(this));
         this.hardware.on("close", this.onSerialClose.bind(this));
-    }
-
-    setState(state: SerialState) {
-        this.state = state;
-        BlueBox.mainWindow?.webContents.send("onSerialState", state);
     }
 
     /**
@@ -63,21 +53,25 @@ export default class SerialServer {
 
     private onSerialOpen() {
         Logger.info("Serial port opened on " + this.hardware.path);
-        this.setState({...this.state, isConnected: true});
+        StateManager.updateSerialState({isConnected: true});
     }
 
     private onSerialError(error: Error) {
         Logger.error(`Serial port error: ${error.message}`);
-        this.setState({...this.state, isConnected: false});
+        StateManager.updateSerialState({isConnected: false});
     }
 
     private onSerialClose() {
         Logger.info(`Serial port closed on ${this.hardware.path}`);
-        this.setState({...this.state, isConnected: false});
+        StateManager.updateSerialState({isConnected: false});
     }
 
     private onError(error: string) {
-        BlueBox.mainWindow?.webContents.send("onLog", `\x1b[31m${error}\x1b[0m`);
+        mainWindow?.webContents.send("onLog", `\x1b[31m${error}\x1b[0m`);
+    }
+
+    private onDebug(debug: string) {
+        mainWindow?.webContents.send("onLog", `\x1b[90m${debug}\x1b[0m`);
     }
 
     private onData(_data: unknown) {
@@ -104,7 +98,7 @@ export default class SerialServer {
                 // Update the network table
                 const record = {key, value};
                 BlueBox.nt.addOrUpdate(record);
-                BlueBox.mainWindow?.webContents.send("onUpdateRecord", record);
+                mainWindow?.webContents.send("onUpdateRecord", record);
             }
 
             // Reset Table
@@ -112,7 +106,7 @@ export default class SerialServer {
 
                 // Reset the network table
                 BlueBox.nt.records = [];
-                BlueBox.mainWindow?.webContents.send("onSetAllRecords", []);
+                mainWindow?.webContents.send("onSetAllRecords", []);
             }
 
             // Heartbeat
@@ -122,13 +116,12 @@ export default class SerialServer {
                 this.heartbeat.beat();
 
                 // Update the robot state
-                const robotState: RobotState = {isEnabled: true};
-                BlueBox.mainWindow?.webContents.send("onRobotState", robotState);
+                StateManager.updateRobotState({isEnabled: true});
             }
 
             // Normal Log
             else {
-                BlueBox.mainWindow?.webContents.send("onLog", data);
+                mainWindow?.webContents.send("onLog", data);
             }
         } catch (error) {
             const message = error instanceof Error ? error.message : "Unknown error";

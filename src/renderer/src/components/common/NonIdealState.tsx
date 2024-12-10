@@ -18,9 +18,7 @@ export default function NonIdealState(props: NonIdealStateProps) {
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                width: "100%",
-                height: "100%",
-                overflow: "hidden"
+                height: "100%"
             }}
         >
             {icon && (

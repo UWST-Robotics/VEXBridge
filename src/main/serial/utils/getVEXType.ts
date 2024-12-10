@@ -11,7 +11,7 @@ export default function getVEXType(port: BaseSerialPortInfo) {
         return VEXSerialType.NONE;
 
     // VEX Brain
-    if (port.pnpId?.endsWith("2"))
+    if (port.pnpId?.endsWith("0"))
         return VEXSerialType.SYSTEM;
 
     // VEX Controller
@@ -19,7 +19,7 @@ export default function getVEXType(port: BaseSerialPortInfo) {
         return VEXSerialType.CONTROLLER;
 
     // VEX Serial Output (User)
-    else if (port.pnpId?.endsWith("0"))
+    else if (port.pnpId?.endsWith("2"))
         return VEXSerialType.USER;
 
     // Unknown type

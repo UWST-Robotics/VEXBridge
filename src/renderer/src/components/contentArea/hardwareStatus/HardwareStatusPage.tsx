@@ -10,29 +10,30 @@ export default function HardwareStatusPage() {
     const [currentTab] = useCurrentTab();
     const hardwareGroup = useNTGroupInfo(HARDWARE_INFO_GROUP);
 
+    const hasHardware = (hardwareGroup?.children.length ?? 0) > 0;
+
     if (currentTab !== "hardware")
         return null;
     return (
         <>
-            <Box
-                sx={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: 2,
-                    padding: 2,
-                    overflowY: "auto"
-                }}
-            >
-                {hardwareGroup?.children.map((child) => (
-                    <HardwareStatusCard
-                        key={child.path}
-                        hardwareGroup={child}
-                    />
-                ))}
-            </Box>
-
-
-            {(hardwareGroup?.children.length ?? 0) === 0 && (
+            {hasHardware ? (
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        gap: 2,
+                        padding: 2,
+                        overflowY: "auto"
+                    }}
+                >
+                    {hardwareGroup?.children.map((child) => (
+                        <HardwareStatusCard
+                            key={child.path}
+                            hardwareGroup={child}
+                        />
+                    ))}
+                </Box>
+            ) : (
                 <NonIdealState
                     icon={<WarningAmber sx={{fontSize: 60}}/>}
                     title={"No Hardware Information"}

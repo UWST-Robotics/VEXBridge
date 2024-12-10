@@ -8,7 +8,8 @@ export default function LeftSidebar() {
             style={{
                 display: "flex",
                 flexDirection: "column",
-                minWidth: 300
+                minWidth: 300,
+                overflowY: "auto",
             }}
         >
             <SceneGraph/>

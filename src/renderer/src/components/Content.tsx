@@ -21,10 +21,11 @@ export default function Content() {
         >
             <Box
                 sx={{
-                    flexGrow: 1,
                     display: "flex",
                     flexDirection: "row",
-                    overflow: "hidden",
+                    minHeight: "0",
+                    height: "100%",
+                    width: "100%",
                 }}
             >
                 <LeftSidebar/>
@@ -34,14 +35,22 @@ export default function Content() {
                         display: "flex",
                         flexDirection: "column",
                         height: "100%",
-                        width: "100%",
+                        minWidth: "0",
+                        flexGrow: 1
                     }}
                 >
                     <Navbar/>
-                    <HardwareStatusPage/>
-                    <LogOutputPage/>
-                    <FieldCanvasPage/>
-                    <GraphPage/>
+                    <Box
+                        sx={{
+                            overflowY: "auto",
+                            height: "100%",
+                        }}
+                    >
+                        <HardwareStatusPage/>
+                        <LogOutputPage/>
+                        <FieldCanvasPage/>
+                        <GraphPage/>
+                    </Box>
                 </Paper>
             </Box>
 

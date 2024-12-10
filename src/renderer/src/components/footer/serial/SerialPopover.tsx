@@ -2,6 +2,7 @@ import {List, ListItem, ListItemButton, ListItemIcon, ListItemText, Popover, Typ
 import SerialPopoverOption from "./SerialPopoverOption.tsx";
 import {AutoAwesome} from "@mui/icons-material";
 import useSerialPorts from "../../../hooks/serialPorts/useSerialPorts.ts";
+import useSerialState from "../../../hooks/serialPorts/useSerialState.ts";
 
 export interface SerialPopoverProps {
     anchorEl: null | HTMLElement;
@@ -9,6 +10,7 @@ export interface SerialPopoverProps {
 }
 
 export default function SerialPopover(props: SerialPopoverProps) {
+    const serialState = useSerialState();
     const serialPorts = useSerialPorts();
     const {anchorEl, onClose} = props;
 
@@ -29,7 +31,11 @@ export default function SerialPopover(props: SerialPopoverProps) {
         >
             <List>
                 <ListItem disablePadding>
-                    <ListItemButton dense onClick={() => electronAPI?.autoConnectSerial()}>
+                    <ListItemButton
+                        dense
+                        onClick={() => electronAPI?.autoConnectSerial()}
+                        selected={serialState.isAutomaticEnabled}
+                    >
                         <ListItemIcon sx={{minWidth: 40}}>
                             <AutoAwesome color={"inherit"}/>
                         </ListItemIcon>

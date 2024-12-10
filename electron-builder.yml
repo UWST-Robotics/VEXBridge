@@ -1,7 +1,7 @@
 appId: org.devilbots.bluebox
-productName: bluebox
+productName: BlueBox
 directories:
-  buildResources: build
+  buildResources: assets
 files:
   - '!**/.vscode/*'
   - '!src/*'
@@ -20,7 +20,7 @@ nsis:
   createDesktopShortcut: always
 mac:
   category: public.app-category.developer-tools
-  entitlementsInherit: build/entitlements.mac.plist
+  entitlementsInherit: assets/entitlements.mac.plist
   notarize: false
 dmg:
   artifactName: ${name}-${version}.${ext}
@@ -29,7 +29,9 @@ linux:
     - AppImage
     - snap
     - deb
+  maintainer: DevilBots
   category: Utility
 appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
+buildDependenciesFromSource: true

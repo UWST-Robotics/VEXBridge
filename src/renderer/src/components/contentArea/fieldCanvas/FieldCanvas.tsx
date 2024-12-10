@@ -14,7 +14,7 @@ export default function FieldCanvas() {
     const [windowWidth, windowHeight] = useWindowSize();
 
     const canvasSize = React.useMemo(() => {
-        return Math.min(windowWidth - 340, windowHeight - 130);
+        return Math.min(windowWidth - 340, windowHeight - 140);
     }, [windowWidth, windowHeight]);
 
     return (

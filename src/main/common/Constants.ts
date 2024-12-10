@@ -1,1 +1,1 @@
-export const HEARTBEAT_INTERVAL = 500;
+export const HEARTBEAT_INTERVAL = 600;

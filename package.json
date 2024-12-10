@@ -1,7 +1,8 @@
 {
   "name": "bluebox",
-  "author": "Blue Devil Robotics",
+  "author": "devilbots",
   "description": "BlueBox is a dashboard application for debugging VEX V5 robots.",
+  "repository": "https://github.com/UWST-Robotics/BlueBox/",
   "private": true,
   "version": "0.1.1",
   "license": "GPL-3.0",
@@ -9,10 +10,9 @@
   "scripts": {
     "dev": "electron-vite dev -w --sourcemap",
     "build": "tsc --noEmit --composite false && electron-vite build",
-    "build:win": "yarn run build && electron-builder --win",
-    "build:mac": "yarn run build && electron-builder --mac",
-    "build:linux": "yarn run build && electron-builder --linux",
-    "build:test": "yarn run build && electron-builder --dir",
+    "build:win": "yarn run build && electron-builder --win --config",
+    "build:mac": "yarn run build && electron-builder --mac --config",
+    "build:linux": "yarn run build && electron-builder --linux --config",
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
@@ -47,8 +47,8 @@
     "@types/serialport": "^8.0.5",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "concurrently": "^9.0.1",
-    "electron": "^33.0.2",
-    "electron-builder": "^25.1.8",
+    "electron": "^33.2.0",
+    "electron-builder": "26.0.0-alpha.6",
     "electron-vite": "^2.3.0",
     "esbuild": "^0.24.0",
     "eslint": "^9.13.0",

@@ -1,46 +1,50 @@
 import {app, BrowserWindow, ipcMain} from "electron";
 import * as Path from "path";
 import assignEvents from "./electron/eventHandler.ts";
-import icon from "../../build/icon.png";
+import icon from "../../assets/icon.png";
 import createMenu from "./electron/menuHandler.ts";
 import BlueBox from "./BlueBox.ts";
 
 const isMac = process.platform === "darwin";
 
+export let mainWindow: BrowserWindow | undefined;
+
 function createWindow() {
     // Create the browser window
-    BlueBox.mainWindow = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: 1100,
         height: 600,
         useContentSize: true,
         autoHideMenuBar: true,
         icon: icon,
         webPreferences: {
-            preload: Path.join(__dirname, "../preload/preload.js")
+            sandbox: false,
+            preload: Path.join(__dirname, "../preload/preload.js"),
+            devTools: !app.isPackaged
         }
     });
 
     // Create the menu
-    createMenu(BlueBox.mainWindow);
+    createMenu(mainWindow);
 
     // Load Renderer
     if (!app.isPackaged && process.env["ELECTRON_RENDERER_URL"]) {
         // Developer Mode
-        BlueBox.mainWindow
+        mainWindow
             .loadURL(process.env["ELECTRON_RENDERER_URL"])
             .catch(console.error);
-        BlueBox.mainWindow.webContents.openDevTools();
+        mainWindow.webContents.openDevTools();
     } else {
         // Production Mode
-        BlueBox.mainWindow
+        mainWindow
             .loadFile(Path.join(__dirname, "../renderer/index.html"))
             .catch(console.error);
-        BlueBox.mainWindow.webContents.openDevTools();
+        mainWindow.webContents.openDevTools();
     }
 
     // Emitted when the window is closed
-    BlueBox.mainWindow.on("closed", () => {
-        BlueBox.mainWindow = undefined;
+    mainWindow.on("closed", () => {
+        mainWindow = undefined;
     });
 
     // Listen BlueBox events
@@ -66,6 +70,6 @@ app.on("window-all-closed", () => {
 
 app.on("activate", () => {
     // If there are no windows open, create one
-    if (!BlueBox.mainWindow)
+    if (!mainWindow)
         createWindow();
 });

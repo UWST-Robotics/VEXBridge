@@ -5,17 +5,21 @@ import Service from "../common/Service.ts";
 import VEXSerialType from "../../types/VEXSerialType.ts";
 import SerialServer from "./SerialServer.ts";
 import Logger from "../common/Logger.ts";
+import StateManager from "../electron/stateManager.ts";
+import {mainWindow} from "../main.ts";
 
 export default class SerialPollingService extends Service {
     private autoConnect = true;
 
     constructor() {
         super(1000);
+        StateManager.updateSerialState({isAutomaticEnabled: this.autoConnect});
     }
 
     setAutoConnect(autoConnect: boolean) {
         Logger.info(`${autoConnect ? "Enabling" : "Disabling"} auto serial connection`);
         this.autoConnect = autoConnect;
+        StateManager.updateSerialState({isAutomaticEnabled: autoConnect});
     }
 
     private async updateAsync() {
@@ -29,15 +33,15 @@ export default class SerialPollingService extends Service {
         }));
 
         // Send the updated list of ports to renderer
-        BlueBox.mainWindow?.webContents.send("onSerialPorts", localPortsWithType);
+        mainWindow?.webContents.send("onSerialPorts", localPortsWithType);
 
         // Auto Connect
         if (!this.autoConnect)
             return;
-        const port = localPortsWithType.find((port) => port.vexType !== VEXSerialType.NONE);
+        const port = localPortsWithType.find((port) => port.vexType === VEXSerialType.USER);
         if (!port)
             return;
-        if (port.path === BlueBox.serial?.state.port && BlueBox.serial?.state.isConnected)
+        if (port.path === StateManager.serialState.port && StateManager.serialState.isConnected)
             return;
         BlueBox.serial?.close();
         BlueBox.serial = new SerialServer(port.path);
