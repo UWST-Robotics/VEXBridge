@@ -23,3 +23,6 @@ out
 *.njsproj
 *.sln
 *.sw?
+
+# SQLite database files
+*.sqlite

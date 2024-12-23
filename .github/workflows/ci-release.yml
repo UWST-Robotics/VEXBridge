@@ -25,9 +25,9 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build
-        run: npm run assets:win
+        run: npm run build
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: assets
+          name: build
           path: dist

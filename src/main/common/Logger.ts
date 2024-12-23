@@ -1,5 +1,4 @@
 import {Instance} from "chalk";
-import {mainWindow} from "../main.ts";
 
 // Limit to ANSI 256 colors
 const Chalk = new Instance({level: 2});
@@ -13,7 +12,6 @@ export default class Logger {
         console.log(text);
 
         try {
-            mainWindow?.webContents.send("onLog", text + "\n");
         } catch {
             // Ignore
         }
