@@ -7,6 +7,8 @@ import {Gpio} from "onoff";
 import {RTS_PIN} from "../../common/Constants.ts";
 import SerialState from "../../../types/serial/SerialState.ts";
 import serialServer from "../localSerialInstance.ts";
+import SerialConnectionService from "./SerialConnectionService.ts";
+import SerialPollingService from "./SerialPollingService.ts";
 
 export default class SerialInstance extends EventEmitter {
 
@@ -14,12 +16,13 @@ export default class SerialInstance extends EventEmitter {
     hardware: SerialPort | undefined;
     vexParser = new VEXSerialParser();
     ntParser = new NTSerialParser();
+    connectionService = new SerialConnectionService();
+    pollingService = new SerialPollingService();
 
     /**
      * Manages the serial connection to the VEX V5 Brain.
-     * Emits "serial_open" when the serial port is opened.
-     * Emits "serial_error" when there is an error with the serial port.
-     * Emits "serial_close" when the serial port is closed.
+     * Emits "serial_state" when the state of the serial connection changes.
+     * Emits "serial_log" when a log message is available.
      */
     constructor() {
         super();
@@ -44,9 +47,11 @@ export default class SerialInstance extends EventEmitter {
     getState(): SerialState {
         return {
             isOpen: serialServer.hardware?.isOpen ?? false,
-            port: serialServer.hardware?.port ?? "N/A",
             path: serialServer.hardware?.path ?? "N/A",
-            baudRate: serialServer.hardware?.baudRate ?? -1
+            baudRate: serialServer.hardware?.baudRate ?? -1,
+
+            targetPath: serialServer.connectionService.targetPath,
+            autoSelect: serialServer.connectionService.autoSelect
         };
     }
 
@@ -55,6 +60,10 @@ export default class SerialInstance extends EventEmitter {
      * @param serialPath - The port to connect to (e.g. "COM3")
      */
     async connect(serialPath: string) {
+        Logger.info(`Connecting to serial port '${serialPath}'`);
+
+        // Close existing serial port
+        this.close();
 
         // Create Serial Port
         this.hardware = new SerialPort({
@@ -64,9 +73,9 @@ export default class SerialInstance extends EventEmitter {
         });
 
         // Relay Serial Port Events
-        this.hardware.on("open", () => this.emit("serial_open", this.getState()));
-        this.hardware.on("error", () => this.emit("serial_error", this.getState()));
-        this.hardware.on("close", () => this.emit("serial_close", this.getState()));
+        this.hardware.on("open", () => this.emitState());
+        this.hardware.on("error", () => this.emitState());
+        this.hardware.on("close", () => this.emitState());
 
         // Pipe Serial Data to VEX Parser
         this.vexParser.listenTo(this.hardware);
@@ -80,6 +89,30 @@ export default class SerialInstance extends EventEmitter {
                     resolve("Serial port opened");
             });
         });
+    }
+
+    /**
+     * Emits the current state of the serial connection.
+     * Called after any state change.
+     */
+    emitState() {
+        this.emit("serial_state", this.getState());
+    }
+
+    /**
+     * Emits a log message
+     * @param message - The message to emit
+     */
+    emitLog(message: string) {
+        this.emit("serial_log", message);
+    }
+
+    /**
+     * Emits the list of available serial ports.
+     * Called after the list is updated.
+     */
+    emitList() {
+        this.emit("serial_list", this.pollingService.serialPorts);
     }
 
     /**

@@ -1,6 +1,8 @@
 export default interface SerialState {
     isOpen: boolean;
-    port: string;
     path: string;
     baudRate: number;
+
+    targetPath: string;
+    autoSelect: boolean;
 }

@@ -1,6 +1,7 @@
-import {List, Popover, Typography} from "@mui/material";
+import {List, Popover, Skeleton, Typography} from "@mui/material";
 import SerialPopoverOption from "./SerialPopoverOption.tsx";
 import useSerialPorts from "../../../hooks/serialPorts/useSerialPorts.ts";
+import SerialAutoSelectPopoverOption from "./SerialAutoSelectPopoverOption.tsx";
 
 export interface SerialPopoverProps {
     anchorEl: null | HTMLElement;
@@ -8,7 +9,7 @@ export interface SerialPopoverProps {
 }
 
 export default function SerialPopover(props: SerialPopoverProps) {
-    const serialPorts = useSerialPorts();
+    const [serialPorts] = useSerialPorts();
     const {anchorEl, onClose} = props;
 
     return (
@@ -27,58 +28,36 @@ export default function SerialPopover(props: SerialPopoverProps) {
             }}
         >
             <List>
-                <Typography
-                    variant={"subtitle1"}
-                    sx={{
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        color: "text.secondary",
-                        paddingLeft: 2,
-                        marginTop: 1
-                    }}
-                >
-                    Local Serial Ports
-                </Typography>
-                {serialPorts.map((port) => (
+                {serialPorts && <SerialAutoSelectPopoverOption/>}
+                {serialPorts?.map((port) => (
                     <SerialPopoverOption
                         key={port.path}
                         port={port}
                     />
                 ))}
-                {serialPorts.length == 0 && (
+
+                {serialPorts === undefined && (
+                    <Skeleton
+                        width={300}
+                        height={24}
+                        variant={"rectangular"}
+                        animation={"wave"}
+                        sx={{margin: 1}}
+                    />
+                )}
+
+                {serialPorts?.length === 0 && (
                     <Typography
                         sx={{
                             margin: 1,
                             paddingLeft: 2,
+                            paddingRight: 2,
                             color: "text.disabled"
                         }}
                     >
                         No serial ports found
                     </Typography>
                 )}
-
-                <Typography
-                    variant={"subtitle1"}
-                    sx={{
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        color: "text.secondary",
-                        paddingLeft: 2,
-                        marginTop: 1
-                    }}
-                >
-                    Remote Serial Ports
-                </Typography>
-                <Typography
-                    sx={{
-                        margin: 1,
-                        paddingLeft: 2,
-                        color: "text.disabled",
-                        textAlign: "center"
-                    }}
-                >
-                    No remote serial ports found
-                </Typography>
             </List>
         </Popover>
     );

@@ -9,20 +9,23 @@ serialRouter.get("/", async (_, res) => {
     res.json(serialServer.getState());
 });
 
-serialRouter.post("/open", async (req, res) => {
-    const serialPath = req.body.path;
+serialRouter.post("/", async (req, res) => {
+    const autoSelect = req.body.autoSelect;
+    if (typeof autoSelect !== "boolean") {
+        res.status(400).send("Invalid auto select value");
+        return;
+    }
+
+    const serialPath = req.body.serialPath;
     if (typeof serialPath !== "string") {
         res.status(400).send("Invalid serial path");
         return;
     }
 
-    await serialServer.connect(serialPath);
-});
+    serialServer.connectionService.enableAutoSelect(autoSelect);
+    serialServer.connectionService.setTargetPath(serialPath);
 
-serialRouter.post("/close", async (_, res) => {
-    serialServer.close();
-
-    res.send("Serial port closed");
+    res.send("OK");
 });
 
 serialRouter.get("/list", async (_, res) => {

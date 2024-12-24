@@ -5,7 +5,7 @@ import SerialPopover from "./SerialPopover.tsx";
 import useSerialState from "../../../hooks/serialPorts/useSerialState.ts";
 
 export default function SerialButton() {
-    const {isOpen, port} = useSerialState();
+    const serialState = useSerialState();
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
     return (
@@ -13,7 +13,7 @@ export default function SerialButton() {
             <Button
                 size={"small"}
                 variant={"text"}
-                color={isOpen ? "success" : "error"}
+                color={serialState.isOpen ? "success" : "error"}
                 startIcon={
                     <SettingsInputHdmi
                         fontSize={"small"}
@@ -22,7 +22,7 @@ export default function SerialButton() {
                 }
                 onClick={(e) => setAnchorEl(e.currentTarget)}
             >
-                {isOpen ? port : "Disconnected"}
+                {serialState.isOpen ? serialState.path : "Disconnected"}
             </Button>
 
             <SerialPopover

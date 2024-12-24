@@ -8,6 +8,8 @@ import {resetNTAtom} from "../networkTable/actions/useResetNT.ts";
 import {sessionIDAtom} from "../sessionID/useSessionID.ts";
 import {setNTKeyFromPathAtom} from "../networkTable/actions/useSetNTKeyFromPath.ts";
 import {ntValueAtomFamily} from "../networkTable/useNTValue.ts";
+import {appendToLogAtom} from "../log/useAppendToLog.ts";
+import {serialPortsAtom} from "../serialPorts/useSerialPorts.ts";
 
 export default function useConnectToSocket() {
     const socket = useSocket();
@@ -29,14 +31,14 @@ export default function useConnectToSocket() {
         });
 
         // Serial Events
-        socket.on("serial_open", (state) => {
+        socket.on("serial_state", (state) => {
             primaryStore.set(serialStateAtom, state);
         });
-        socket.on("serial_error", (state) => {
-            primaryStore.set(serialStateAtom, state);
+        socket.on("serial_list", (list) => {
+            primaryStore.set(serialPortsAtom, list);
         });
-        socket.on("serial_close", (state) => {
-            primaryStore.set(serialStateAtom, state);
+        socket.on("serial_log", (msg) => {
+            primaryStore.set(appendToLogAtom, msg);
         });
 
         // Network Table Events

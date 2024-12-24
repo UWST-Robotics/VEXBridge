@@ -1,4 +1,4 @@
-declare module "src/main/cobs" {
+declare module "cobs" {
     import {Duplex} from "stream";
 
     export function encode(data: Buffer, zeroFrame: boolean): Buffer;

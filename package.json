@@ -9,7 +9,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "dev": "vite",
-    "dev:server": "tsx src/main/main.ts",
+    "dev:server": "tsx watch src/main/main.ts",
     "build": "vite build",
     "serve": "vite preview"
   },

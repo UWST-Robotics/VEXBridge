@@ -1,5 +1,6 @@
-import {Paper} from "@mui/material";
+import {Paper, Skeleton} from "@mui/material";
 import SerialButton from "./serial/SerialButton.tsx";
+import {Suspense} from "react";
 
 export default function Footer() {
     return (
@@ -10,7 +11,16 @@ export default function Footer() {
                 paddingRight: 2,
             }}
         >
-            <SerialButton/>
+            <Suspense fallback={
+                <Skeleton
+                    width={133}
+                    height={30}
+                    variant={"rectangular"}
+                    animation={"wave"}
+                />
+            }>
+                <SerialButton/>
+            </Suspense>
         </Paper>
     );
 }

@@ -76,6 +76,7 @@ export default class NTSerialParser {
             this.writeAck();
 
         } else {
+            // TODO: Handle log messages
             Logger.error(`Unknown command: ${command}`);
         }
     }

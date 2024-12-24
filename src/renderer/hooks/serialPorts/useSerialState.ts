@@ -1,13 +1,12 @@
+import {atomWithDefault} from "jotai/utils";
+import fetchAPIEndpoint from "../../utils/fetchAPIEndpoint.ts";
 import SerialState from "../../../types/serial/SerialState.ts";
-import {atom, useAtomValue} from "jotai";
+import {useAtomValue} from "jotai";
+
+const API_ENDPOINT = "/api/serial";
 
 // Atoms
-export const serialStateAtom = atom<SerialState>({
-    isOpen: false,
-    port: "",
-    path: "",
-    baudRate: 0
-});
+export const serialStateAtom = atomWithDefault(() => fetchAPIEndpoint<SerialState>(API_ENDPOINT));
 
 // Hooks
 export default function useSerialState() {
