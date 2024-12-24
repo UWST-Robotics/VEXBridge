@@ -1,9 +1,9 @@
 import {atomFamily} from "jotai/utils";
 import {atom, useAtomValue} from "jotai";
-import {ntGroupInfoAtomFamily} from "./useNTGroupInfo.ts";
-import NTValue from "../../types/nt/NTValue.ts";
-import {ntValueAtomFamily} from "./useNTValue.ts";
-import NTGroupInfo from "../../types/nt/NTGroupInfo.ts";
+import {ntGroupInfoAtomFamily} from "../ntGroupInfo/useNTGroupInfo.ts";
+import NTGroupInfo from "../../../types/nt/NTGroupInfo.ts";
+import NTValue from "../../../types/nt/NTValue.ts";
+import {ntValueFromPathAtomFamily} from "./useNTValueFromPath.ts";
 
 // Atoms
 export const ntValuesOfGroupAtomFamily = atomFamily((path: string) => atom((get) => {
@@ -15,7 +15,11 @@ export const ntValuesOfGroupAtomFamily = atomFamily((path: string) => atom((get)
     // Recursively Retrieve Values
     const values: Record<string, NTValue> = {};
     const getValues = (group: NTGroupInfo) => {
-        values[group.path] = get(ntValueAtomFamily(group.path));
+
+        // Get Values
+        values[group.path] = get(ntValueFromPathAtomFamily(group.path));
+
+        // Recursively Get Values
         for (const child of group.children)
             getValues(child);
     };

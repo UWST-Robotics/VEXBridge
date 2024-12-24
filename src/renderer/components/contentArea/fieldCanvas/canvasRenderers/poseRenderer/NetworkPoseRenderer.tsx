@@ -1,7 +1,7 @@
-import NTGroupInfo from "../../../../../types/nt/NTGroupInfo.ts";
+import NTGroupInfo from "../../../../../../types/nt/NTGroupInfo.ts";
 import PoseRenderer from "./PoseRenderer.tsx";
 import parseNetworkValueToNumber from "../../../../../utils/parseNetworkValueToNumber.ts";
-import useNTValue from "../../../../../hooks/networkTable/useNTValue.ts";
+import useNTValueFromPath from "../../../../../hooks/networkTable/useNTValueFromPath.ts";
 
 export interface NetworkPoseRendererProps {
     poseGroup: NTGroupInfo;
@@ -9,13 +9,13 @@ export interface NetworkPoseRendererProps {
 
 export default function NetworkPoseRenderer(props: NetworkPoseRendererProps) {
     const {poseGroup} = props;
-    const name = useNTValue(poseGroup.path + "/name");
-    const color = useNTValue(poseGroup.path + "/color");
-    const _x = useNTValue(poseGroup.path + "/x");
-    const _y = useNTValue(poseGroup.path + "/y");
-    const _angle = useNTValue(poseGroup.path + "/rotation");
-    const _length = useNTValue(poseGroup.path + "/length");
-    const _width = useNTValue(poseGroup.path + "/width");
+    const name = useNTValueFromPath(poseGroup.path + "/name");
+    const color = useNTValueFromPath(poseGroup.path + "/color");
+    const _x = useNTValueFromPath(poseGroup.path + "/x");
+    const _y = useNTValueFromPath(poseGroup.path + "/y");
+    const _angle = useNTValueFromPath(poseGroup.path + "/rotation");
+    const _length = useNTValueFromPath(poseGroup.path + "/length");
+    const _width = useNTValueFromPath(poseGroup.path + "/width");
 
     // Parse network values to numbers
     const x = parseNetworkValueToNumber(_x);
@@ -47,5 +47,5 @@ export default function NetworkPoseRenderer(props: NetworkPoseRendererProps) {
                 width={width}
             />
         </>
-    )
+    );
 }

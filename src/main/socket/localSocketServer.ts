@@ -13,10 +13,12 @@ export function initSocketServer() {
     localSocketServer.on("connection", (socket) => {
 
         // Serial events
+        localSerialInstance.on("serial_open", (state) => socket.emit("serial_open", state));
+        localSerialInstance.on("serial_error", (state) => socket.emit("serial_error", state));
+        localSerialInstance.on("serial_close", (state) => socket.emit("serial_close", state));
+
+        // Log events
         localSerialInstance.on("log", (msg) => socket.emit("log", msg));
-        localSerialInstance.on("serial_open", () => socket.emit("serial_open"));
-        localSerialInstance.on("serial_error", () => socket.emit("serial_error"));
-        localSerialInstance.on("serial_close", () => socket.emit("serial_close"));
 
         // NT events
         localNetworkTables.on("new_session", (sessionID) => socket.emit("new_session", sessionID));

@@ -2,10 +2,10 @@ import {Group, Layer, Rect, Stage} from "react-konva";
 import useWindowSize from "../../../hooks/common/useWindowSize.ts";
 import GridRenderer from "./canvasRenderers/GridRenderer.tsx";
 import React from "react";
-import {LINES_GROUP, POSE_GROUP} from "../../../types/GroupNames.ts";
+import {LINES_GROUP, POSE_GROUP} from "../../../utils/GroupNames.ts";
 import NetworkPoseRenderer from "./canvasRenderers/poseRenderer/NetworkPoseRenderer.tsx";
 import NetworkLineRenderer from "./canvasRenderers/lineRenderer/NetworkLineRenderer.tsx";
-import useNTGroupInfo from "../../../hooks/networkTable/useNTGroupInfo.ts";
+import useNTGroupInfo from "../../../hooks/ntGroupInfo/useNTGroupInfo.ts";
 import CompassRenderer from "./canvasRenderers/CompassRenderer.tsx";
 
 export default function FieldCanvas() {

@@ -1,7 +1,7 @@
-import NTValue from "../../../types/nt/NTValue.ts";
 import VEXSerialType from "../../../../types/serial/VEXSerialType.ts";
 import {Computer, SmartToy, SportsEsports} from "@mui/icons-material";
 import {Tooltip} from "@mui/material";
+import NTValue from "../../../../types/nt/NTValue.ts";
 
 export interface VEXTypeIconProps {
     type: NTValue;

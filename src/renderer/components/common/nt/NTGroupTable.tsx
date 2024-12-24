@@ -1,4 +1,4 @@
-import NTGroupInfo from "../../../types/nt/NTGroupInfo.ts";
+import NTGroupInfo from "../../../../types/nt/NTGroupInfo.ts";
 import {Table, TableBody} from "@mui/material";
 import NTGroupTableRow from "./NTGroupTableRow.tsx";
 

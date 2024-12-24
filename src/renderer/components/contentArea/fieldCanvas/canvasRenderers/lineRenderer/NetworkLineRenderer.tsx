@@ -1,8 +1,8 @@
-import NTGroupInfo from "../../../../../types/nt/NTGroupInfo.ts";
+import NTGroupInfo from "../../../../../../types/nt/NTGroupInfo.ts";
 import {Circle, Group, Line} from "react-konva";
-import useNTValue from "../../../../../hooks/networkTable/useNTValue.ts";
 import useNTValuesOfGroup from "../../../../../hooks/networkTable/useNTValuesOfGroup.ts";
 import React from "react";
+import useNTValueFromPath from "../../../../../hooks/networkTable/useNTValueFromPath.ts";
 
 export interface NetworkPoseRendererProps {
     lineGroup: NTGroupInfo;
@@ -10,7 +10,7 @@ export interface NetworkPoseRendererProps {
 
 export default function NetworkLineRenderer(props: NetworkPoseRendererProps) {
     const {lineGroup} = props;
-    const color = useNTValue(lineGroup.path + "/color");
+    const color = useNTValueFromPath(lineGroup.path + "/color");
     const ntValues = useNTValuesOfGroup(lineGroup.path);
 
     const points = React.useMemo(() => {
@@ -47,5 +47,5 @@ export default function NetworkLineRenderer(props: NetworkPoseRendererProps) {
                 />
             ))}
         </Group>
-    )
+    );
 }

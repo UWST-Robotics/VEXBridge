@@ -1,12 +1,19 @@
 import {CartesianGrid, Legend, Line, LineChart, ReferenceLine, ResponsiveContainer, XAxis, YAxis} from "recharts";
 import useCurrentTime from "../../../../hooks/common/useCurrentTime.ts";
-import useMaxTimeWindow from "../../../../hooks/valueOverTime/useMaxTimeWindow.ts";
-import useChartValues from "../../../../hooks/valueOverTime/useChartValues.ts";
 
 export default function SelectedValuesChart() {
     const currentTime = useCurrentTime(50);
-    const [maxTimeWindow] = useMaxTimeWindow();
-    const chartValues = useChartValues();
+    //const [maxTimeWindow] = useMaxTimeWindow();
+    //const chartValues = useChartValues();
+    // TODO: Fix me
+    const maxTimeWindow = 0;
+    const chartValues: {
+        path: string;
+        name: string;
+        color: string;
+        value: number;
+        values: { time: number, value: number }[];
+    }[] = [];
 
     // Time Functions
     const formatTime = (time: number) => {

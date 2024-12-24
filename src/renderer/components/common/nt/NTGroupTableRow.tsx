@@ -1,8 +1,8 @@
-import NTGroupInfo from "../../../types/nt/NTGroupInfo.ts";
-import useNTValue from "../../../hooks/networkTable/useNTValue.ts";
+import NTGroupInfo from "../../../../types/nt/NTGroupInfo.ts";
 import {styled, TableCell, TableRow} from "@mui/material";
 import useSelectPath from "../../../hooks/selectedPath/actions/useSelectPath.ts";
 import useIsPathSelected from "../../../hooks/selectedPath/useIsPathSelected.ts";
+import useNTValueFromPath from "../../../hooks/networkTable/useNTValueFromPath.ts";
 
 export interface NTGroupTableRowProps {
     groupInfo: NTGroupInfo;
@@ -26,7 +26,7 @@ const StyledTableRow = styled(TableRow)(({theme}) => ({
 }));
 
 export default function NTGroupTableRow(props: NTGroupTableRowProps) {
-    const value = useNTValue(props.groupInfo.path);
+    const value = useNTValueFromPath(props.groupInfo.path);
 
     const isSelected = useIsPathSelected(props.groupInfo.path);
     const selectPath = useSelectPath();

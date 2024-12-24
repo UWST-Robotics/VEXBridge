@@ -1,12 +1,12 @@
 import {Line} from "recharts";
-import useValuesOverTime from "../../../../hooks/valueOverTime/useValuesOverTime.ts";
 
 export interface SelectedValueChartLineProps {
     path: string;
 }
 
 export default function SelectedValueChartRenderer(props: SelectedValueChartLineProps) {
-    const [valuesOverTime] = useValuesOverTime(props.path);
+    //const [valuesOverTime] = useValuesOverTime(props.path);
+    const valuesOverTime: number[] = []; // TODO: Fix me
 
     return (
         <Line

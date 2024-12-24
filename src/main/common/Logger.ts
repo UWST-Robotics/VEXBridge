@@ -1,8 +1,4 @@
-import {Instance} from "chalk";
-
-// Limit to ANSI 256 colors
-const Chalk = new Instance({level: 2});
-
+import Chalk from "chalk";
 
 /**
  * Logger class for logging messages to the console and the client
@@ -10,11 +6,6 @@ const Chalk = new Instance({level: 2});
 export default class Logger {
     static log(text: string) {
         console.log(text);
-
-        try {
-        } catch {
-            // Ignore
-        }
     }
 
     static error(error: string) {

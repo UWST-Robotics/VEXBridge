@@ -1,5 +1,5 @@
 import {atom, useAtomValue} from "jotai";
-import NTGroupInfo from "../../types/nt/NTGroupInfo.ts";
+import NTGroupInfo from "../../../types/nt/NTGroupInfo.ts";
 
 // Atoms
 export const ntGroupInfoRoot = atom<NTGroupInfo>({

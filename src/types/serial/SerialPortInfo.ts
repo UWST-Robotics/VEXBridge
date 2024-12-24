@@ -1,4 +1,5 @@
 export default interface SerialPortInfo {
+    friendlyName: string | undefined;
     path: string;
     manufacturer: string | undefined;
     serialNumber: string | undefined;

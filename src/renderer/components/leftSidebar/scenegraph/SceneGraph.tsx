@@ -1,5 +1,5 @@
 import {Box, List} from "@mui/material";
-import useNTGroupInfoRoot from "../../../hooks/networkTable/useNTGroupInfoRoot.ts";
+import useNTGroupInfoRoot from "../../../hooks/ntGroupInfo/useNTGroupInfoRoot.ts";
 import SceneGraphGroup from "./SceneGraphGroup.tsx";
 import NonIdealState from "../../common/NonIdealState.tsx";
 

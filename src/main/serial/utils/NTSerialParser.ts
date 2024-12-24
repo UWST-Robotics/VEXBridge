@@ -1,5 +1,6 @@
 import localNetworkTables from "../../nt/localNetworkTables.ts";
 import Logger from "../../common/Logger.ts";
+import localSerialInstance from "../localSerialInstance.ts";
 
 export default class NTSerialParser {
     onData(data: string) {
@@ -12,7 +13,10 @@ export default class NTSerialParser {
         if (command === 0x01) {
 
             // Start new session
-            localNetworkTables.startNewSession();
+            localNetworkTables.startNewSession().catch(this.onError);
+
+            // Ack
+            this.writeAck();
 
         } else if (command === 0x02) {
 
@@ -21,6 +25,10 @@ export default class NTSerialParser {
             const value = buffer.readInt32LE(3);
 
             localNetworkTables.updateValue(key, value).catch(this.onError);
+
+            // Ack
+            this.writeAck();
+
         } else if (command === 0x03) {
 
             // Update string value
@@ -29,6 +37,10 @@ export default class NTSerialParser {
             const value = buffer.toString("utf-8", 5, 5 + valueLength);
 
             localNetworkTables.updateValue(key, value).catch(this.onError);
+
+            // Ack
+            this.writeAck();
+
         } else if (command === 0x04) {
 
             // Update double value
@@ -37,6 +49,9 @@ export default class NTSerialParser {
 
             localNetworkTables.updateValue(key, value).catch(this.onError);
 
+            // Ack
+            this.writeAck();
+
         } else if (command === 0x05) {
 
             // Update boolean value
@@ -44,6 +59,10 @@ export default class NTSerialParser {
             const value = buffer.readUInt8(3) === 1;
 
             localNetworkTables.updateValue(key, value).catch(this.onError);
+
+            // Ack
+            this.writeAck();
+
         } else if (command === 0x10) {
 
             // Update key path
@@ -52,6 +71,10 @@ export default class NTSerialParser {
             const path = buffer.toString("utf-8", 5, 5 + pathLength);
 
             localNetworkTables.setPathForKey(key, path).catch(this.onError);
+
+            // Ack
+            this.writeAck();
+
         } else {
             Logger.error(`Unknown command: ${command}`);
         }
@@ -59,5 +82,11 @@ export default class NTSerialParser {
 
     private onError(error: Error) {
         Logger.error(`NT serial parser error: ${error.message}`);
+    }
+
+    private writeAck() {
+        const ackBuffer = Buffer.alloc(1);
+        ackBuffer.writeUInt8(0x01, 0);
+        localSerialInstance.write(ackBuffer).catch(this.onError);
     }
 }

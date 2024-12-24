@@ -1,9 +1,9 @@
 import {Box, ListItemButton, Typography} from "@mui/material";
 import ColoredListItem from "../../common/ColoredListItem.tsx";
-import NTValue from "../../../types/nt/NTValue.ts";
 import networkValueToString from "../../../utils/networkValueToString.ts";
 import useSelectPath from "../../../hooks/selectedPath/actions/useSelectPath.ts";
 import useIsPathSelected from "../../../hooks/selectedPath/useIsPathSelected.ts";
+import NTValue from "../../../../types/nt/NTValue.ts";
 
 export interface SceneGraphItemProps {
     name: string;

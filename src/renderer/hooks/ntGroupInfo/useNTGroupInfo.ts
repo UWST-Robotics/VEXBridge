@@ -3,7 +3,7 @@ import {atomFamily} from "jotai/utils";
 import {ntGroupInfoRoot} from "./useNTGroupInfoRoot.ts";
 import {parentPathAtomFamily} from "./utils/useParentPath.ts";
 import {childNameAtomFamily} from "./utils/useChildName.ts";
-import NTGroupInfo from "../../types/nt/NTGroupInfo.ts";
+import NTGroupInfo from "../../../types/nt/NTGroupInfo.ts";
 
 export const ntGroupInfoAtomFamily = atomFamily((path: string) => atom((get) => {
 

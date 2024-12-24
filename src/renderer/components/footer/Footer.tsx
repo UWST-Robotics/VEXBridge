@@ -1,6 +1,5 @@
 import {Paper} from "@mui/material";
 import SerialButton from "./serial/SerialButton.tsx";
-import RobotButton from "./robot/RobotButton.tsx";
 
 export default function Footer() {
     return (
@@ -12,7 +11,6 @@ export default function Footer() {
             }}
         >
             <SerialButton/>
-            <RobotButton/>
         </Paper>
     );
 }

@@ -1,7 +1,7 @@
-import NTGroupInfo from "../../../types/nt/NTGroupInfo.ts";
+import NTGroupInfo from "../../../../types/nt/NTGroupInfo.ts";
 import {Alert, Box, Card, CardContent, Typography} from "@mui/material";
-import useNTValue from "../../../hooks/networkTable/useNTValue.ts";
 import NTGroupTable from "../../common/nt/NTGroupTable.tsx";
+import useNTValueFromPath from "../../../hooks/networkTable/useNTValueFromPath.ts";
 
 export interface HardwareStatusCardProps {
     hardwareGroup: NTGroupInfo;
@@ -9,9 +9,9 @@ export interface HardwareStatusCardProps {
 
 export default function HardwareStatusCard(props: HardwareStatusCardProps) {
     const {hardwareGroup} = props;
-    const name = useNTValue(hardwareGroup.path + "/name");
-    const type = useNTValue(hardwareGroup.path + "/type");
-    const faults = useNTValue(hardwareGroup.path + "/faults");
+    const name = useNTValueFromPath(hardwareGroup.path + "/name");
+    const type = useNTValueFromPath(hardwareGroup.path + "/type");
+    const faults = useNTValueFromPath(hardwareGroup.path + "/faults");
 
     return (
         <Box

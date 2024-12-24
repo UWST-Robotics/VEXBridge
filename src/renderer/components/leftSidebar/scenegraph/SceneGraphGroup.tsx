@@ -1,10 +1,10 @@
 import {Collapse, Divider, IconButton, List, ListItemButton, ListItemText} from "@mui/material";
-import NTGroupInfo from "../../../types/nt/NTGroupInfo.ts";
+import NTGroupInfo from "../../../../types/nt/NTGroupInfo.ts";
 import SceneGraphItem from "./SceneGraphItem.tsx";
 import React from "react";
 import AnimatedCaretIcon from "../../common/AnimatedCaretIcon.tsx";
 import ColoredListItem from "../../common/ColoredListItem.tsx";
-import useNTValue from "../../../hooks/networkTable/useNTValue.ts";
+import useNTValueFromPath from "../../../hooks/networkTable/useNTValueFromPath.ts";
 
 export interface SceneGraphGroupProps {
     groupInfo: NTGroupInfo;
@@ -12,7 +12,7 @@ export interface SceneGraphGroupProps {
 }
 
 export default function SceneGraphGroup(props: SceneGraphGroupProps) {
-    const value = useNTValue(props.groupInfo.path);
+    const value = useNTValueFromPath(props.groupInfo.path);
     const [isCollapsed, setIsCollapsed] = React.useState(true);
 
     const depth = props.depth || 0;
@@ -23,7 +23,7 @@ export default function SceneGraphGroup(props: SceneGraphGroupProps) {
                 <>
                     <ColoredListItem
                         disablePadding
-                        intent="primary"
+                        intent={"primary"}
                         secondaryAction={(
                             <IconButton
                                 size={"small"}
@@ -50,7 +50,7 @@ export default function SceneGraphGroup(props: SceneGraphGroupProps) {
 
                     <Divider/>
 
-                    <Collapse in={!isCollapsed} timeout="auto" unmountOnExit>
+                    <Collapse in={!isCollapsed} timeout={"auto"} unmountOnExit>
                         <List disablePadding>
                             {props.groupInfo.children.map((child) => (
                                 <SceneGraphGroup
@@ -72,5 +72,5 @@ export default function SceneGraphGroup(props: SceneGraphGroupProps) {
                 value={value}
             />
         </>
-    )
+    );
 }

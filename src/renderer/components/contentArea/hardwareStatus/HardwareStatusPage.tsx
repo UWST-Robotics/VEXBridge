@@ -1,8 +1,8 @@
-import {HARDWARE_INFO_GROUP} from "../../../types/GroupNames.ts";
+import {HARDWARE_INFO_GROUP} from "../../../utils/GroupNames.ts";
 import useCurrentTab from "../../../hooks/navigation/currentTab.ts";
 import {Box} from "@mui/material";
 import HardwareStatusCard from "./HardwareStatusCard.tsx";
-import useNTGroupInfo from "../../../hooks/networkTable/useNTGroupInfo.ts";
+import useNTGroupInfo from "../../../hooks/ntGroupInfo/useNTGroupInfo.ts";
 import NonIdealState from "../../common/NonIdealState.tsx";
 import {WarningAmber} from "@mui/icons-material";
 

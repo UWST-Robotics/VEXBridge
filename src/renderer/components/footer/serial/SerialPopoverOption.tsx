@@ -12,7 +12,7 @@ export default function SerialPopoverOption(props: SerialOptionProps) {
     const serialState = useSerialState();
 
     const {friendlyName, path, vexType} = props.port;
-    const isActive = serialState.port === path && serialState.isConnected;
+    const isActive = serialState.port === path && serialState.isOpen;
 
     const selectPort = () => electronAPI?.setSerialPort(path?.toString() ?? "");
 

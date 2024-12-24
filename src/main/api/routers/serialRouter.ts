@@ -1,20 +1,12 @@
 import {Router} from "express";
 import serialServer from "../../serial/localSerialInstance.ts";
 import getAvailableSerialPorts from "../../serial/utils/getAvailableSerialPorts.ts";
-import SerialState from "../../../types/serial/SerialState.ts";
 
 const serialRouter = Router();
 export default serialRouter;
 
 serialRouter.get("/", async (_, res) => {
-    const serialState: SerialState = {
-        isOpen: serialServer.hardware?.isOpen ?? false,
-        port: serialServer.hardware?.port ?? "N/A",
-        path: serialServer.hardware?.path ?? "N/A",
-        baudRate: serialServer.hardware?.baudRate ?? -1
-    };
-
-    res.json(serialState);
+    res.json(serialServer.getState());
 });
 
 serialRouter.post("/open", async (req, res) => {
