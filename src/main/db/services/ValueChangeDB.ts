@@ -23,3 +23,7 @@ export async function getCurrentValue(sessionID: number, key: number) {
         order: [["timestamp", "DESC"]]
     });
 }
+
+export async function deleteValuesOfSession(sessionID: number) {
+    await ValueChangeModel.destroy({where: {sessionID: sessionID}});
+}

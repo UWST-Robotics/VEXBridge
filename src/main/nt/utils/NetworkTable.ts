@@ -1,8 +1,8 @@
 import {EventEmitter} from "events";
 import NTValue from "../../../types/nt/NTValue.ts";
-import {startNewSession as _startNewSession} from "../../db/services/SessionInfoService.ts";
-import {recordValueChange as _recordValueChange} from "../../db/services/ValueChangeService.ts";
-import {setPathForKey as _setPathForKey} from "../../db/services/ValueKeyToPathService.ts";
+import {createNewSession as _startNewSession} from "../../db/services/SessionInfoDB.ts";
+import {recordValueChange as _recordValueChange} from "../../db/services/ValueChangeDB.ts";
+import {setPathForKey as _setPathForKey} from "../../db/services/ValueKeyToPathDB.ts";
 
 export default class NetworkTables extends EventEmitter {
     currentSessionID: number | undefined;

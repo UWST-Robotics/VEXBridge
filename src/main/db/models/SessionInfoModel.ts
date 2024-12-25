@@ -3,9 +3,9 @@ import SessionInfo from "../../../types/db/SessionInfo.ts";
 import localSQLInstance from "../localSQLInstance.ts";
 
 export default class SessionInfoModel extends Model implements SessionInfo {
-    public sessionID!: number;
-    public startTimestamp!: Date;
-    public label!: string;
+    declare sessionID: number;
+    declare startTimestamp: Date;
+    declare label: string;
 }
 
 SessionInfoModel.init({

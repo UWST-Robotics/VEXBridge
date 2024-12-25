@@ -3,17 +3,16 @@ import SessionValueChange from "../../../types/db/SessionValueChange.ts";
 import localSQLInstance from "../localSQLInstance.ts";
 
 export default class ValueChangeModel extends Model implements SessionValueChange {
-    public valueChangeID!: number;
-    public sessionID!: number;
-    public timestamp!: Date;
-    public key!: number;
-    public newValue!: string;
+    declare valueChangeID: number;
+    declare sessionID: number;
+    declare timestamp: Date;
+    declare key: number;
+    declare newValue: string;
 }
 
 ValueChangeModel.init({
     valueChangeID: {
         type: DataTypes.BIGINT,
-        allowNull: false,
         primaryKey: true,
         autoIncrement: true
     },
@@ -29,10 +28,7 @@ ValueChangeModel.init({
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    newValue: {
-        type: DataTypes.STRING,
-        allowNull: false
-    }
+    newValue: DataTypes.BLOB
 }, {
     sequelize: localSQLInstance,
     modelName: "sessionValueChange"

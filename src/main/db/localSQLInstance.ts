@@ -4,7 +4,9 @@ import {SQLITE_DB_PATH} from "../common/Constants.ts";
 // SQLite database
 const localSQLInstance = new Sequelize({
     dialect: "sqlite",
-    storage: SQLITE_DB_PATH
+    storage: SQLITE_DB_PATH,
+    logQueryParameters: false,
+    logging: false
 });
 
 export default localSQLInstance;

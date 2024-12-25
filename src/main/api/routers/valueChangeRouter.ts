@@ -1,7 +1,7 @@
 import {Router} from "express";
-import {getCurrentValue, getValueChanges, recordValueChange} from "../../db/services/ValueChangeService.ts";
+import {getCurrentValue, getValueChanges, recordValueChange} from "../../db/services/ValueChangeDB.ts";
 import requireSessionID from "../utils/requireSessionID.ts";
-import {getAllPaths} from "../../db/services/ValueKeyToPathService.ts";
+import {getAllPaths} from "../../db/services/ValueKeyToPathDB.ts";
 
 const valueChangeRouter = Router({mergeParams: true});
 export default valueChangeRouter;

@@ -1,6 +1,6 @@
 import SessionInfoModel from "../models/SessionInfoModel.ts";
 
-export async function startNewSession(label?: string) {
+export async function createNewSession(label?: string) {
     const session = await SessionInfoModel.create({
         startTimestamp: new Date(),
         label: label || ""
@@ -15,10 +15,14 @@ export async function setSessionLabel(sessionID: number, label: string) {
     );
 }
 
-export async function getAllSessions() {
+export async function getAllSessionInfos() {
     return await SessionInfoModel.findAll();
 }
 
-export async function getSession(sessionID: number) {
+export async function getSessionInfo(sessionID: number) {
     return await SessionInfoModel.findByPk(sessionID);
+}
+
+export async function deleteSessionInfo(sessionID: number) {
+    await SessionInfoModel.destroy({where: {sessionID: sessionID}});
 }

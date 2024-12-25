@@ -5,7 +5,7 @@ import React from "react";
 import NTValue from "../../../types/nt/NTValue.ts";
 import {serialStateAtom} from "../serialPorts/useSerialState.ts";
 import {resetNTAtom} from "../networkTable/actions/useResetNT.ts";
-import {sessionIDAtom} from "../sessionID/useSessionID.ts";
+import {currentSessionIDAtom} from "../sessionID/useCurrentSessionID.ts";
 import {setNTKeyFromPathAtom} from "../networkTable/actions/useSetNTKeyFromPath.ts";
 import {ntValueAtomFamily} from "../networkTable/useNTValue.ts";
 import {appendToLogAtom} from "../log/useAppendToLog.ts";
@@ -44,15 +44,15 @@ export default function useConnectToSocket() {
         // Network Table Events
         socket.on("new_session", (sessionID: number) => {
             console.log("Received new session from server");
-            primaryStore.set(sessionIDAtom, sessionID);
+            primaryStore.set(currentSessionIDAtom, sessionID);
             primaryStore.set(resetNTAtom);
         });
         socket.on("value_changed", (key: number, value: NTValue) => {
-            console.log("Received value changed from server");
+            console.log("Received value changed from server", key, value);
             primaryStore.set(ntValueAtomFamily(key), value);
         });
         socket.on("key_path_changed", (key: number, path: string) => {
-            console.log("Received key path changed from server");
+            console.log("Received key path changed from server", key, path);
             primaryStore.set(setNTKeyFromPathAtom, path, key);
         });
 

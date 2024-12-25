@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {getPathForKey, setPathForKey} from "../../db/services/ValueKeyToPathService.ts";
+import {getPathForKey, setPathForKey} from "../../db/services/ValueKeyToPathDB.ts";
 import requireSessionID from "../utils/requireSessionID.ts";
 
 const valueKeyToPathRouter = Router({mergeParams: true});

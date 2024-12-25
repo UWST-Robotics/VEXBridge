@@ -3,9 +3,9 @@ import SessionKeyToPath from "../../../types/db/SessionKeyToPath.ts";
 import localSQLInstance from "../localSQLInstance.ts";
 
 export default class ValueKeyToPathModel extends Model implements SessionKeyToPath {
-    public sessionID!: number;
-    public key!: number;
-    public path!: string;
+    declare sessionID: number;
+    declare key: number;
+    declare path: string;
 }
 
 ValueKeyToPathModel.init({
