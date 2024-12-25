@@ -1,10 +1,10 @@
-import getAvailableSerialPorts from "./getAvailableSerialPorts.ts";
+import getAvailableSerialPorts from "../../common/getAvailableSerialPorts.ts";
 import VEXSerialType from "../../../types/serial/VEXSerialType.ts";
 import {SERIAL_POLLING_INTERVAL} from "../../common/Constants.ts";
-import localSerialInstance from "../localSerialInstance.ts";
 import Logger from "../../common/Logger.ts";
+import serialService from "./SerialService.ts";
 
-export default class SerialConnectionService {
+export class SerialConnectionService {
     autoSelect = true;
     targetPath = "";
     private isPolling = false;
@@ -24,7 +24,7 @@ export default class SerialConnectionService {
     enableAutoSelect(autoSelect = true) {
         Logger.info(`${autoSelect ? "Enabling" : "Disabling"} auto port selection`);
         this.autoSelect = autoSelect;
-        localSerialInstance.emitState();
+        serialService.emitState();
     }
 
     /**
@@ -34,7 +34,7 @@ export default class SerialConnectionService {
     setTargetPath(targetPath: string) {
         Logger.info(`Setting target serial port to '${targetPath}'`);
         this.targetPath = targetPath;
-        localSerialInstance.emitState();
+        serialService.emitState();
     }
 
     private poll() {
@@ -59,7 +59,7 @@ export default class SerialConnectionService {
         }
 
         // Abort if we are already connected to the target port
-        const serialState = localSerialInstance.getState();
+        const serialState = serialService.getState();
         if (serialState.isOpen && serialState.path === this.targetPath)
             return;
 
@@ -68,6 +68,9 @@ export default class SerialConnectionService {
 
         // If so, attempt to connect to the target port
         if (targetPort)
-            await localSerialInstance.connect(this.targetPath);
+            await serialService.connect(this.targetPath);
     }
 }
+
+const serialConnectionService = new SerialConnectionService();
+export default serialConnectionService;

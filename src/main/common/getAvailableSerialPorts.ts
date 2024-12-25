@@ -1,7 +1,7 @@
 import {SerialPort} from "serialport";
 import getVEXType from "./getVEXType.ts";
-import SerialPortInfo from "../../../types/serial/SerialPortInfo.ts";
-import VEXSerialPortInfo from "../../../types/serial/VEXSerialPortInfo.ts";
+import SerialPortInfo from "../../types/serial/SerialPortInfo.ts";
+import VEXSerialPortInfo from "../../types/serial/VEXSerialPortInfo.ts";
 
 /**
  * Get a list of available serial ports and their VEX type.

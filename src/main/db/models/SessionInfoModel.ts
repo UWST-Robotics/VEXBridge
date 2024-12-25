@@ -1,6 +1,6 @@
 import {DataTypes, Model} from "sequelize";
 import SessionInfo from "../../../types/db/SessionInfo.ts";
-import localSQLInstance from "../localSQLInstance.ts";
+import dbService from "../../services/db/DBService.ts";
 
 export default class SessionInfoModel extends Model implements SessionInfo {
     declare sessionID: number;
@@ -24,6 +24,6 @@ SessionInfoModel.init({
         allowNull: false
     }
 }, {
-    sequelize: localSQLInstance,
+    sequelize: dbService.sequalize,
     modelName: "sessionInfo"
 });

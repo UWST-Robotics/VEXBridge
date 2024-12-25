@@ -1,40 +1,28 @@
+import {Gpio} from "onoff";
 import {SerialPort} from "serialport";
+import VEXSerialParser from "../../common/VEXSerialParser.ts";
+import NTSerialParser from "../../common/NTSerialParser.ts";
+import {BAUD_RATE, RTS_PIN} from "../../common/Constants.ts";
+import SerialState from "../../../types/serial/SerialState.ts";
 import Logger from "../../common/Logger.ts";
 import {EventEmitter} from "events";
-import VEXSerialParser from "./VEXSerialParser.ts";
-import NTSerialParser from "./NTSerialParser.ts";
-import {Gpio} from "onoff";
-import {RTS_PIN} from "../../common/Constants.ts";
-import SerialState from "../../../types/serial/SerialState.ts";
-import serialServer from "../localSerialInstance.ts";
-import SerialConnectionService from "./SerialConnectionService.ts";
-import SerialPollingService from "./SerialPollingService.ts";
+import serialConnectionService from "./SerialConnectionService.ts";
 
-export default class SerialInstance extends EventEmitter {
+/**
+ * Handles serial communication with the VEX V5 brain
+ */
+export class SerialService {
 
-    rtsPin: Gpio | undefined;
-    hardware: SerialPort | undefined;
-    vexParser = new VEXSerialParser();
-    ntParser = new NTSerialParser();
-    connectionService = new SerialConnectionService();
-    pollingService = new SerialPollingService();
+    private eventEmitter = new EventEmitter();
+    private rtsPin: Gpio | undefined;
+    private hardware: SerialPort | undefined;
+    private vexParser = new VEXSerialParser();
+    private ntParser = new NTSerialParser();
 
-    /**
-     * Manages the serial connection to the VEX V5 Brain.
-     * Emits "serial_state" when the state of the serial connection changes.
-     * Emits "serial_log" when a log message is available.
-     */
     constructor() {
-        super();
-
         // Set Default RTS Pin
         if (process.platform === "linux")
             this.setRTSPin(RTS_PIN);
-
-        // Log Serial Port Events
-        this.on("serial_open", this.onSerialOpen.bind(this));
-        this.on("serial_error", this.onSerialError.bind(this));
-        this.on("serial_close", this.onSerialClose.bind(this));
 
         // Pipe Output from VEX Parser to NT Parser
         this.vexParser.on("sout", this.ntParser.onData.bind(this.ntParser));
@@ -46,12 +34,12 @@ export default class SerialInstance extends EventEmitter {
      */
     getState(): SerialState {
         return {
-            isOpen: serialServer.hardware?.isOpen ?? false,
-            path: serialServer.hardware?.path ?? "N/A",
-            baudRate: serialServer.hardware?.baudRate ?? -1,
+            isOpen: this.hardware?.isOpen ?? false,
+            path: this.hardware?.path ?? "N/A",
+            baudRate: this.hardware?.baudRate ?? -1,
 
-            targetPath: serialServer.connectionService.targetPath,
-            autoSelect: serialServer.connectionService.autoSelect
+            targetPath: serialConnectionService.targetPath,
+            autoSelect: serialConnectionService.autoSelect
         };
     }
 
@@ -68,7 +56,7 @@ export default class SerialInstance extends EventEmitter {
         // Create Serial Port
         this.hardware = new SerialPort({
             path: serialPath,
-            baudRate: 9600,
+            baudRate: BAUD_RATE,
             autoOpen: false
         });
 
@@ -96,23 +84,15 @@ export default class SerialInstance extends EventEmitter {
      * Called after any state change.
      */
     emitState() {
-        this.emit("serial_state", this.getState());
+        this.eventEmitter.emit("serial_state", this.getState());
     }
 
     /**
-     * Emits a log message
-     * @param message - The message to emit
+     * Listens for changes to the serial state
+     * @param callback - The callback to call when the state changes
      */
-    emitLog(message: string) {
-        this.emit("serial_log", message);
-    }
-
-    /**
-     * Emits the list of available serial ports.
-     * Called after the list is updated.
-     */
-    emitList() {
-        this.emit("serial_list", this.pollingService.serialPorts);
+    onStateChange(callback: (state: SerialState) => void) {
+        this.eventEmitter.on("serial_state", callback);
     }
 
     /**
@@ -157,16 +137,7 @@ export default class SerialInstance extends EventEmitter {
         // Pull RTS low
         await this.rtsPin?.write(0);
     }
-
-    private onSerialOpen() {
-        Logger.info("Serial port opened on " + this.hardware?.path);
-    }
-
-    private onSerialError(error: Error) {
-        Logger.error(`Serial port error: ${error.message}`);
-    }
-
-    private onSerialClose() {
-        Logger.info(`Serial port closed on ${this.hardware?.path}`);
-    }
 }
+
+const serialService = new SerialService();
+export default serialService;

@@ -1,5 +1,5 @@
-import VEXSerialType from "../../../types/serial/VEXSerialType.ts";
-import SerialPortInfo from "../../../types/serial/SerialPortInfo.ts";
+import VEXSerialType from "../../types/serial/VEXSerialType.ts";
+import SerialPortInfo from "../../types/serial/SerialPortInfo.ts";
 
 const VENDOR_ID = "2888";
 const PRODUCT_ID = "0501";

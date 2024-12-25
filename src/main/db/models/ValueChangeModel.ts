@@ -1,6 +1,6 @@
 import {DataTypes, Model} from "sequelize";
 import SessionValueChange from "../../../types/db/SessionValueChange.ts";
-import localSQLInstance from "../localSQLInstance.ts";
+import dbService from "../../services/db/DBService.ts";
 
 export default class ValueChangeModel extends Model implements SessionValueChange {
     declare valueChangeID: number;
@@ -30,6 +30,6 @@ ValueChangeModel.init({
     },
     newValue: DataTypes.BLOB
 }, {
-    sequelize: localSQLInstance,
+    sequelize: dbService.sequalize,
     modelName: "sessionValueChange"
 });

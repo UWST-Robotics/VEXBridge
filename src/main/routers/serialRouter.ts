@@ -1,12 +1,13 @@
 import {Router} from "express";
-import serialServer from "../../serial/localSerialInstance.ts";
-import getAvailableSerialPorts from "../../serial/utils/getAvailableSerialPorts.ts";
+import getAvailableSerialPorts from "../common/getAvailableSerialPorts.ts";
+import serialService from "../services/serial/SerialService.ts";
+import serialConnectionService from "../services/serial/SerialConnectionService.ts";
 
 const serialRouter = Router();
 export default serialRouter;
 
 serialRouter.get("/", async (_, res) => {
-    res.json(serialServer.getState());
+    res.json(serialService.getState());
 });
 
 serialRouter.post("/", async (req, res) => {
@@ -22,8 +23,8 @@ serialRouter.post("/", async (req, res) => {
         return;
     }
 
-    serialServer.connectionService.enableAutoSelect(autoSelect);
-    serialServer.connectionService.setTargetPath(serialPath);
+    serialConnectionService.enableAutoSelect(autoSelect);
+    serialConnectionService.setTargetPath(serialPath);
 
     res.send("OK");
 });

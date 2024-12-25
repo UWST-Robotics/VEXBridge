@@ -1,6 +1,6 @@
 import {DataTypes, Model} from "sequelize";
 import SessionKeyToPath from "../../../types/db/SessionKeyToPath.ts";
-import localSQLInstance from "../localSQLInstance.ts";
+import dbService from "../../services/db/DBService.ts";
 
 export default class ValueKeyToPathModel extends Model implements SessionKeyToPath {
     declare sessionID: number;
@@ -24,6 +24,6 @@ ValueKeyToPathModel.init({
         allowNull: false
     }
 }, {
-    sequelize: localSQLInstance,
+    sequelize: dbService.sequalize,
     modelName: "sessionKeyToPath"
 });

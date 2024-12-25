@@ -1,5 +1,4 @@
 import Chalk from "chalk";
-import localSerialInstance from "../serial/localSerialInstance.ts";
 
 /**
  * Logger class for logging messages to the console and the client
@@ -7,7 +6,6 @@ import localSerialInstance from "../serial/localSerialInstance.ts";
 export default class Logger {
     static log(text: string) {
         console.log(text);
-        localSerialInstance.emitLog(text);
     }
 
     static error(error: string) {
