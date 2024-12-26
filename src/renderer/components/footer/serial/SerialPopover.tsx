@@ -1,6 +1,6 @@
 import {List, Popover, Skeleton, Typography} from "@mui/material";
 import SerialPopoverOption from "./SerialPopoverOption.tsx";
-import useSerialPorts from "../../../hooks/serialPorts/useSerialPorts.ts";
+import useSerialList from "../../../hooks/serialPorts/useSerialList.ts";
 import SerialAutoSelectPopoverOption from "./SerialAutoSelectPopoverOption.tsx";
 
 export interface SerialPopoverProps {
@@ -9,7 +9,7 @@ export interface SerialPopoverProps {
 }
 
 export default function SerialPopover(props: SerialPopoverProps) {
-    const [serialPorts] = useSerialPorts();
+    const [serialPorts] = useSerialList();
     const {anchorEl, onClose} = props;
 
     return (

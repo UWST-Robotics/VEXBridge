@@ -4,12 +4,11 @@ import useSocket from "./useSocket.ts";
 import React from "react";
 import NTValue from "../../../types/nt/NTValue.ts";
 import {serialStateAtom} from "../serialPorts/useSerialState.ts";
-import {resetNTAtom} from "../networkTable/actions/useResetNT.ts";
-import {currentSessionIDAtom} from "../sessionID/useCurrentSessionID.ts";
+import {appendToLogAtom} from "../log/useAppendToLog.ts";
+import {serialListAtom} from "../serialPorts/useSerialList.ts";
+import {fetchInitialStateAtom} from "../initialization/useFetchInitialState.ts";
 import {setNTKeyFromPathAtom} from "../networkTable/actions/useSetNTKeyFromPath.ts";
 import {ntValueAtomFamily} from "../networkTable/useNTValue.ts";
-import {appendToLogAtom} from "../log/useAppendToLog.ts";
-import {serialPortsAtom} from "../serialPorts/useSerialPorts.ts";
 
 export default function useConnectToSocket() {
     const socket = useSocket();
@@ -20,6 +19,7 @@ export default function useConnectToSocket() {
         socket.on("connect", () => {
             console.log("Connected to socket");
             primaryStore.set(socketStatusAtom, "connected");
+            primaryStore.set(fetchInitialStateAtom).catch(console.error);
         });
         socket.on("connect_error", (error: Error) => {
             console.error("Failed to connect to socket", error);
@@ -35,19 +35,17 @@ export default function useConnectToSocket() {
             primaryStore.set(serialStateAtom, state);
         });
         socket.on("serial_list", (list) => {
-            primaryStore.set(serialPortsAtom, list);
+            primaryStore.set(serialListAtom, list);
         });
-        socket.on("serial_log", (msg) => {
+
+        // Log Events
+        socket.on("log", (msg) => {
             primaryStore.set(appendToLogAtom, msg);
         });
 
         // Network Table Events
-        socket.on("new_session", (sessionID: number) => {
-            console.log("Received new session from server");
-            primaryStore.set(currentSessionIDAtom, sessionID);
-            primaryStore.set(resetNTAtom);
-        });
-        socket.on("value_changed", (key: number, value: NTValue) => {
+        socket.on("value_changed", (key: number, value: NTValue, timestamp: number) => {
+            // TODO: Use timestamp to record value history
             console.log("Received value changed from server", key, value);
             primaryStore.set(ntValueAtomFamily(key), value);
         });

@@ -13,16 +13,17 @@ export default function SerialButton() {
             <Button
                 size={"small"}
                 variant={"text"}
-                color={serialState.isOpen ? "success" : "error"}
+                color={serialState?.isOpen ? "success" : "error"}
                 startIcon={
                     <SettingsInputHdmi
                         fontSize={"small"}
                         color={"inherit"}
                     />
                 }
+                sx={{paddingRight: 1, paddingLeft: 1}}
                 onClick={(e) => setAnchorEl(e.currentTarget)}
             >
-                {serialState.isOpen ? serialState.path : "Disconnected"}
+                {serialState?.isOpen ? serialState.path : "Disconnected"}
             </Button>
 
             <SerialPopover

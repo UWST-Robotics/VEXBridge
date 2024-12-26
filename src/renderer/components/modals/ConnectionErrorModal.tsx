@@ -1,50 +1,38 @@
 import useSocketStatus from "../../hooks/socket/useSocketStatus.ts";
-import {CircularProgress, Typography} from "@mui/material";
+import {CircularProgress} from "@mui/material";
+import useInitState from "../../hooks/initialization/useInitState.ts";
+import FullscreenModal from "./FullscreenModal.tsx";
+import InitState from "../../../types/InitState.ts";
+import {Warning} from "@mui/icons-material";
 
 export default function ConnectionErrorModal() {
     const socketStatus = useSocketStatus();
-    const isVisible = socketStatus !== "connected";
+    const initState = useInitState();
+
+    const isSocketDisconnected = socketStatus !== "connected";
+    const isInitializing = !isSocketDisconnected && initState === InitState.LOADING;
+    const isErrored = !isSocketDisconnected && initState === InitState.ERROR;
 
     return (
-        <div
-            style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                background: "rgba(0, 0, 0, 0.4)",
-                backdropFilter: "blur(2px)",
-
-                transition: "opacity 0.3s",
-                opacity: isVisible ? 1 : 0,
-                pointerEvents: isVisible ? "auto" : "none",
-            }}
-        >
-            <CircularProgress
-                size={40}
-                color={"inherit"}
-                sx={{margin: 1}}
-                thickness={6}
+        <>
+            <FullscreenModal
+                isVisible={isSocketDisconnected}
+                title={"Connecting..."}
+                message={"Trying to connect to the server. If this takes too long, try refreshing the page."}
+                icon={<CircularProgress size={40} color={"inherit"} thickness={6} sx={{margin: 1}}/>}
             />
-            <Typography
-                variant={"h4"}
-                color={"text.primary"}
-                sx={{textAlign: "center"}}
-            >
-                Connecting...
-            </Typography>
-            <Typography
-                variant={"body1"}
-                color={"text.secondary"}
-                sx={{textAlign: "center"}}
-            >
-                Trying to connect to the server. If this takes too long, try refreshing the page.
-            </Typography>
-        </div>
+            <FullscreenModal
+                isVisible={isInitializing}
+                title={"Downloading..."}
+                message={"Fetching the current session values from the server."}
+                icon={<CircularProgress size={40} color={"inherit"} thickness={6} sx={{margin: 1}}/>}
+            />
+            <FullscreenModal
+                isVisible={isErrored}
+                title={"Error"}
+                message={"An error occurred while retrieving data from the server. Please try refreshing the page."}
+                icon={<Warning color={"inherit"} sx={{fontSize: 50, margin: 1}}/>}
+            />
+        </>
     )
 }

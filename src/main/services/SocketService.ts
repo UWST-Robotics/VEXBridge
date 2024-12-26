@@ -2,10 +2,8 @@ import {Server} from "socket.io";
 import webService from "./WebService.ts";
 import serialService from "./serial/SerialService.ts";
 import logService from "./LogService.ts";
-import ntValueService from "./nt/NTValueService.ts";
-import sessionService from "./SessionService.ts";
+import ntService from "./NTService.ts";
 import serialPollingService from "./serial/SerialPollingService.ts";
-import ntKeyPathService from "./nt/NTKeyPathService.ts";
 
 /**
  * Manages the socket connection to the server
@@ -21,12 +19,11 @@ export class SocketService {
             serialPollingService.onListChange((list) => socket.emit("serial_list", list));
 
             // Log events
-            logService.onLog((msg) => socket.emit("serial_log", msg));
+            logService.onLog((msg) => socket.emit("log", msg));
 
             // NT events
-            sessionService.onSessionStarted((sessionInfo) => socket.emit("new_session", sessionInfo));
-            ntValueService.onValueChange((sessionID, key, value) => socket.emit("value_changed", sessionID, key, value));
-            ntKeyPathService.onKeyPathChange((sessionID, key, path) => socket.emit("key_path_changed", sessionID, key, path));
+            ntService.onValueChange((key, value, timestamp) => socket.emit("value_changed", key, value, timestamp));
+            ntService.onKeyPathChange((key, path) => socket.emit("key_path_changed", key, path));
         });
     }
 }

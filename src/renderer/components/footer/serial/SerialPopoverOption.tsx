@@ -15,8 +15,8 @@ export default function SerialPopoverOption(props: SerialOptionProps) {
 
     const {friendlyName, path, vexType} = props.port;
 
-    const isConnected = serialState.path === path && serialState.isOpen;
-    const isConnecting = serialState.targetPath === path && !isConnected;
+    const isConnected = serialState?.path === path && serialState.isOpen;
+    const isConnecting = serialState?.targetPath === path && !isConnected;
 
     const selectPort = () => setSerialPort(path?.toString() ?? "");
 

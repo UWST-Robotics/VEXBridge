@@ -7,7 +7,7 @@ export default function SerialAutoSelectPopoverOption() {
     const setSerialPort = useSetSerialPort();
     const serialState = useSerialState();
 
-    const isActive = serialState.autoSelect;
+    const isActive = serialState?.autoSelect;
 
     const selectPort = () => setSerialPort("", true).catch(console.error);
 

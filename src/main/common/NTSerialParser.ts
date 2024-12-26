@@ -1,8 +1,6 @@
 import Logger from "./Logger.ts";
-import sessionService from "../services/SessionService.ts";
-import ntValueService from "../services/nt/NTValueService.ts";
+import ntService from "../services/NTService.ts";
 import serialService from "../services/serial/SerialService.ts";
-import ntKeyPathService from "../services/nt/NTKeyPathService.ts";
 import logService from "../services/LogService.ts";
 
 export default class NTSerialParser {
@@ -15,8 +13,8 @@ export default class NTSerialParser {
 
         if (command === 0x01) {
 
-            // Start new session
-            sessionService.startSession().catch(this.onError);
+            // Reset all values
+            ntService.reset();
 
             // Ack
             this.writeAck();
@@ -27,7 +25,7 @@ export default class NTSerialParser {
             const key = buffer.readUInt16LE(1);
             const value = buffer.readInt32LE(3);
 
-            ntValueService.updateValue(key, value).catch(this.onError);
+            ntService.updateValue(key, value);
 
             // Ack
             this.writeAck();
@@ -39,7 +37,7 @@ export default class NTSerialParser {
             const valueLength = buffer.readUInt16LE(3);
             const value = buffer.toString("utf-8", 5, 5 + valueLength);
 
-            ntValueService.updateValue(key, value).catch(this.onError);
+            ntService.updateValue(key, value);
 
             // Ack
             this.writeAck();
@@ -50,7 +48,7 @@ export default class NTSerialParser {
             const key = buffer.readUInt16LE(1);
             const value = buffer.readDoubleLE(3);
 
-            ntValueService.updateValue(key, value).catch(this.onError);
+            ntService.updateValue(key, value);
 
             // Ack
             this.writeAck();
@@ -61,7 +59,7 @@ export default class NTSerialParser {
             const key = buffer.readUInt16LE(1);
             const value = buffer.readUInt8(3) === 1;
 
-            ntValueService.updateValue(key, value).catch(this.onError);
+            ntService.updateValue(key, value);
 
             // Ack
             this.writeAck();
@@ -73,7 +71,7 @@ export default class NTSerialParser {
             const pathLength = buffer.readUInt16LE(3);
             const path = buffer.toString("utf-8", 5, 5 + pathLength);
 
-            ntKeyPathService.setPathForKey(key, path).catch(this.onError);
+            ntService.setPathForKey(key, path);
 
             // Ack
             this.writeAck();

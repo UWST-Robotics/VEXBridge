@@ -51,9 +51,9 @@ export class SerialConnectionService {
         // Poll available serial ports
         const availableSerialPorts = await getAvailableSerialPorts();
 
-        // If auto selection is enabled, select a VEX system port
+        // If auto selection is enabled, select a VEX user port
         if (this.autoSelect) {
-            const vexPort = availableSerialPorts.find(port => port.vexType === VEXSerialType.SYSTEM);
+            const vexPort = availableSerialPorts.find(port => port.vexType === VEXSerialType.USER);
             if (vexPort)
                 this.targetPath = vexPort.path;
         }

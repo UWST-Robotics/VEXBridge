@@ -3,9 +3,10 @@ import http from "http";
 import {HTTP_PORT} from "../common/Constants.ts";
 import Logger from "../common/Logger.ts";
 import bodyParser from "body-parser";
-import sessionInfoRouter from "../routers/sessionInfoRouter.ts";
 import serialRouter from "../routers/serialRouter.ts";
 import rootRouter from "../routers/rootRouter.ts";
+import ntRouter from "../routers/ntRouter.ts";
+import logRouter from "../routers/logRouter.ts";
 
 /**
  * Manages HTTP requests and responses.
@@ -24,8 +25,9 @@ export class WebService {
         });
 
         // Routers
-        this.app.use("/api/sessions", sessionInfoRouter);
-        this.app.use("/api/serial", serialRouter);
+        this.app.use("/api/v1/log", logRouter);
+        this.app.use("/api/v1/values", ntRouter);
+        this.app.use("/api/v1/serial", serialRouter);
         this.app.use("/", rootRouter);
     }
 
