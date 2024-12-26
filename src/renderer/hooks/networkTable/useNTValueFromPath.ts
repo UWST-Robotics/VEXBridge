@@ -1,12 +1,16 @@
 import {atomFamily} from "jotai/utils";
 import {atom, useAtomValue} from "jotai";
+import {ntKeyFromPathAtomFamily} from "./useNTKeyFromPath.ts";
 import NTValue from "../../../types/nt/NTValue.ts";
-import {ntValueHistoryFromPathAtomFamily} from "./useNTValueHistoryFromPath.ts";
+import {ntValueAtomFamily} from "./useNTValue.ts";
 
 // Atoms
 export const ntValueFromPathAtomFamily = atomFamily((path: string) => atom<NTValue>((get) => {
-    const valueHistory = get(ntValueHistoryFromPathAtomFamily(path));
-    return valueHistory?.latestValue;
+    const key = get(ntKeyFromPathAtomFamily(path));
+    if (key === undefined)
+        return undefined;
+
+    return get(ntValueAtomFamily(key));
 }));
 
 // Hooks

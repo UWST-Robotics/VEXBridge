@@ -1,19 +1,19 @@
 import NTValue from "../../types/nt/NTValue.ts";
-import NTValueHistory from "../../types/nt/NTValueHistory.ts";
-import {keyPathChangedEvent, resetEvent, valueChangedEvent} from "./EventService.ts";
-import {MAX_VALUE_MEMORY} from "../common/Constants.ts";
+import {keyPathChangedEvent, resetEvent, valueChangedEvent} from "../common/EventHandler.ts";
 
 /**
  * Manages NT values
  */
 export class NTService {
-    private db: NTValueHistory[] = [];
+    private valueDB: Record<number, NTValue> = {};
+    private pathDB: Record<number, string> = {};
 
     constructor() {
 
         // Handle Reset Events
         resetEvent.on(() => {
-            this.db = [];
+            this.valueDB = {};
+            this.pathDB = {};
         });
     }
 
@@ -23,11 +23,9 @@ export class NTService {
      * @param path - The new path
      */
     setPathForKey(key: number, path: string) {
-        // Get value history from DB
-        const valueHistory = this.getValueHistory(key);
 
         // Update path
-        valueHistory.path = path;
+        this.pathDB[key] = path;
 
         // Emit an event
         keyPathChangedEvent.emit([key, path]);
@@ -40,52 +38,27 @@ export class NTService {
      */
     updateValue(key: number, value: NTValue) {
 
-        // Get value history from DB
-        const valueHistory = this.getValueHistory(key);
-        const timestamp = Date.now(); // Elapsed milliseconds between start time and current time
-
-        // Append value/timestamp to history
-        valueHistory.values.push(value);
-        valueHistory.timestamps.push(timestamp);
-
-        // Trim history to `MAX_VALUE_MEMORY` entries
-        if (valueHistory.values.length > MAX_VALUE_MEMORY) {
-            valueHistory.values = valueHistory.values.slice(-MAX_VALUE_MEMORY);
-            valueHistory.timestamps = valueHistory.timestamps.slice(-MAX_VALUE_MEMORY);
-        }
+        // Update value
+        this.valueDB[key] = value;
 
         // Emit an event
-        valueChangedEvent.emit([key, value, timestamp]);
+        valueChangedEvent.emit([key, value]);
     }
 
     /**
-     * Gets the history of values for a key
-     * @param key - The key to get the history for
-     * @returns The history of values for the key
+     * Gets an NT record for a given key
+     * @returns The NT record
      */
-    getValueHistory(key: number): NTValueHistory {
-        // Find the value history for the key
-        let valueHistory = this.db.find((valueHistory) => valueHistory.key === key);
-
-        // If not found, create a new value history
-        if (!valueHistory) {
-            valueHistory = {
-                key: key,
-                values: [],
-                timestamps: [],
-                latestValue: null,
-            };
-            this.db.push(valueHistory);
-        }
-
-        return valueHistory;
+    getAllValues(): Record<number, NTValue> {
+        return this.valueDB;
     }
 
     /**
-     * Gets all the value keys
+     * Gets all key-path pairs
+     * @returns The key-path pairs
      */
-    getAllValueKeys() {
-        return this.db.map((valueHistory) => valueHistory.key);
+    getAllPaths(): Record<number, string> {
+        return this.pathDB;
     }
 }
 

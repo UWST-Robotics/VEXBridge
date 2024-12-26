@@ -1,12 +1,12 @@
 import {Line} from "recharts";
-import useNTValueHistoryFromPath from "../../../../hooks/networkTable/useNTValueHistoryFromPath.ts";
+import useNTValueFromPath from "../../../../hooks/networkTable/useNTValueHistoryFromPath.ts";
 
 export interface SelectedValueChartLineProps {
     path: string;
 }
 
 export default function SelectedValueChartRenderer(props: SelectedValueChartLineProps) {
-    const valueHistory = useNTValueHistoryFromPath(props.path);
+    const valueHistory = useNTValueFromPath(props.path);
     const values = valueHistory?.values;
 
     return (

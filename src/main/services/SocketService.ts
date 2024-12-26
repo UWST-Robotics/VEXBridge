@@ -7,7 +7,7 @@ import {
     serialListEvent,
     serialStateEvent,
     valueChangedEvent
-} from "./EventService.ts";
+} from "../common/EventHandler.ts";
 import Logger from "../common/Logger.ts";
 
 /**

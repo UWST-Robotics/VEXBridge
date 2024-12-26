@@ -7,25 +7,13 @@ export default ntRouter;
 ntRouter.get("/", (_, res) => {
 
     // Get the value keys from the database
-    const allValueKeys = ntService.getAllValueKeys();
-    res.json(allValueKeys);
+    const allValues = ntService.getAllValues();
+    res.json(allValues);
 });
 
-ntRouter.get("/:valueKey", (req, res) => {
+ntRouter.get("/paths", (_, res) => {
 
-    // Get the value key from the URL
-    const valueKey = parseInt(req.params.valueKey);
-    if (isNaN(valueKey)) {
-        res.status(400).send("Invalid value key");
-        return;
-    }
-
-    // Get the current value from the database
-    const value = ntService.getValueHistory(valueKey);
-    if (value === null) {
-        res.status(404).send("Value not found");
-        return;
-    }
-
-    res.json(value);
+    // Get the value keys from the database
+    const allPaths = ntService.getAllPaths();
+    res.json(allPaths);
 });

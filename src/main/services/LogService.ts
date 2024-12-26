@@ -1,4 +1,4 @@
-import {logEvent, resetEvent} from "./EventService.ts";
+import {logEvent, resetEvent} from "../common/EventHandler.ts";
 
 /**
  * Manages log messages relayed to the client

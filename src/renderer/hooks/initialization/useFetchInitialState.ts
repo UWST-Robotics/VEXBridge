@@ -2,13 +2,13 @@ import {atom, useSetAtom} from "jotai";
 import fetchAPIEndpoint from "../../utils/fetchAPIEndpoint.ts";
 import {serialStateAtom} from "../serialPorts/useSerialState.ts";
 import {serialListAtom} from "../serialPorts/useSerialList.ts";
-import NTValueHistory from "../../../types/nt/NTValueHistory.ts";
 import {resetNTAtom} from "../networkTable/actions/useResetNT.ts";
 import {initStateAtom} from "./useInitState.ts";
 import InitState from "../../../types/InitState.ts";
 import {setNTKeyFromPathAtom} from "../networkTable/actions/useSetNTKeyFromPath.ts";
-import {ntValueHistoryAtomFamily} from "../networkTable/useNTValueHistory.ts";
+import {ntValueAtomFamily} from "../networkTable/useNTValue.ts";
 import {logAtom} from "../log/useLog.ts";
+import NTValue from "../../../types/nt/NTValue.ts";
 
 // Atoms
 export const fetchInitialStateAtom = atom(null, async (_, set) => {
@@ -22,15 +22,18 @@ export const fetchInitialStateAtom = atom(null, async (_, set) => {
         set(serialListAtom, await fetchAPIEndpoint("/serial/list"));
         set(logAtom, await fetchAPIEndpoint("/log"));
 
-        // Get Value History from DB
-        const valueKeys = await fetchAPIEndpoint<number[]>("/values");
-        for (const valueKey of valueKeys) {
-            const valueHistory = await fetchAPIEndpoint<NTValueHistory>(`/values/${valueKey}`);
+        // Get Paths from DB
+        const pathDB = await fetchAPIEndpoint<Record<number, string>>("/values/paths");
+        for (const key in pathDB) {
+            const path = pathDB[key];
+            set(setNTKeyFromPathAtom, path, parseInt(key));
+        }
 
-            // Update Network Table
-            set(ntValueHistoryAtomFamily(valueHistory.key), valueHistory);
-            if (valueHistory.path)
-                set(setNTKeyFromPathAtom, valueHistory.path, valueHistory.key);
+        // Get Value History from DB
+        const valueDB = await fetchAPIEndpoint<Record<number, NTValue>>("/values");
+        for (const key in valueDB) {
+            const value = valueDB[key];
+            set(ntValueAtomFamily(parseInt(key)), value);
         }
 
         // Set the state to loaded

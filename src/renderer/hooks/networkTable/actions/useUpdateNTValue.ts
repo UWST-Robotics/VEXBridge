@@ -1,28 +1,20 @@
 import {atom, useSetAtom} from "jotai";
 import NTValue from "../../../../types/nt/NTValue.ts";
+import {ntValueAtomFamily} from "../useNTValue.ts";
 import {ntValueHistoryAtomFamily} from "../useNTValueHistory.ts";
 
-export const updateNTValueAtom = atom(null, (get, set, key: number, value: NTValue, timestamp: number) => {
+const MAX_VALUE_MEMORY = 2000;
 
-    // Get the value history
-    let ntValueHistory = get(ntValueHistoryAtomFamily(key));
+export const updateNTValueAtom = atom(null, (_, set, key: number, value: NTValue) => {
 
-    // If the value history doesn't exist, create it
-    if (!ntValueHistory)
-        ntValueHistory = {
-            key,
-            values: [],
-            timestamps: [],
-            latestValue: value
-        };
-
-    // Update the atom
-    set(ntValueHistoryAtomFamily(key), {
-        ...ntValueHistory,
-        values: [...ntValueHistory.values, value],
-        timestamps: [...ntValueHistory.timestamps, timestamp],
-        latestValue: value
+    set(ntValueHistoryAtomFamily(key), (prev) => {
+        return [...prev, {
+            value,
+            timestamp: Date.now()
+        }].slice(-MAX_VALUE_MEMORY);
     });
+
+    set(ntValueAtomFamily(key), value);
 });
 
 export default function useUpdateNTValue() {

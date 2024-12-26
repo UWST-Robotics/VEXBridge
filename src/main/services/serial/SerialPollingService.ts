@@ -1,6 +1,6 @@
 import getAvailableSerialPorts from "../../common/getAvailableSerialPorts.ts";
 import {SERIAL_POLLING_INTERVAL} from "../../common/Constants.ts";
-import {serialListEvent} from "../EventService.ts";
+import {serialListEvent} from "../../common/EventHandler.ts";
 
 export class SerialPollingService {
     private lastSerialPaths: string[] = [];

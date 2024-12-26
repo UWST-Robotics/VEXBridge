@@ -55,10 +55,10 @@ export default function useConnectToSocket() {
 
         // Network Table Events
         socket.on("value_changed", (payload: [number, NTValue, number]) => {
-            const [key, value, timestamp] = payload;
+            const [key, value] = payload;
 
             console.log("Received value changed from server", key, value);
-            primaryStore.set(updateNTValueAtom, key, value, timestamp);
+            primaryStore.set(updateNTValueAtom, key, value);
         });
         socket.on("key_path_changed", (payload: [number, string]) => {
             const [key, path] = payload;

@@ -6,7 +6,7 @@ import {BAUD_RATE, RTS_PIN} from "../../common/Constants.ts";
 import SerialState from "../../../types/serial/SerialState.ts";
 import Logger from "../../common/Logger.ts";
 import serialConnectionService from "./SerialConnectionService.ts";
-import {serialStateEvent} from "../EventService.ts";
+import {serialStateEvent} from "../../common/EventHandler.ts";
 
 /**
  * Handles serial communication with the VEX V5 brain

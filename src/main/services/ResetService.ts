@@ -1,4 +1,4 @@
-import {resetEvent} from "./EventService.ts";
+import {resetEvent} from "../common/EventHandler.ts";
 
 /**
  * Service for handling reset events

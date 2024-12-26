@@ -27,5 +27,5 @@ export const resetEvent = new EventHandler<void>();
 export const logEvent = new EventHandler<string>();
 export const serialStateEvent = new EventHandler<SerialState>();
 export const serialListEvent = new EventHandler<VEXSerialPortInfo[]>();
-export const valueChangedEvent = new EventHandler<[number, NTValue, number]>(); // key, value, timestamp
+export const valueChangedEvent = new EventHandler<[number, NTValue]>(); // key, value
 export const keyPathChangedEvent = new EventHandler<[number, string]>(); // key, path

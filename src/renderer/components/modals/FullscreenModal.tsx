@@ -22,8 +22,8 @@ export default function FullscreenModal(props: FullscreenModalProps) {
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                background: "rgba(0, 0, 0, 0.4)",
-                backdropFilter: "blur(2px)",
+                background: "rgba(0, 0, 0, 0.5)",
+                backdropFilter: "blur(3px)",
                 zIndex: 1400,
 
                 transition: "opacity 0.3s",
