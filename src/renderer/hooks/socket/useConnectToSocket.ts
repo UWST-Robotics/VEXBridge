@@ -8,7 +8,8 @@ import {appendToLogAtom} from "../log/useAppendToLog.ts";
 import {serialListAtom} from "../serialPorts/useSerialList.ts";
 import {fetchInitialStateAtom} from "../initialization/useFetchInitialState.ts";
 import {setNTKeyFromPathAtom} from "../networkTable/actions/useSetNTKeyFromPath.ts";
-import {ntValueAtomFamily} from "../networkTable/useNTValue.ts";
+import {updateNTValueAtom} from "../networkTable/actions/useUpdateNTValue.ts";
+import {resetNTAtom} from "../networkTable/actions/useResetNT.ts";
 
 export default function useConnectToSocket() {
     const socket = useSocket();
@@ -26,30 +27,42 @@ export default function useConnectToSocket() {
             primaryStore.set(socketStatusAtom, "disconnected");
         });
         socket.on("disconnect", () => {
-            console.log("Disconnected from lib");
+            console.log("Disconnected from socket");
             primaryStore.set(socketStatusAtom, "disconnected");
+        });
+
+        // Reset Events
+        socket.on("reset", () => {
+            console.log("Received reset from server");
+            primaryStore.set(resetNTAtom);
         });
 
         // Serial Events
         socket.on("serial_state", (state) => {
+            console.log("Received serial state from server", state);
             primaryStore.set(serialStateAtom, state);
         });
         socket.on("serial_list", (list) => {
+            console.log("Received serial list from server", list);
             primaryStore.set(serialListAtom, list);
         });
 
         // Log Events
         socket.on("log", (msg) => {
+            console.log("Received log from server", msg);
             primaryStore.set(appendToLogAtom, msg);
         });
 
         // Network Table Events
-        socket.on("value_changed", (key: number, value: NTValue, timestamp: number) => {
-            // TODO: Use timestamp to record value history
+        socket.on("value_changed", (payload: [number, NTValue, number]) => {
+            const [key, value, timestamp] = payload;
+
             console.log("Received value changed from server", key, value);
-            primaryStore.set(ntValueAtomFamily(key), value);
+            primaryStore.set(updateNTValueAtom, key, value, timestamp);
         });
-        socket.on("key_path_changed", (key: number, path: string) => {
+        socket.on("key_path_changed", (payload: [number, string]) => {
+            const [key, path] = payload;
+
             console.log("Received key path changed from server", key, path);
             primaryStore.set(setNTKeyFromPathAtom, path, key);
         });

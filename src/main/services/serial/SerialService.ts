@@ -5,15 +5,14 @@ import NTSerialParser from "../../common/NTSerialParser.ts";
 import {BAUD_RATE, RTS_PIN} from "../../common/Constants.ts";
 import SerialState from "../../../types/serial/SerialState.ts";
 import Logger from "../../common/Logger.ts";
-import {EventEmitter} from "events";
 import serialConnectionService from "./SerialConnectionService.ts";
+import {serialStateEvent} from "../EventService.ts";
 
 /**
  * Handles serial communication with the VEX V5 brain
  */
 export class SerialService {
 
-    private eventEmitter = new EventEmitter();
     private rtsPin: Gpio | undefined;
     private hardware: SerialPort | undefined;
     private vexParser = new VEXSerialParser();
@@ -84,15 +83,7 @@ export class SerialService {
      * Called after any state change.
      */
     emitState() {
-        this.eventEmitter.emit("serial_state", this.getState());
-    }
-
-    /**
-     * Listens for changes to the serial state
-     * @param callback - The callback to call when the state changes
-     */
-    onStateChange(callback: (state: SerialState) => void) {
-        this.eventEmitter.on("serial_state", callback);
+        serialStateEvent.emit(this.getState());
     }
 
     /**

@@ -3,7 +3,7 @@ import {SettingsEthernet} from "@mui/icons-material";
 import VEXSerialTypeIcon from "./VEXSerialTypeIcon.tsx";
 import VEXSerialPortInfo from "../../../../types/serial/VEXSerialPortInfo.ts";
 import useSerialState from "../../../hooks/serialPorts/useSerialState.ts";
-import useSetSerialPort from "../../../hooks/api/actions/useSetSerialPort.ts";
+import useSetSerialPort from "../../../hooks/serialPorts/actions/useSetSerialPort.ts";
 
 export interface SerialOptionProps {
     port: VEXSerialPortInfo;

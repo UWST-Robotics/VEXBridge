@@ -2,6 +2,7 @@ import Logger from "./Logger.ts";
 import ntService from "../services/NTService.ts";
 import serialService from "../services/serial/SerialService.ts";
 import logService from "../services/LogService.ts";
+import resetService from "../services/ResetService.ts";
 
 export default class NTSerialParser {
     onData(data: string) {
@@ -13,8 +14,8 @@ export default class NTSerialParser {
 
         if (command === 0x01) {
 
-            // Reset all values
-            ntService.reset();
+            // Call for reset
+            resetService.reset();
 
             // Ack
             this.writeAck();

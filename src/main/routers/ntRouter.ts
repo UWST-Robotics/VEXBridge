@@ -7,8 +7,8 @@ export default ntRouter;
 ntRouter.get("/", (_, res) => {
 
     // Get the value keys from the database
-    const allValueHistories = ntService.getAllValueHistories();
-    res.json(allValueHistories);
+    const allValueKeys = ntService.getAllValueKeys();
+    res.json(allValueKeys);
 });
 
 ntRouter.get("/:valueKey", (req, res) => {

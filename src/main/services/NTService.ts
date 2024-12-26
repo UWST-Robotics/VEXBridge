@@ -1,21 +1,20 @@
 import NTValue from "../../types/nt/NTValue.ts";
-import {EventEmitter} from "events";
 import NTValueHistory from "../../types/nt/NTValueHistory.ts";
+import {keyPathChangedEvent, resetEvent, valueChangedEvent} from "./EventService.ts";
+import {MAX_VALUE_MEMORY} from "../common/Constants.ts";
 
 /**
  * Manages NT values
  */
 export class NTService {
-    private eventEmitter = new EventEmitter();
     private db: NTValueHistory[] = [];
-    private startTime = 0;
 
-    /**
-     * Resets DB to initial state and marks the start time
-     */
-    reset() {
-        this.db = [];
-        this.startTime = Date.now();
+    constructor() {
+
+        // Handle Reset Events
+        resetEvent.on(() => {
+            this.db = [];
+        });
     }
 
     /**
@@ -31,9 +30,8 @@ export class NTService {
         valueHistory.path = path;
 
         // Emit an event
-        this.eventEmitter.emit("key_path_changed", key, path);
+        keyPathChangedEvent.emit([key, path]);
     }
-
 
     /**
      * Updates the value of a key
@@ -44,30 +42,20 @@ export class NTService {
 
         // Get value history from DB
         const valueHistory = this.getValueHistory(key);
-        const timestamp = Date.now() - this.startTime; // Elapsed milliseconds between start time and current time
+        const timestamp = Date.now(); // Elapsed milliseconds between start time and current time
 
         // Append value/timestamp to history
         valueHistory.values.push(value);
         valueHistory.timestamps.push(timestamp);
 
+        // Trim history to `MAX_VALUE_MEMORY` entries
+        if (valueHistory.values.length > MAX_VALUE_MEMORY) {
+            valueHistory.values = valueHistory.values.slice(-MAX_VALUE_MEMORY);
+            valueHistory.timestamps = valueHistory.timestamps.slice(-MAX_VALUE_MEMORY);
+        }
+
         // Emit an event
-        this.eventEmitter.emit("value_changed", key, value, timestamp);
-    }
-
-    /**
-     * Called when a value is updated
-     * @param callback - The callback to call when a value is updated
-     */
-    onValueChange(callback: (key: number, value: NTValue, timestamp: number) => void) {
-        this.eventEmitter.on("value_changed", callback);
-    }
-
-    /**
-     * Called when a key's path is updated
-     * @param callback - The callback to call when a key's path is updated
-     */
-    onKeyPathChange(callback: (key: number, path: string) => void) {
-        this.eventEmitter.on("key_path_changed", callback);
+        valueChangedEvent.emit([key, value, timestamp]);
     }
 
     /**
@@ -84,7 +72,8 @@ export class NTService {
             valueHistory = {
                 key: key,
                 values: [],
-                timestamps: []
+                timestamps: [],
+                latestValue: null,
             };
             this.db.push(valueHistory);
         }
@@ -93,10 +82,10 @@ export class NTService {
     }
 
     /**
-     * Gets all the value histories for a session
+     * Gets all the value keys
      */
-    getAllValueHistories() {
-        return this.db;
+    getAllValueKeys() {
+        return this.db.map((valueHistory) => valueHistory.key);
     }
 }
 

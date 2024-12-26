@@ -7,7 +7,7 @@ import {resetNTAtom} from "../networkTable/actions/useResetNT.ts";
 import {initStateAtom} from "./useInitState.ts";
 import InitState from "../../../types/InitState.ts";
 import {setNTKeyFromPathAtom} from "../networkTable/actions/useSetNTKeyFromPath.ts";
-import {ntValueAtomFamily} from "../networkTable/useNTValue.ts";
+import {ntValueHistoryAtomFamily} from "../networkTable/useNTValueHistory.ts";
 import {logAtom} from "../log/useLog.ts";
 
 // Atoms
@@ -23,12 +23,12 @@ export const fetchInitialStateAtom = atom(null, async (_, set) => {
         set(logAtom, await fetchAPIEndpoint("/log"));
 
         // Get Value History from DB
-        const valueHistoryDB = await fetchAPIEndpoint<NTValueHistory[]>("/values");
-        for (const valueHistory of valueHistoryDB) {
-            const latestValue = valueHistory.values[valueHistory.values.length - 1];
+        const valueKeys = await fetchAPIEndpoint<number[]>("/values");
+        for (const valueKey of valueKeys) {
+            const valueHistory = await fetchAPIEndpoint<NTValueHistory>(`/values/${valueKey}`);
 
             // Update Network Table
-            set(ntValueAtomFamily(valueHistory.key), latestValue);
+            set(ntValueHistoryAtomFamily(valueHistory.key), valueHistory);
             if (valueHistory.path)
                 set(setNTKeyFromPathAtom, valueHistory.path, valueHistory.key);
         }

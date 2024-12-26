@@ -8,6 +8,7 @@ import NTValue from "./NTValue.ts";
 export default interface NTValueHistory {
     key: number;
     path?: string;
+    latestValue: NTValue;
     values: NTValue[];
     timestamps: number[];
 }

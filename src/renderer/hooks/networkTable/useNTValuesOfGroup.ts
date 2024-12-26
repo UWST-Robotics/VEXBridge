@@ -17,7 +17,7 @@ export const ntValuesOfGroupAtomFamily = atomFamily((path: string) => atom((get)
     const getValues = (group: NTGroupInfo) => {
 
         // Get Values
-        values[group.path] = get(ntValueFromPathAtomFamily(group.path));
+        values[group.path] = get(ntValueFromPathAtomFamily(group.path))?.latestValue;
 
         // Recursively Get Values
         for (const child of group.children)

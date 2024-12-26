@@ -1,11 +1,17 @@
-import {EventEmitter} from "events";
+import {logEvent, resetEvent} from "./EventService.ts";
 
 /**
  * Manages log messages relayed to the client
  */
 export class LogService {
-    private eventEmitter = new EventEmitter();
-    private fullLogTest = "";
+    private fullLogTest = "\x1b[90m --- start of log --- \x1b[0m\n";
+
+    constructor() {
+        // Handle Reset Events
+        resetEvent.on(() => {
+            this.log("\x1b[90m --- reset --- \x1b[0m\n");
+        });
+    }
 
     /**
      * Adds a log message
@@ -13,15 +19,7 @@ export class LogService {
      */
     log(message: string) {
         this.fullLogTest += message;
-        this.eventEmitter.emit("log", message);
-    }
-
-    /**
-     * Listens for log events and fires the callback
-     * @param callback - Callback for log messages
-     */
-    onLog(callback: (message: string) => void) {
-        this.eventEmitter.on("log", callback);
+        logEvent.emit("log", message);
     }
 
     /**

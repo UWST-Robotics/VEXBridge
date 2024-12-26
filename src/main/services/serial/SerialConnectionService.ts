@@ -12,7 +12,7 @@ export class SerialConnectionService {
     /**
      * Continuously polls the serial ports for VEX system ports.
      */
-    constructor() {
+    init() {
         setInterval(this.poll.bind(this), SERIAL_POLLING_INTERVAL);
     }
 

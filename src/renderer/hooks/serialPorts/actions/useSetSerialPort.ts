@@ -1,6 +1,6 @@
 import {atom, useSetAtom} from "jotai";
 
-const API_ENDPOINT = "/api/serial";
+const API_ENDPOINT = "/api/v1/serial";
 
 export const setSerialPortAtom = atom(null, async (_get, _set, serialPath: string, autoSelect = false) => {
     const apiBody = {

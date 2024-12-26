@@ -1,9 +1,14 @@
 import {Server} from "socket.io";
 import webService from "./WebService.ts";
-import serialService from "./serial/SerialService.ts";
-import logService from "./LogService.ts";
-import ntService from "./NTService.ts";
-import serialPollingService from "./serial/SerialPollingService.ts";
+import {
+    keyPathChangedEvent,
+    logEvent,
+    resetEvent,
+    serialListEvent,
+    serialStateEvent,
+    valueChangedEvent
+} from "./EventService.ts";
+import Logger from "../common/Logger.ts";
 
 /**
  * Manages the socket connection to the server
@@ -12,18 +17,24 @@ export class SocketService {
     private socketServer = new Server(webService.httpServer);
 
     init() {
+        // Connect Event Listeners
+        resetEvent.on(() => this.socketServer.emit("reset"));
+        serialStateEvent.on((state) => this.socketServer.emit("serial_state", state));
+        serialListEvent.on((list) => this.socketServer.emit("serial_list", list));
+        logEvent.on((msg) => this.socketServer.emit("log", msg));
+        valueChangedEvent.on((payload) => this.socketServer.emit("value_changed", payload));
+        keyPathChangedEvent.on((payload) => this.socketServer.emit("key_path_changed", payload));
+
         this.socketServer.on("connection", (socket) => {
 
-            // Serial events
-            serialService.onStateChange((state) => socket.emit("serial_state", state));
-            serialPollingService.onListChange((list) => socket.emit("serial_list", list));
+            // Log Connection
+            Logger.info(`Client connected: ${socket.id}`);
 
-            // Log events
-            logService.onLog((msg) => socket.emit("log", msg));
+            socket.on("disconnect", () => {
 
-            // NT events
-            ntService.onValueChange((key, value, timestamp) => socket.emit("value_changed", key, value, timestamp));
-            ntService.onKeyPathChange((key, path) => socket.emit("key_path_changed", key, path));
+                // Log Disconnection
+                Logger.info(`Client disconnected: ${socket.id}`);
+            });
         });
     }
 }

@@ -1,6 +1,6 @@
 import {ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 import useSerialState from "../../../hooks/serialPorts/useSerialState.ts";
-import useSetSerialPort from "../../../hooks/api/actions/useSetSerialPort.ts";
+import useSetSerialPort from "../../../hooks/serialPorts/actions/useSetSerialPort.ts";
 import {AutoAwesome} from "@mui/icons-material";
 
 export default function SerialAutoSelectPopoverOption() {

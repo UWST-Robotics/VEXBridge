@@ -1,13 +1,9 @@
 import FlexNumericInput from "../../common/FlexNumericInput.tsx";
 import {Box} from "@mui/material";
+import useMaxTimeWindow from "../../../hooks/graph/useMaxTimeWindow.ts";
 
 export default function MaxTimeWindowInput() {
-    //const [maxTimeWindow, setMaxTimeWindow] = useMaxTimeWindow();
-
-    // TODO: Implement useMaxTimeWindow hook
-    const maxTimeWindow = 10000;
-    const setMaxTimeWindow = (_: number) => {
-    };
+    const [maxTimeWindow, setMaxTimeWindow] = useMaxTimeWindow();
 
     return (
         <Box

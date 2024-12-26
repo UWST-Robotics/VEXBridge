@@ -4,6 +4,7 @@ import useNTGroupInfo from "../../../../hooks/ntGroupInfo/useNTGroupInfo.ts";
 import useDeselectPath from "../../../../hooks/selectedPath/actions/useDeselectPath.ts";
 import {Clear} from "@mui/icons-material";
 import useNTValueFromPath from "../../../../hooks/networkTable/useNTValueFromPath.ts";
+import useNTValueStats from "../../../../hooks/stats/useNTValueStats.ts";
 
 export interface SelectedValueTableRowProps {
     path: string;
@@ -12,15 +13,8 @@ export interface SelectedValueTableRowProps {
 export default function SelectedValueTableRow(props: SelectedValueTableRowProps) {
     const groupInfo = useNTGroupInfo(props.path);
     const value = useNTValueFromPath(props.path);
-    //const stats = usePathStats(props.path);
+    const stats = useNTValueStats(props.path);
     const deselectPath = useDeselectPath();
-
-    // TODO: Implement usePathStats
-    const stats = {
-        min: 0,
-        max: 0,
-        average: 0
-    };
 
     return (
         <TableRow hover>

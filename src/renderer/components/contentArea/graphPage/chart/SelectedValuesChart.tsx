@@ -1,19 +1,12 @@
 import {CartesianGrid, Legend, Line, LineChart, ReferenceLine, ResponsiveContainer, XAxis, YAxis} from "recharts";
 import useCurrentTime from "../../../../hooks/common/useCurrentTime.ts";
+import useMaxTimeWindow from "../../../../hooks/graph/useMaxTimeWindow.ts";
+import useGraphValues from "../../../../hooks/graph/useGraphValues.ts";
 
 export default function SelectedValuesChart() {
-    const currentTime = useCurrentTime(50);
-    //const [maxTimeWindow] = useMaxTimeWindow();
-    //const chartValues = useChartValues();
-    // TODO: Fix me
-    const maxTimeWindow = 0;
-    const chartValues: {
-        path: string;
-        name: string;
-        color: string;
-        value: number;
-        values: { time: number, value: number }[];
-    }[] = [];
+    const currentTime = useCurrentTime(30);
+    const [maxTimeWindow] = useMaxTimeWindow();
+    const graphValues = useGraphValues();
 
     // Time Functions
     const formatTime = (time: number) => {
@@ -37,7 +30,7 @@ export default function SelectedValuesChart() {
                     tickFormatter={(value: number) => value.toFixed(2)}
                 />
                 <XAxis
-                    dataKey={"time"}
+                    dataKey={"timestamp"}
                     type={"number"}
                     allowDataOverflow={true}
                     domain={[currentTime - maxTimeWindow, currentTime]}
@@ -45,28 +38,32 @@ export default function SelectedValuesChart() {
                 />
                 <Legend/>
 
-                {/* Values over Time */}
-                {chartValues.map((chartValue) => (
-                    <>
-                        <Line
-                            type={"monotone"}
-                            name={chartValue.path}
-                            dataKey={"value"}
-                            data={chartValue.values}
-                            stroke={chartValue.color}
-                            dot={false}
-                            isAnimationActive={false}
-                        />
-                        <ReferenceLine
-                            y={chartValue.value}
-                            stroke={"#fff"}
-                            strokeDasharray={"3 3"}
-                            label={{
-                                value: `${chartValue.name}: ${chartValue.value?.toFixed(2)}`,
-                                position: "insideBottomRight"
-                            }}
-                        />
-                    </>
+                {/* History Line */}
+                {graphValues.map((graphData) => (
+                    <Line
+                        key={graphData.path}
+                        type={"stepAfter"}
+                        name={graphData.path}
+                        dataKey={"value"}
+                        data={graphData.values}
+                        stroke={graphData.color}
+                        dot={false}
+                        isAnimationActive={false}
+                    />
+                ))}
+
+                {/* Current Line */}
+                {graphValues.map((graphData) => (
+                    <ReferenceLine
+                        key={graphData.path}
+                        y={graphData.value}
+                        stroke={"#fff"}
+                        strokeDasharray={"3 3"}
+                        label={{
+                            value: `${graphData.name}: ${graphData.value?.toFixed(2)}`,
+                            position: "insideBottomRight"
+                        }}
+                    />
                 ))}
             </LineChart>
         </ResponsiveContainer>
