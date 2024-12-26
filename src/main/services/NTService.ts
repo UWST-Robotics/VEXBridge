@@ -42,7 +42,7 @@ export class NTService {
         this.valueDB[key] = value;
 
         // Emit an event
-        valueChangedEvent.emit([key, value]);
+        valueChangedEvent.emit([key, value, Date.now()]);
     }
 
     /**

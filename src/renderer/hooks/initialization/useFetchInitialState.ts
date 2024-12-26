@@ -23,7 +23,7 @@ export const fetchInitialStateAtom = atom(null, async (_, set) => {
         set(logAtom, await fetchAPIEndpoint("/log"));
 
         // Get Paths from DB
-        const pathDB = await fetchAPIEndpoint<Record<number, string>>("/values/paths");
+        const pathDB = await fetchAPIEndpoint<Record<number, string>>("/paths");
         for (const key in pathDB) {
             const path = pathDB[key];
             set(setNTKeyFromPathAtom, path, parseInt(key));

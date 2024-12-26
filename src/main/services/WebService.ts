@@ -5,8 +5,9 @@ import Logger from "../common/Logger.ts";
 import bodyParser from "body-parser";
 import serialRouter from "../routers/serialRouter.ts";
 import rootRouter from "../routers/rootRouter.ts";
-import ntRouter from "../routers/ntRouter.ts";
+import ntPathsRouter from "../routers/ntPathsRouter.ts";
 import logRouter from "../routers/logRouter.ts";
+import ntValuesRouter from "../routers/ntValuesRouter.ts";
 
 /**
  * Manages HTTP requests and responses.
@@ -26,7 +27,8 @@ export class WebService {
 
         // Routers
         this.app.use("/api/v1/log", logRouter);
-        this.app.use("/api/v1/values", ntRouter);
+        this.app.use("/api/v1/values", ntValuesRouter);
+        this.app.use("/api/v1/paths", ntPathsRouter);
         this.app.use("/api/v1/serial", serialRouter);
         this.app.use("/", rootRouter);
     }

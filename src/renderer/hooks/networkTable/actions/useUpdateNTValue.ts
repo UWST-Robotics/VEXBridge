@@ -3,15 +3,19 @@ import NTValue from "../../../../types/nt/NTValue.ts";
 import {ntValueAtomFamily} from "../useNTValue.ts";
 import {ntValueHistoryAtomFamily} from "../useNTValueHistory.ts";
 
-const MAX_VALUE_MEMORY = 2000;
+const MAX_VALUE_MEMORY = 10000;
 
-export const updateNTValueAtom = atom(null, (_, set, key: number, value: NTValue) => {
-
+export const updateNTValueAtom = atom(null, (_, set, key: number, value: NTValue, timestamp: number) => {
     set(ntValueHistoryAtomFamily(key), (prev) => {
-        return [...prev, {
+        const next = [...prev, {
             value,
-            timestamp: Date.now()
-        }].slice(-MAX_VALUE_MEMORY);
+            timestamp
+        }];
+
+        if (next.length > MAX_VALUE_MEMORY)
+            next.shift();
+
+        return next;
     });
 
     set(ntValueAtomFamily(key), value);

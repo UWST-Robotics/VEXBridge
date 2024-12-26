@@ -1,4 +1,5 @@
 import {logEvent, resetEvent} from "../common/EventHandler.ts";
+import {MAX_LOG_MEMORY} from "../common/Constants.ts";
 
 /**
  * Manages log messages relayed to the client
@@ -19,7 +20,9 @@ export class LogService {
      */
     log(message: string) {
         this.fullLogTest += message;
-        logEvent.emit("log", message);
+        if (this.fullLogTest.length > MAX_LOG_MEMORY)
+            this.fullLogTest = this.fullLogTest.slice(-MAX_LOG_MEMORY);
+        logEvent.emit(message);
     }
 
     /**
