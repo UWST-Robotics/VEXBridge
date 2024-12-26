@@ -1,4 +1,4 @@
-import NTValue from "../types/nt/NTValue.ts";
+import NTValue from "../../types/nt/NTValue.ts";
 
 export default function networkValueToString(value: NTValue) {
     if (typeof value === "string")

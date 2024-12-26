@@ -1,4 +1,4 @@
-import NTValue from "../types/nt/NTValue.ts";
+import NTValue from "../../types/nt/NTValue.ts";
 
 export default function parseNetworkValueToNumber(value?: NTValue) {
     if (value === undefined)

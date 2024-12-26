@@ -21,11 +21,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'npm'
-      - name: Install dependencies
-        run: npm install
+          cache: 'yarn'
+      - name: Install Dependencies
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
       - name: Build
-        run: npm run build
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:

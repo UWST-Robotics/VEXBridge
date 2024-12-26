@@ -1,4 +1,5 @@
-> ⚠️ **WARNING:** Hey, BlueBox is still a WIP project. If you run into any bugs or issues, don\'t hesitate to report them in the [issues tab](https://github.com/UWST-Robotics/BlueBox/issues).
+> ⚠️ **WARNING:** Hey, BlueBox is still a WIP project. If you run into any bugs or issues, don\'t hesitate to report
+> them in the [issues tab](https://github.com/UWST-Robotics/BlueBox/issues).
 
 <h1 align="center">
 BlueBox 🟦
@@ -12,8 +13,6 @@ In order to test autonomous routines on mobile robotic systems, receiving feedba
 <img alt="VEX Brain connects to Raspberry Pi over USB then to PC over WiFi" src="https://i.imgur.com/QXTK3qu.png">
 </p>
 
-
-
 ## Features
 
 - 📡 Wireless event log and data communication
@@ -24,14 +23,17 @@ In order to test autonomous routines on mobile robotic systems, receiving feedba
 
 ## Building
 
-1. Install [Node.js](https://nodejs.org/en) w/ NPM
+1. Install [Node.js](https://nodejs.org/en) w/ Yarn
 2. Install dependencies
+
 ```
-npm i
+yarn i
 ```
+
 4. Run development server
+
 ```
-npm run dev
+yarn run dev
 ```
 
 ## Installing
