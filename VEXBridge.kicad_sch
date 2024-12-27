@@ -5,7 +5,7 @@
 	(uuid "75715a9c-a502-40d6-b270-e5c0bc6847fe")
 	(paper "A4")
 	(title_block
-		(title "BlueBox-PCB")
+		(title "VEXBridge-PCB")
 		(date "2024-11-25")
 		(rev "1.0")
 		(company "Made by DevilBots")
@@ -4914,7 +4914,7 @@
 			(uuid "df1a98ba-1e11-4e97-b73f-38917028b58a")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "R4")
 					(unit 1)
@@ -4984,7 +4984,7 @@
 			(uuid "6baf1bb2-df75-403e-be2c-6b81633bcbde")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "R2")
 					(unit 1)
@@ -5051,7 +5051,7 @@
 			(uuid "c77d2ab1-b838-4abe-9f40-04a438c4e8d3")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "H3")
 					(unit 1)
@@ -5267,7 +5267,7 @@
 			(uuid "34e082b1-be59-4355-a6cc-7c8723ab06b5")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "#PWR09")
 					(unit 1)
@@ -5336,7 +5336,7 @@
 			(uuid "d9be68d9-004f-469c-9ded-353a1397cc46")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "D3")
 					(unit 1)
@@ -5476,7 +5476,7 @@
 			(uuid "d3f3cc3e-9956-4a59-a089-9f88eb550870")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "#PWR016")
 					(unit 1)
@@ -5545,7 +5545,7 @@
 			(uuid "dcb26d79-6b87-4f6d-aa76-d71e709999b8")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "C4")
 					(unit 1)
@@ -5611,7 +5611,7 @@
 			(uuid "8703c053-0b6d-4948-9269-392cf979ab49")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "#PWR012")
 					(unit 1)
@@ -5747,7 +5747,7 @@
 			(uuid "1a64b67c-0f95-4a26-a0f3-9703a5f1425a")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "H2")
 					(unit 1)
@@ -5949,7 +5949,7 @@
 			(uuid "ea497463-e3b1-4f10-9c3d-2812ee554d8c")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "R3")
 					(unit 1)
@@ -6018,7 +6018,7 @@
 			(uuid "1e116814-ef6e-40f3-8ed8-95122fa6114f")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "R7")
 					(unit 1)
@@ -6219,7 +6219,7 @@
 			(uuid "54e874a0-6bb2-4430-b682-d6b5b8dc1007")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "#PWR019")
 					(unit 1)
@@ -6352,7 +6352,7 @@
 			(uuid "432f083e-025d-48a8-a84b-6c7dd0555042")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "H4")
 					(unit 1)
@@ -6635,7 +6635,7 @@
 			(uuid "74b41e97-fe93-4486-b8e8-67fd38fddae2")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "D2")
 					(unit 1)
@@ -6770,7 +6770,7 @@
 			(uuid "65e56912-6efa-4bed-a972-46a836852420")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "R9")
 					(unit 1)
@@ -6839,7 +6839,7 @@
 			(uuid "af9e35b2-02e8-4c38-8f9e-4e7e738cf230")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "R8")
 					(unit 1)
@@ -6978,7 +6978,7 @@
 			(uuid "dcafea1b-8c9c-42c3-8541-5a254efb0392")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "C2")
 					(unit 1)
@@ -7465,7 +7465,7 @@
 			(uuid "ac078280-4980-4bb2-993b-0d942b8b8150")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "#PWR011")
 					(unit 1)
@@ -7597,7 +7597,7 @@
 			(uuid "8431a52a-46dc-4442-bccb-65eeb62af7ba")
 		)
 		(instances
-			(project "BlueBox"
+			(project "VEXBridge"
 				(path "/75715a9c-a502-40d6-b270-e5c0bc6847fe"
 					(reference "#PWR017")
 					(unit 1)

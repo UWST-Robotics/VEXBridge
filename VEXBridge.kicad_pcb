@@ -8,7 +8,7 @@
 	)
 	(paper "A5")
 	(title_block
-		(title "BlueBox-PCB")
+		(title "VEXBridge-PCB")
 		(date "2024-11-27")
 		(rev "1.0")
 		(company "DevilBots")
@@ -476,7 +476,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/ceab644b-9393-4440-8d41-04c9b98b3f61")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -4.4375 -1.8475)
@@ -922,7 +922,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/21021c1a-d798-4586-84b1-23817ac6d552")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -4.4375 -1.8475)
@@ -1368,7 +1368,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/bc430cdd-d6bb-4fc7-b3ba-6c248418cde1")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.227064 0.735)
@@ -1583,7 +1583,7 @@
 		(property ki_fp_filters "MountingHole*Pad*")
 		(path "/9911b5bb-e2ee-4089-a041-f6532919373e")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
@@ -1693,7 +1693,7 @@
 		(property ki_fp_filters "MountingHole*Pad*")
 		(path "/2ae33ad9-0583-4e57-8b2e-098570976b4a")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
@@ -1926,7 +1926,7 @@
 		(property ki_fp_filters "MountingHole*Pad*")
 		(path "/d820bb24-cf53-4e38-b460-2f9a020850f9")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
@@ -2035,7 +2035,7 @@
 		(property ki_fp_filters "4P4C* RJ9* RJ10* RJ22*")
 		(path "/51a888dc-2510-42a1-a884-4f0eaf5e93a3")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -4.11 0.765)
@@ -2349,7 +2349,7 @@
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/544f885b-e425-460a-8b15-80f726939d9f")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.8 -0.735)
@@ -2586,7 +2586,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/c17d9000-ccf3-45b6-9e95-c208e7e2f515")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.227064 -0.735)
@@ -2908,7 +2908,7 @@
 		(property ki_fp_filters "TO?263*")
 		(path "/b3073e19-96e8-42e1-98e9-f6e96c1714fd")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -3.325 -5.2)
@@ -3522,7 +3522,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/decae43c-2ad4-4bba-acdc-3ed2a2c8b2a3")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.227064 0.735)
@@ -3737,7 +3737,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/6b573794-3af3-474e-b195-1d2f2d3443fc")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.227064 0.735)
@@ -3952,7 +3952,7 @@
 		(property ki_fp_filters "Choke_* *Coil* Inductor_* L_*")
 		(path "/2fe54659-db9f-498a-8f39-3964c4bd471d")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -2.154 -2.154)
@@ -4167,7 +4167,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/aca9b9f0-e8b1-4312-a299-3eed5ca903f5")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.227064 0.735)
@@ -4379,7 +4379,7 @@
 		(property ki_fp_filters "DIP*W7.62mm* SOIC*3.9x4.9mm*P1.27mm*")
 		(path "/daf3558e-7ed9-4fa0-8026-c9cc203cded2")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0 2.56)
@@ -4698,7 +4698,7 @@
 		(property ki_fp_filters "TO-???* *_Diode_* *SingleDiode* D_*")
 		(path "/62e2136a-e91a-4a31-aefd-41996c77812a")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -3.51 -1.65)
@@ -4974,7 +4974,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/6a43691b-f26a-4985-970f-385591036768")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.227064 0.735)
@@ -5131,6 +5131,7 @@
 			(effects
 				(font
 					(size 0.001 0.001)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -5142,6 +5143,7 @@
 			(effects
 				(font
 					(size 0.001 0.001)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -5313,7 +5315,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/89114c54-dc33-4b7b-8390-3d60f707cda8")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.107836 0.36)
@@ -5528,7 +5530,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/0fb0fcab-9cc9-4fa2-916a-4227315f2792")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -1.33 -1.33)
@@ -5830,7 +5832,7 @@
 		(property ki_fp_filters "MountingHole*Pad*")
 		(path "/619fe558-116c-401a-8f2b-68cd2c2d0c91")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
@@ -5941,7 +5943,7 @@
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/b837f6ce-ae13-4d46-82c5-4c65a4a17bef")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.8 -0.735)
@@ -6178,7 +6180,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/c67fae39-0585-4ef9-8b66-50deaab84a92")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.227064 -0.735)
@@ -6390,7 +6392,7 @@
 		(property ki_fp_filters "SOT?23*")
 		(path "/3c7efa43-9044-44cf-80aa-ec667299d872")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0 1.56)
@@ -6784,7 +6786,7 @@
 		(property ki_fp_filters "SOT?23*")
 		(path "/eea89d8f-8a1c-4960-a6ac-d66bb5a88865")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0 -1.56)
@@ -7161,7 +7163,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/29cae378-841f-4353-a06f-6f5a3beebce7")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.727064 -0.91)
@@ -7377,7 +7379,7 @@
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/42b70535-8f1f-46b9-867f-ea2d1d93dd53")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.8 -0.735)
@@ -7614,7 +7616,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/53af8ee4-221d-4d58-abba-5676e96c01ea")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.107836 -0.36)
@@ -7829,7 +7831,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/221665e8-bcd3-4383-9755-dfbe168f513b")
 		(sheetname "Root")
-		(sheetfile "BlueBox.kicad_sch")
+		(sheetfile "VEXBridge.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.227064 0.735)
