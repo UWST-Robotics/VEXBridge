@@ -1,6 +1,7 @@
 
 ![PCB Design](https://i.imgur.com/J7RirB9.png)
-	**VEXBridge** is a custom PCB designed by VEX-U team [DevilBots](https://devilbots.org) to easily interface 3rd party components such as a Raspberry Pi, Arduino, or ESP32 w/ a VEX V5 brain. Its made and designed in [KiCAD](https://www.kicad.org/) which is a free and open source design software for electronics.
+# VEXBridge
+**VEXBridge** is a custom PCB designed by VEX-U team [DevilBots](https://devilbots.org) to easily interface 3rd party components such as a Raspberry Pi, Arduino, or ESP32 w/ a VEX V5 brain. Its made and designed in [KiCAD](https://www.kicad.org/) which is a free and open source design software for electronics.
 
 ## Features
 
