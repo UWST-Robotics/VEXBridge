@@ -5086,7 +5086,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_Coilcraft_XxL4020"
+		(property "Footprint" "Inductor_SMD:L_Coilcraft_LPS4018"
 			(at 100.33 100.33 0)
 			(effects
 				(font
