@@ -1,12 +1,11 @@
 import {Gpio} from "onoff";
 import {SerialPort} from "serialport";
-import VEXSerialParser from "../../common/VEXSerialParser.ts";
-import NTSerialParser from "../../common/NTSerialParser.ts";
 import {BAUD_RATE, RTS_PIN} from "../../common/Constants.ts";
 import SerialState from "../../../types/serial/SerialState.ts";
 import Logger from "../../common/Logger.ts";
 import serialConnectionService from "./SerialConnectionService.ts";
 import {serialStateEvent} from "../../common/EventHandler.ts";
+import SerialPacketParser from "../../common/serial/SerialPacketParser.ts";
 
 /**
  * Handles serial communication with the VEX V5 brain
@@ -15,16 +14,12 @@ export class SerialService {
 
     private rtsPin: Gpio | undefined;
     private hardware: SerialPort | undefined;
-    private vexParser = new VEXSerialParser();
-    private ntParser = new NTSerialParser();
+    private packetParser = new SerialPacketParser();
 
     constructor() {
         // Set Default RTS Pin
         if (process.platform === "linux")
             this.setRTSPin(RTS_PIN);
-
-        // Pipe Output from VEX Parser to NT Parser
-        this.vexParser.on("sout", this.ntParser.onData.bind(this.ntParser));
     }
 
     /**
@@ -65,7 +60,7 @@ export class SerialService {
         this.hardware.on("close", () => this.emitState());
 
         // Pipe Serial Data to VEX Parser
-        this.vexParser.listenTo(this.hardware);
+        this.packetParser.listenTo(this.hardware);
 
         // Asynchronously open the serial port
         await new Promise((resolve, reject) => {
@@ -106,18 +101,19 @@ export class SerialService {
     }
 
     /**
-     * Encodes data to COBS and writes it to the serial port.
+     * Writes buffer to the serial port.
      * Also controls the RTS pin if set.
-     * @param data - The data to write
+     * @param buffer - The buffer to write
      */
-    async write(data: Buffer) {
+    async write(buffer: Buffer) {
+        Logger.info(`Writing ${buffer.length} bytes to serial port: ${buffer.toString("hex")}`);
 
         // Pull RTS high
         await this.rtsPin?.write(1);
 
         // Write data to serial port
         await new Promise((resolve, reject) => {
-            this.hardware?.write(data, (error) => {
+            this.hardware?.write(buffer, (error) => {
                 if (error)
                     reject(error);
                 else

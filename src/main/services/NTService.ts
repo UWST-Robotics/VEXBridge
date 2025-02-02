@@ -35,14 +35,15 @@ export class NTService {
      * Updates the value of a key
      * @param key - The key to update
      * @param value - The new value
+     * @param timestamp - The timestamp of the update
      */
-    updateValue(key: number, value: NTValue) {
+    updateValue(key: number, value: NTValue, timestamp: number) {
 
         // Update value
         this.valueDB[key] = value;
 
         // Emit an event
-        valueChangedEvent.emit([key, value, Date.now()]);
+        valueChangedEvent.emit([key, value, timestamp]);
     }
 
     /**

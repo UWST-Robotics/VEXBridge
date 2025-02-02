@@ -16,6 +16,10 @@ export default class Logger {
         Logger.log(Chalk.blue("[INFO]") + " " + info);
     }
 
+    static warn(warn: string) {
+        Logger.log(Chalk.yellow("[WARN]") + " " + warn);
+    }
+
     static client(info: string) {
         Logger.log(Chalk.yellow("[CLIENT]") + " " + info);
     }
