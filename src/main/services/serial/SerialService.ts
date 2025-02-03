@@ -5,7 +5,7 @@ import SerialState from "../../../types/serial/SerialState.ts";
 import Logger from "../../common/Logger.ts";
 import serialConnectionService from "./SerialConnectionService.ts";
 import {serialStateEvent} from "../../common/EventHandler.ts";
-import SerialPacketParser from "../../common/serial/SerialPacketParser.ts";
+import SerialPacketParser from "../../serial/SerialPacketParser.ts";
 
 /**
  * Handles serial communication with the VEX V5 brain
@@ -101,9 +101,10 @@ export class SerialService {
     }
 
     /**
-     * Writes buffer to the serial port.
-     * Also controls the RTS pin if set.
+     * Controls the RTS pin to write a raw buffer to the serial port.
+     * Use `sendSerialPacket` to send a full packet instead.
      * @param buffer - The buffer to write
+     * @returns A promise that resolves when the write operation is complete
      */
     async write(buffer: Buffer) {
         Logger.info(`Writing ${buffer.length} bytes to serial port: ${buffer.toString("hex")}`);
