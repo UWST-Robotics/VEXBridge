@@ -1,8 +1,6 @@
-import {Router} from "express";
+import express, {Router} from "express";
 
 const rootRouter = Router();
 export default rootRouter;
 
-rootRouter.get("/", (_, res) => {
-    res.sendFile("index.html", {root: "public"});
-});
+rootRouter.use(express.static("dist"));

@@ -1,15 +1,16 @@
 {
-  "name": "bluebox",
+  "name": "vexbridge",
   "author": "devilbots",
-  "description": "BlueBox is a dashboard application for debugging VEX V5 robots.",
+  "description": "Communication layer between the VEX V5 brain and a Raspberry Pi.",
   "repository": "https://github.com/UWST-Robotics/BlueBox/",
   "private": true,
   "type": "module",
   "version": "0.1.2",
   "license": "GPL-3.0",
   "scripts": {
-    "dev": "vite",
+    "dev:client": "vite dev",
     "dev:server": "tsx watch src/main/main.ts",
+    "dev": "concurrently -r \"yarn dev:server\" \"yarn dev:client\"",
     "build": "vite build",
     "serve": "vite preview"
   },

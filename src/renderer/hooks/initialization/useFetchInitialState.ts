@@ -18,19 +18,19 @@ export const fetchInitialStateAtom = atom(null, async (_, set) => {
         set(resetNTAtom);
 
         // Fetch Initial State
-        set(serialStateAtom, await fetchAPIEndpoint("/serial"));
-        set(serialListAtom, await fetchAPIEndpoint("/serial/list"));
-        set(logAtom, await fetchAPIEndpoint("/log"));
+        set(serialStateAtom, await fetchAPIEndpoint("serial"));
+        set(serialListAtom, await fetchAPIEndpoint("serial/list"));
+        set(logAtom, await fetchAPIEndpoint("log"));
 
         // Get Paths from DB
-        const pathDB = await fetchAPIEndpoint<Record<number, string>>("/paths");
+        const pathDB = await fetchAPIEndpoint<Record<number, string>>("paths");
         for (const key in pathDB) {
             const path = pathDB[key];
             set(setNTKeyFromPathAtom, path, parseInt(key));
         }
 
         // Get Value History from DB
-        const valueDB = await fetchAPIEndpoint<Record<number, NTValue>>("/values");
+        const valueDB = await fetchAPIEndpoint<Record<number, NTValue>>("values");
         for (const key in valueDB) {
             const value = valueDB[key];
             set(ntValueAtomFamily(parseInt(key)), value);
