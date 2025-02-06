@@ -1,0 +1,13 @@
+[Unit]
+Description=VEXBridge
+
+[Service]
+WorkingDirectory=/opt/vexbridge/dist
+ExecStart=/usr/bin/node server.js
+Restart=always
+User=nobody
+Group=nogroup
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

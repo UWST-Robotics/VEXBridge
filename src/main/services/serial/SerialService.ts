@@ -1,4 +1,3 @@
-import {Gpio} from "onoff";
 import {SerialPort} from "serialport";
 import {BAUD_RATE, RTS_PIN} from "../../common/Constants.ts";
 import SerialState from "../../../types/serial/SerialState.ts";
@@ -12,7 +11,7 @@ import SerialPacketParser from "../../serial/SerialPacketParser.ts";
  */
 export class SerialService {
 
-    private rtsPin: Gpio | undefined;
+    //private rtsPin: Gpio | undefined;
     private hardware: SerialPort | undefined;
     private packetParser = new SerialPacketParser();
 
@@ -97,7 +96,7 @@ export class SerialService {
      * @param pinNumber - The pin
      */
     setRTSPin(pinNumber: number) {
-        this.rtsPin = new Gpio(pinNumber, "out");
+        //this.rtsPin = new Gpio(pinNumber, {mode: Gpio.OUTPUT});
     }
 
     /**
@@ -110,7 +109,7 @@ export class SerialService {
         Logger.info(`Writing ${buffer.length} bytes to serial port: ${buffer.toString("hex")}`);
 
         // Pull RTS high
-        await this.rtsPin?.write(1);
+        //this.rtsPin?.digitalWrite(1);
 
         // Write data to serial port
         await new Promise((resolve, reject) => {
@@ -123,7 +122,7 @@ export class SerialService {
         });
 
         // Pull RTS low
-        await this.rtsPin?.write(0);
+        //this.rtsPin?.digitalWrite(0);
     }
 }
 

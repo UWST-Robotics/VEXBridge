@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Installs node if it is not already installed
+if which node > /dev/null
+then
+  echo "Node.js is already installed"
+
+else
+  echo "Installing Node.js..."
+
+  # Node.js version
+  VER="22.13.1"
+
+  # Detects the architecture of the OS
+  ARCH_OS="$(uname -m)"
+  if [ "$ARCH_OS" == "x86_64" ]
+  then
+    ARCH="x64"
+  elif [ "$ARCH_OS" == "i686" ]
+  then
+    ARCH="x86"
+  else
+    echo "Unsupported architecture"
+    exit 1
+  fi
+
+  # Download to /tmp
+  pushd /tmp || exit
+  wget -c "http://nodejs.org/dist/v${VER}/node-v${VER}-linux-${ARCH}.tar.gz"
+
+  # Remove old installation
+  rm -rf "/tmp/node-v${VER}-linux-${ARCH}"
+
+  # Extract to /usr/local
+  tar xf "node-v${VER}-linux-${ARCH}.tar.gz" -C /tmp
+  cp -a "/tmp/node-v${VER}-linux-${ARCH}/*" /usr/local/
+fi

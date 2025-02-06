@@ -1,0 +1,6 @@
+Package: vexbridge
+Version: 0.1.2
+Maintainer: DevilBots <robotics@uwstout.edu>
+Description: Communication bridge between VEX V5 and Raspberry Pi
+Homepage: https://github.com/UWST-Robotics/VEXBridge
+Architecture: all
