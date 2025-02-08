@@ -15,7 +15,7 @@ export enum UpdateValueType {
 export const UpdateValueTypeSize = {
     [UpdateValueType.BOOL]: 1,
     [UpdateValueType.INT]: 2,
-    [UpdateValueType.DOUBLE]: 4,
+    [UpdateValueType.DOUBLE]: 8,
 };
 
 export interface UpdateValuePacket extends SerialPacket {
@@ -54,7 +54,7 @@ export const UpdateValuePacketType: SerialPacketType<UpdateValuePacket> = {
         const ntID = packet.payload.readUInt16BE(0);
         const timestamp = packet.payload.readUInt16BE(2);
         const valueType = packet.payload.readUInt8(4) as UpdateValueType;
-        
+
         let value = 0;
         switch (valueType) {
             case UpdateValueType.BOOL:

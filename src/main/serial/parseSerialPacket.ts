@@ -11,28 +11,26 @@ import decodeCOBS from "./cobs/decodeCOBS.ts";
  * @returns The decoded packet
  */
 export default function parseSerialPacket(buffer: Buffer) {
+    // Log
     Logger.info(`Received serial packet: ${buffer.toString("hex")}`);
 
     // Decode COBS
     buffer = decodeCOBS(buffer);
-    Logger.info(`Decoded serial packet: ${buffer.toString("hex")}`);
 
     // Deserialize the packet header
-    // Starts with 0xC9 0x36 0xB8 0x47
-    const typeID = buffer.readUInt8(4);
-    const id = buffer.readUInt8(5);
-    const payloadLength = buffer.readUInt16BE(6);
-    const payload = buffer.subarray(8, 8 + payloadLength);
+    const typeID = buffer.readUInt8(0);
+    const id = buffer.readUInt8(1);
+    const payloadLength = buffer.readUInt16BE(2);
+    const payload = buffer.subarray(4, 4 + payloadLength);
 
+    // Log
     Logger.info(`Parsed serial packet: type=${typeID}, id=${id}, payload=${payload.toString("hex")} (length=${payloadLength})`);
 
     // Checksum
-    const checksum = buffer.readUInt16BE(8 + payloadLength);
-    const calculatedChecksum = getChecksum(buffer.subarray(0, 8 + payloadLength));
+    const checksum = buffer.readUInt16BE(4 + payloadLength);
+    const calculatedChecksum = getChecksum(buffer.subarray(0, 4 + payloadLength));
     if (checksum !== calculatedChecksum)
         throw new Error(`Checksum mismatch: ${checksum} != ${calculatedChecksum}`);
-
-    Logger.info(`Checksum OK: ${checksum} == ${calculatedChecksum}`);
 
     // Find the packet type
     const packetType = SerialPacketTypes.find((packetType) => packetType.typeID === typeID);
