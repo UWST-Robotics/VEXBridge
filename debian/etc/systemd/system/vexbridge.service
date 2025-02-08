@@ -2,12 +2,14 @@
 Description=VEXBridge
 
 [Service]
+SecureBits=keep-caps
+AmbientCapabilities=CAP_NET_BIND_SERVICE
 WorkingDirectory=/opt/vexbridge/dist
 ExecStart=/usr/bin/node server.js
 Restart=always
-User=nobody
-Group=nogroup
 Environment=NODE_ENV=production
+Environment=PORT=80
+Environment=ENABLE_RTS=true
 
 [Install]
 WantedBy=multi-user.target

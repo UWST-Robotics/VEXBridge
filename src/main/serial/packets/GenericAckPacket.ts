@@ -9,12 +9,12 @@ export interface GenericAckPacket extends SerialPacket {
 export const GenericAckPacketType: SerialPacketType<GenericAckPacket> = {
     typeID: SerialPacketTypeID.GENERIC_ACK,
     serialize: (packet) => {
-        const payload = Buffer.alloc(2);
-        payload.writeUInt16BE(packet.targetID, 0);
+        const payload = Buffer.alloc(1);
+        payload.writeUInt8(packet.targetID, 0);
         return {...packet, payload};
     },
     deserialize: (packet) => {
-        const targetID = packet.payload.readUInt16BE(0);
+        const targetID = packet.payload.readUInt8(0);
         return {...packet, targetID};
     },
     onReceive: () => {

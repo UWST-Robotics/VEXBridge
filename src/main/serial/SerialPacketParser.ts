@@ -2,7 +2,6 @@ import {SerialPort} from "serialport";
 import parseSerialPacket from "./parseSerialPacket.ts";
 import Logger from "../common/Logger.ts";
 
-const PACKET_HEADER = new Uint8Array([0xC9, 0x36, 0xB8, 0x47]);
 const MAX_READ_BUFFER_SIZE = 1024;
 
 export default class SerialPacketParser {
@@ -38,18 +37,16 @@ export default class SerialPacketParser {
             }
 
             // Check for packet header
-            const startIndex = this.readBuffer.indexOf(PACKET_HEADER);
-            if (startIndex === -1)
+            const delimiterIndex = this.readBuffer.indexOf(0x00);
+            if (delimiterIndex === -1)
                 return;
 
-            // Discard any data before the header
-            this.readBuffer = this.readBuffer.subarray(startIndex);
+            // Split the buffer at the delimiter
+            const packetBuffer = this.readBuffer.subarray(0, delimiterIndex); // Before delimiter
+            this.readBuffer = this.readBuffer.subarray(delimiterIndex + 1); // After delimiter
 
             // Parse packets
-            parseSerialPacket(this.readBuffer);
-
-            // Discard buffer
-            this.readBuffer = Buffer.alloc(0);
+            parseSerialPacket(packetBuffer);
 
         } catch (error) {
             const stack = error instanceof Error ? error.stack : "";

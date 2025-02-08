@@ -5,6 +5,7 @@ import serialService from "../services/serial/SerialService.ts";
 import {GenericAckPacket} from "./packets/GenericAckPacket.ts";
 import SerialPacketTypeID from "../../types/serial/SerialPacketTypeID.ts";
 import Logger from "../common/Logger.ts";
+import encodeCOBS from "./cobs/encodeCOBS.ts";
 
 /**
  * Sends a serial packet over the active serial connection
@@ -21,7 +22,7 @@ export default function sendSerialPacket<T extends SerialPacket>(packet: T) {
     const serializedPacket = packetType.serialize(packet);
 
     // Allocate buffer
-    const buffer = Buffer.alloc(10 + serializedPacket.payload.length);
+    let buffer = Buffer.alloc(10 + serializedPacket.payload.length);
 
     // Header
     buffer.writeUInt8(0xC9, 0);
@@ -32,12 +33,15 @@ export default function sendSerialPacket<T extends SerialPacket>(packet: T) {
     // Data
     buffer.writeUInt8(serializedPacket.type, 4);                // Type ID
     buffer.writeUInt8(serializedPacket.id, 5);                  // Packet ID
-    buffer.writeUInt16LE(serializedPacket.payload.length, 6);   // Payload length
+    buffer.writeUInt16BE(serializedPacket.payload.length, 6);   // Payload length
     serializedPacket.payload.copy(buffer, 8);                   // Payload
 
     // Append Checksum
-    const checksum = getChecksum(buffer, 8 + serializedPacket.payload.length);
-    buffer.writeUInt16LE(checksum, 8 + serializedPacket.payload.length);
+    const checksum = getChecksum(buffer.subarray(0, 8 + serializedPacket.payload.length));
+    buffer.writeUInt16BE(checksum, 8 + serializedPacket.payload.length);
+
+    // Encode COBS
+    buffer = encodeCOBS(buffer);
 
     // Write buffer to serial
     return serialService.write(buffer);

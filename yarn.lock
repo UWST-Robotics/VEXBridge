@@ -1404,6 +1404,13 @@
     "@types/prop-types" "*"
     csstype "^3.0.2"
 
+"@types/rpio@^2.4.6":
+  version "2.4.6"
+  resolved "https://registry.yarnpkg.com/@types/rpio/-/rpio-2.4.6.tgz#711a0a860189076db8341708d82bcf3ed6e87cc7"
+  integrity sha512-lh0SY37xO7ZT+fifujwaUs6FzOzrPdz42CXS03UpMQK6afKhC9CIxtDcu0xXN9S9sohREuHLQH5XY2r5s1QL+w==
+  dependencies:
+    "@types/node" "*"
+
 "@types/send@*":
   version "0.17.4"
   resolved "https://registry.yarnpkg.com/@types/send/-/send-0.17.4.tgz#6619cd24e7270793702e4e6a4b958a9010cfc57a"
@@ -1756,7 +1763,7 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.3.0.tgz#f6e14a97858d327252200242d4ccfe522c445522"
   integrity sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==
 
-bindings@^1.5.0:
+bindings@^1.5.0, bindings@~1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.5.0.tgz#10353c9e945334bc0511a6d90b38fbc7c9c504df"
   integrity sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==
@@ -3793,6 +3800,11 @@ ms@2.1.3, ms@^2.0.0, ms@^2.1.3:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
 
+nan@^2.14.1:
+  version "2.22.0"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.22.0.tgz#31bc433fc33213c97bad36404bb68063de604de3"
+  integrity sha512-nbajikzWTMwsW+eSsNm3QwlOs7het9gGJU5dDZzRTQGk03vyBOauxgI4VakDzE0PtsGTmXPsXTbbjVhRwR5mpw==
+
 nanoid@^3.3.8:
   version "3.3.8"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.8.tgz#b1be3030bee36aaff18bacb375e5cce521684baf"
@@ -4402,6 +4414,14 @@ rollup@^4.30.1:
     "@rollup/rollup-win32-ia32-msvc" "4.34.4"
     "@rollup/rollup-win32-x64-msvc" "4.34.4"
     fsevents "~2.3.2"
+
+rpio@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/rpio/-/rpio-2.4.2.tgz#e16d58f7937cc8b30083c3f8df051f5d9f14a1b3"
+  integrity sha512-SiWw2VorgUh+0hbu6eJkRGG+luvS9BboXz6PQl8Z49kJ+8Nn7R/b4ohybLIYSMbQqcW1WYqSooadDuv1VOAiFw==
+  dependencies:
+    bindings "~1.5.0"
+    nan "^2.14.1"
 
 run-parallel@^1.1.9:
   version "1.2.0"

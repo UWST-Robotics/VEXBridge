@@ -33,15 +33,43 @@ export const UpdateValuePacketType: SerialPacketType<UpdateValuePacket> = {
         payload.writeUInt16BE(packet.ntID, 0);
         payload.writeUInt16BE(packet.timestamp, 2);
         payload.writeUInt8(packet.valueType, 4);
-        payload.writeUIntBE(Number(packet.value), 5, valueTypeSize);
+
+        switch (packet.valueType) {
+            case UpdateValueType.BOOL:
+                payload.writeUInt8(packet.value as number, 5);
+                break;
+            case UpdateValueType.INT:
+                payload.writeUInt16BE(packet.value as number, 5);
+                break;
+            case UpdateValueType.DOUBLE:
+                payload.writeDoubleBE(packet.value as number, 5);
+                break;
+            default:
+                throw new Error(`Unknown value type: ${packet.valueType}`);
+        }
+
         return {...packet, payload};
     },
     deserialize: (packet) => {
         const ntID = packet.payload.readUInt16BE(0);
         const timestamp = packet.payload.readUInt16BE(2);
         const valueType = packet.payload.readUInt8(4) as UpdateValueType;
-        const valueTypeSize = UpdateValueTypeSize[valueType];
-        const value = packet.payload.readUIntBE(5, valueTypeSize);
+        
+        let value = 0;
+        switch (valueType) {
+            case UpdateValueType.BOOL:
+                value = packet.payload.readUInt8(5);
+                break;
+            case UpdateValueType.INT:
+                value = packet.payload.readUInt16BE(5);
+                break;
+            case UpdateValueType.DOUBLE:
+                value = packet.payload.readDoubleBE(5);
+                break;
+            default:
+                throw new Error(`Unknown value type: ${valueType}`);
+        }
+
         return {...packet, ntID, timestamp, valueType, value};
     },
     onReceive: (packet) => {

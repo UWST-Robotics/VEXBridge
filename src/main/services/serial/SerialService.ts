@@ -1,24 +1,25 @@
 import {SerialPort} from "serialport";
-import {BAUD_RATE, RTS_PIN} from "../../common/Constants.ts";
+import {BAUD_RATE, ENABLE_RTS, GPIO_POST_DELAY, GPIO_PRE_DELAY, RTS_PIN} from "../../common/Constants.ts";
 import SerialState from "../../../types/serial/SerialState.ts";
 import Logger from "../../common/Logger.ts";
 import serialConnectionService from "./SerialConnectionService.ts";
 import {serialStateEvent} from "../../common/EventHandler.ts";
 import SerialPacketParser from "../../serial/SerialPacketParser.ts";
+import Rpio from "rpio";
 
 /**
  * Handles serial communication with the VEX V5 brain
  */
 export class SerialService {
-
-    //private rtsPin: Gpio | undefined;
     private hardware: SerialPort | undefined;
     private packetParser = new SerialPacketParser();
 
     constructor() {
-        // Set Default RTS Pin
-        if (process.platform === "linux")
-            this.setRTSPin(RTS_PIN);
+        // Initialize RTS Pin
+        if (ENABLE_RTS) {
+            Logger.info(`Setting RTS pin to GPIO ${RTS_PIN}`);
+            Rpio.open(RTS_PIN, Rpio.OUTPUT, Rpio.LOW);
+        }
     }
 
     /**
@@ -91,15 +92,6 @@ export class SerialService {
     }
 
     /**
-     * Sets the GPIO pin for the RTS signal.
-     * GPIO pin is pulled high while transmitting serial data.
-     * @param pinNumber - The pin
-     */
-    setRTSPin(pinNumber: number) {
-        //this.rtsPin = new Gpio(pinNumber, {mode: Gpio.OUTPUT});
-    }
-
-    /**
      * Controls the RTS pin to write a raw buffer to the serial port.
      * Use `sendSerialPacket` to send a full packet instead.
      * @param buffer - The buffer to write
@@ -109,7 +101,10 @@ export class SerialService {
         Logger.info(`Writing ${buffer.length} bytes to serial port: ${buffer.toString("hex")}`);
 
         // Pull RTS high
-        //this.rtsPin?.digitalWrite(1);
+        if (ENABLE_RTS) {
+            Rpio.write(RTS_PIN, Rpio.HIGH);
+            Rpio.msleep(GPIO_PRE_DELAY);
+        }
 
         // Write data to serial port
         await new Promise((resolve, reject) => {
@@ -122,7 +117,10 @@ export class SerialService {
         });
 
         // Pull RTS low
-        //this.rtsPin?.digitalWrite(0);
+        if (ENABLE_RTS) {
+            Rpio.msleep(GPIO_POST_DELAY);
+            Rpio.write(RTS_PIN, Rpio.LOW);
+        }
     }
 }
 

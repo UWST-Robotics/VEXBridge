@@ -1,4 +1,14 @@
 #!/bin/bash
 
+# Give permissions to the binary
+setcap 'cap_net_bind_service=+ep' /usr/bin/node
+
+# Install Node Addons
+cd /opt/vexbridge/dist || exit
+npm i
+
 # Start service
 systemctl start vexbridge
+
+# Enable service
+systemctl enable vexbridge
