@@ -1,12 +1,12 @@
 import getAvailableSerialPorts from "../../common/getAvailableSerialPorts.ts";
 import VEXSerialType from "../../../types/serial/VEXSerialType.ts";
-import {SERIAL_POLLING_INTERVAL} from "../../common/Constants.ts";
+import {SERIAL_POLLING_INTERVAL, SERIAL_PORT} from "../../common/Constants.ts";
 import Logger from "../../common/Logger.ts";
 import serialService from "./SerialService.ts";
 
 export class SerialConnectionService {
     autoSelect = true;
-    targetPath = "";
+    targetPath = SERIAL_PORT;
     private isPolling = false;
 
     /**

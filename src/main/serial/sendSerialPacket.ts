@@ -22,7 +22,7 @@ export default function sendSerialPacket<T extends SerialPacket>(packet: T) {
     const serializedPacket = packetType.serialize(packet);
 
     // Allocate buffer
-    let buffer = Buffer.alloc(6 + serializedPacket.payload.length);
+    let buffer = Buffer.alloc(5 + serializedPacket.payload.length);
 
     // Data
     buffer.writeUInt8(serializedPacket.type, 0);                // Type ID
@@ -31,8 +31,8 @@ export default function sendSerialPacket<T extends SerialPacket>(packet: T) {
     serializedPacket.payload.copy(buffer, 4);                   // Payload
 
     // Append Checksum
-    const checksum = getChecksum(buffer.subarray(0, 4 + serializedPacket.payload.length));
-    buffer.writeUInt16BE(checksum, 4 + serializedPacket.payload.length);
+    const checksum = getChecksum(buffer, 4 + serializedPacket.payload.length);
+    buffer.writeUInt8(checksum, 4 + serializedPacket.payload.length);
 
     // Encode COBS
     buffer = encodeCOBS(buffer);

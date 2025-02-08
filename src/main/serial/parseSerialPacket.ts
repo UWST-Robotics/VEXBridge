@@ -27,8 +27,8 @@ export default function parseSerialPacket(buffer: Buffer) {
     Logger.info(`Parsed serial packet: type=${typeID}, id=${id}, payload=${payload.toString("hex")} (length=${payloadLength})`);
 
     // Checksum
-    const checksum = buffer.readUInt16BE(4 + payloadLength);
-    const calculatedChecksum = getChecksum(buffer.subarray(0, 4 + payloadLength));
+    const checksum = buffer.readUInt8(4 + payloadLength);
+    const calculatedChecksum = getChecksum(buffer, 4 + payloadLength);
     if (checksum !== calculatedChecksum)
         throw new Error(`Checksum mismatch: ${checksum} != ${calculatedChecksum}`);
 

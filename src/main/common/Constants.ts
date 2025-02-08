@@ -6,3 +6,4 @@ export const BAUD_RATE = parseInt(process.env.BAUD_RATE || "115200"); // 115200 
 export const MAX_LOG_MEMORY = parseInt(process.env.MAX_LOG_MEMORY || "10000"); // 10000 characters
 export const GPIO_PRE_DELAY = parseInt(process.env.GPIO_PRE_DELAY || "0"); // ms
 export const GPIO_POST_DELAY = parseInt(process.env.GPIO_POST_DELAY || "1"); // ms
+export const SERIAL_PORT = process.env.SERIAL_PORT || ""; // ""
