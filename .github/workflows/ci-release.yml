@@ -31,7 +31,9 @@ jobs:
         with:
           cmd: build
       - name: Package Deb
-        run: ${PWD}/build-deb.sh
+        run: |
+          chmod -R 775 ${PWD}/debian/DEBIAN
+          ${PWD}/build-deb.sh
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
