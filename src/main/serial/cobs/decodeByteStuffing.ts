@@ -9,7 +9,7 @@ export default function decodeByteStuffing(input: Buffer) {
     let inputIndex = 0;
     let output: number[] = [];
 
-    while (inputIndex < length) {
+    while (inputIndex < input.length) {
         // If the current byte is the start flag, reset and continue
         if (input[inputIndex] == START_FLAG) {
             output = [];

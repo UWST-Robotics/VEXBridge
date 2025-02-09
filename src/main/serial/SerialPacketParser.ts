@@ -40,17 +40,21 @@ export default class SerialPacketParser {
             // Iterate over buffer
             for (let i = 0; i < this.readBuffer.length; i++) {
                 // If ESCAPE_FLAG, skip next byte
-                if (this.readBuffer[i] === ESCAPE_FLAG)
+                if (this.readBuffer[i] === ESCAPE_FLAG) {
                     i++; // Skip next byte
-                // If END_FLAG, parse packet
-                else if (this.readBuffer[i] === END_FLAG) {
-                    // Split the buffer at the delimiter
-                    const packetBuffer = this.readBuffer.subarray(0, i); // Before delimiter
-                    this.readBuffer = this.readBuffer.subarray(i + 1); // After delimiter
-
-                    // Parse packets
-                    parseSerialPacket(packetBuffer);
+                    continue;
                 }
+
+                // If END_FLAG, parse packet
+                if (this.readBuffer[i] !== END_FLAG)
+                    continue;
+
+                // Split the buffer at the delimiter
+                const packetBuffer = this.readBuffer.subarray(0, i); // Before delimiter
+                this.readBuffer = this.readBuffer.subarray(i + 1); // After delimiter
+
+                // Parse packets
+                parseSerialPacket(packetBuffer);
             }
         } catch (error) {
             const stack = error instanceof Error ? error.stack : "";
