@@ -98,7 +98,7 @@ export class SerialService {
      * @returns A promise that resolves when the write operation is complete
      */
     async write(buffer: Buffer) {
-        Logger.info(`Writing ${buffer.length} bytes to serial port: ${buffer.toString("hex")}`);
+        Logger.info(`Writing ${buffer.length} bytes: ${buffer.toString("hex")}`);
 
         // Pull RTS high
         if (ENABLE_RTS) {

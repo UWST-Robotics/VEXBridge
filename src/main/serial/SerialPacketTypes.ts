@@ -5,8 +5,9 @@ import {PingPacketType} from "./packets/PingPacket.ts";
 import SerialPacketType from "../../types/serial/SerialPacketType.ts";
 import {LogPacketType} from "./packets/LogPacket.ts";
 import {ResetPacketType} from "./packets/ResetPacket.ts";
-import {GetUpdatedValuesPacketType} from "./packets/UpdatedValuesPacket.ts";
+import {FetchValuesPacketType} from "./packets/FetchValuesPacket.ts";
 import {BatchValuePacketType} from "./packets/BatchValuePacket.ts";
+import {BatchLabelPacketType} from "./packets/BatchLabelPacket.ts";
 
 const SerialPacketTypes: SerialPacketType<any>[] = [
     UpdateValuePacketType,
@@ -15,7 +16,8 @@ const SerialPacketTypes: SerialPacketType<any>[] = [
     PingPacketType,
     LogPacketType,
     ResetPacketType,
-    GetUpdatedValuesPacketType,
-    BatchValuePacketType
+    FetchValuesPacketType,
+    BatchValuePacketType,
+    BatchLabelPacketType
 ];
 export default SerialPacketTypes;

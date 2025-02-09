@@ -11,7 +11,12 @@ export interface LogPacket extends SerialPacket {
 export const LogPacketType: SerialPacketType<LogPacket> = {
     typeID: SerialPacketTypeID.LOG,
     serialize: (packet) => {
-        const messageLength = Buffer.byteLength(packet.message);
+        let messageLength = Buffer.byteLength(packet.message);
+
+        // Limit the message length to 65535 bytes
+        if (messageLength > 0xFFFF)
+            messageLength = 0xFFFF;
+
         const payload = Buffer.alloc(2 + messageLength);
         payload.writeUInt16BE(messageLength, 0);
         payload.write(packet.message, 2, messageLength, "utf8");

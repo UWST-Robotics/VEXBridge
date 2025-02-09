@@ -6,7 +6,6 @@ import {sendAckPacket} from "../sendSerialPacket.ts";
 import {UpdateValuePacket, UpdateValueType, UpdateValueTypeSize} from "./UpdateValuePacket.ts";
 
 export interface BatchValuePacket extends SerialPacket {
-    timestamp: number;
     subPackets: UpdateValuePacket[];
 }
 
@@ -15,17 +14,16 @@ export const BatchValuePacketType: SerialPacketType<BatchValuePacket> = {
     serialize: (packet) => {
 
         // Calculate payload size
-        let payloadSize = 3;
+        let payloadSize = 1;
         for (const subPacket of packet.subPackets)
             payloadSize += 3 + UpdateValueTypeSize[subPacket.valueType];
 
         // Allocate buffer
         const payload = Buffer.alloc(payloadSize);
-        payload.writeUInt16BE(packet.timestamp, 0);
-        payload.writeUInt8(packet.subPackets.length, 2);
+        payload.writeUInt8(packet.subPackets.length, 0);
 
         // Write sub-packets
-        let offset = 3;
+        let offset = 1;
         for (const subPacket of packet.subPackets) {
             payload.writeUInt16BE(subPacket.ntID, offset);
             payload.writeUInt8(subPacket.valueType, offset + 2);
@@ -36,6 +34,9 @@ export const BatchValuePacketType: SerialPacketType<BatchValuePacket> = {
                     break;
                 case UpdateValueType.INT:
                     payload.writeUInt16BE(subPacket.value as number, offset + 3);
+                    break;
+                case UpdateValueType.FLOAT:
+                    payload.writeFloatBE(subPacket.value as number, offset + 3);
                     break;
                 case UpdateValueType.DOUBLE:
                     payload.writeDoubleBE(subPacket.value as number, offset + 3);
@@ -50,10 +51,9 @@ export const BatchValuePacketType: SerialPacketType<BatchValuePacket> = {
         return {...packet, payload};
     },
     deserialize: (packet) => {
-        const timestamp = packet.payload.readUInt16BE(0);
-        const subPacketCount = packet.payload.readUInt8(2);
+        const subPacketCount = packet.payload.readUInt8(0);
 
-        let offset = 3;
+        let offset = 1;
         const subPackets: UpdateValuePacket[] = [];
 
         // Iterate through sub-packets
@@ -69,6 +69,9 @@ export const BatchValuePacketType: SerialPacketType<BatchValuePacket> = {
                 case UpdateValueType.INT:
                     value = packet.payload.readUInt16BE(offset + 3);
                     break;
+                case UpdateValueType.FLOAT:
+                    value = packet.payload.readFloatBE(offset + 3);
+                    break;
                 case UpdateValueType.DOUBLE:
                     value = packet.payload.readDoubleBE(offset + 3);
                     break;
@@ -79,7 +82,6 @@ export const BatchValuePacketType: SerialPacketType<BatchValuePacket> = {
             subPackets.push({
                 id: packet.id,
                 type: SerialPacketTypeID.UPDATE_VALUE,
-                timestamp,
                 ntID,
                 valueType,
                 value,
@@ -88,14 +90,13 @@ export const BatchValuePacketType: SerialPacketType<BatchValuePacket> = {
             offset += 3 + UpdateValueTypeSize[valueType];
         }
 
-        return {...packet, timestamp, subPackets};
+        return {...packet, subPackets};
     },
     onReceive: (packet) => {
         packet.subPackets.forEach((subPacket) => {
             ntService.updateValue(
                 subPacket.ntID,
-                subPacket.value,
-                subPacket.timestamp
+                subPacket.value
             );
         });
         sendAckPacket(packet.id);

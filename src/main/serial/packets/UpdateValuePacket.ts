@@ -8,19 +8,20 @@ import {sendAckPacket} from "../sendSerialPacket.ts";
 export enum UpdateValueType {
     BOOL = 1,
     INT = 2,
-    DOUBLE = 3,
+    FLOAT = 3,
+    DOUBLE = 4
 }
 
 // Size of each value type in bytes
 export const UpdateValueTypeSize = {
     [UpdateValueType.BOOL]: 1,
     [UpdateValueType.INT]: 2,
+    [UpdateValueType.FLOAT]: 4,
     [UpdateValueType.DOUBLE]: 8,
 };
 
 export interface UpdateValuePacket extends SerialPacket {
     ntID: number;
-    timestamp: number;
     valueType: UpdateValueType;
     value: number | boolean;
 }
@@ -29,20 +30,22 @@ export const UpdateValuePacketType: SerialPacketType<UpdateValuePacket> = {
     typeID: SerialPacketTypeID.UPDATE_VALUE,
     serialize: (packet) => {
         const valueTypeSize = UpdateValueTypeSize[packet.valueType];
-        const payload = Buffer.alloc(5 + valueTypeSize);
+        const payload = Buffer.alloc(3 + valueTypeSize);
         payload.writeUInt16BE(packet.ntID, 0);
-        payload.writeUInt16BE(packet.timestamp, 2);
-        payload.writeUInt8(packet.valueType, 4);
+        payload.writeUInt8(packet.valueType, 2);
 
         switch (packet.valueType) {
             case UpdateValueType.BOOL:
-                payload.writeUInt8(packet.value as number, 5);
+                payload.writeUInt8(packet.value as number, 3);
                 break;
             case UpdateValueType.INT:
-                payload.writeUInt16BE(packet.value as number, 5);
+                payload.writeInt16BE(packet.value as number, 3);
+                break;
+            case UpdateValueType.FLOAT:
+                payload.writeFloatBE(packet.value as number, 3);
                 break;
             case UpdateValueType.DOUBLE:
-                payload.writeDoubleBE(packet.value as number, 5);
+                payload.writeDoubleBE(packet.value as number, 3);
                 break;
             default:
                 throw new Error(`Unknown value type: ${packet.valueType}`);
@@ -52,31 +55,32 @@ export const UpdateValuePacketType: SerialPacketType<UpdateValuePacket> = {
     },
     deserialize: (packet) => {
         const ntID = packet.payload.readUInt16BE(0);
-        const timestamp = packet.payload.readUInt16BE(2);
-        const valueType = packet.payload.readUInt8(4) as UpdateValueType;
+        const valueType = packet.payload.readUInt8(2) as UpdateValueType;
 
         let value = 0;
         switch (valueType) {
             case UpdateValueType.BOOL:
-                value = packet.payload.readUInt8(5);
+                value = packet.payload.readUInt8(3);
                 break;
             case UpdateValueType.INT:
-                value = packet.payload.readUInt16BE(5);
+                value = packet.payload.readInt16BE(3);
+                break;
+            case UpdateValueType.FLOAT:
+                value = packet.payload.readFloatBE(3);
                 break;
             case UpdateValueType.DOUBLE:
-                value = packet.payload.readDoubleBE(5);
+                value = packet.payload.readDoubleBE(3);
                 break;
             default:
                 throw new Error(`Unknown value type: ${valueType}`);
         }
 
-        return {...packet, ntID, timestamp, valueType, value};
+        return {...packet, ntID, valueType, value};
     },
     onReceive: (packet) => {
         ntService.updateValue(
             packet.ntID,
-            packet.value,
-            packet.timestamp
+            packet.value
         );
         sendAckPacket(packet.id);
     },

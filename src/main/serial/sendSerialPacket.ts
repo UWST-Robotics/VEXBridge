@@ -34,6 +34,9 @@ export default function sendSerialPacket<T extends SerialPacket>(packet: T) {
     const checksum = getChecksum(buffer, 4 + serializedPacket.payload.length);
     buffer.writeUInt8(checksum, 4 + serializedPacket.payload.length);
 
+    // Log
+    Logger.info(`Sending ${buffer.length} bytes: ${buffer.toString("hex")}`);
+
     // Encode COBS
     buffer = encodeByteStuffing(buffer);
 

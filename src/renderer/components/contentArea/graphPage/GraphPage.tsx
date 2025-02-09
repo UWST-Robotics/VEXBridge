@@ -3,6 +3,7 @@ import {Box} from "@mui/material";
 import SelectedValuesTable from "./selectedValuesTable/SelectedValuesTable.tsx";
 import MaxTimeWindowInput from "./MaxTimeWindowInput.tsx";
 import SelectedValuesChart from "./chart/SelectedValuesChart.tsx";
+import NoItemsSelectedCard from "./NoItemsSelectedCard.tsx";
 
 export default function GraphPage() {
     const [currentTab] = useCurrentTab();
@@ -23,6 +24,9 @@ export default function GraphPage() {
             <MaxTimeWindowInput/>
             <SelectedValuesChart/>
             <SelectedValuesTable/>
+            <Box sx={{margin: 5}}>
+                <NoItemsSelectedCard/>
+            </Box>
         </Box>
     );
 }
