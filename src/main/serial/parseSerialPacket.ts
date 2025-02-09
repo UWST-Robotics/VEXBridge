@@ -1,7 +1,7 @@
 import getChecksum from "../common/getChecksum.ts";
 import SerialPacketTypes from "./SerialPacketTypes.ts";
 import Logger from "../common/Logger.ts";
-import decodeCOBS from "./cobs/decodeCOBS.ts";
+import decodeByteStuffing from "./cobs/decodeByteStuffing.ts";
 
 /**
  * Decodes, deserializes, and handles an incoming
@@ -15,7 +15,7 @@ export default function parseSerialPacket(buffer: Buffer) {
     Logger.info(`Received serial packet: ${buffer.toString("hex")}`);
 
     // Decode COBS
-    buffer = decodeCOBS(buffer);
+    buffer = decodeByteStuffing(buffer);
 
     // Deserialize the packet header
     const typeID = buffer.readUInt8(0);

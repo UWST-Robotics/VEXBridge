@@ -5,7 +5,7 @@ import serialService from "../services/serial/SerialService.ts";
 import {GenericAckPacket} from "./packets/GenericAckPacket.ts";
 import SerialPacketTypeID from "../../types/serial/SerialPacketTypeID.ts";
 import Logger from "../common/Logger.ts";
-import encodeCOBS from "./cobs/encodeCOBS.ts";
+import encodeByteStuffing from "./cobs/encodeByteStuffing.ts";
 
 /**
  * Sends a serial packet over the active serial connection
@@ -35,7 +35,7 @@ export default function sendSerialPacket<T extends SerialPacket>(packet: T) {
     buffer.writeUInt8(checksum, 4 + serializedPacket.payload.length);
 
     // Encode COBS
-    buffer = encodeCOBS(buffer);
+    buffer = encodeByteStuffing(buffer);
 
     // Write buffer to serial
     return serialService.write(buffer);
