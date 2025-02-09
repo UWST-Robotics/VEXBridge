@@ -20,8 +20,8 @@ export default function GraphPage() {
                 overflowY: "auto",
             }}
         >
-            <SelectedValuesChart/>
             <MaxTimeWindowInput/>
+            <SelectedValuesChart/>
             <SelectedValuesTable/>
         </Box>
     );

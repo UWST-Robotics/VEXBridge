@@ -2,6 +2,7 @@ import NTGroupInfo from "../../../../types/nt/NTGroupInfo.ts";
 import {Alert, Box, Card, CardContent, Typography} from "@mui/material";
 import NTGroupTable from "../../common/nt/NTGroupTable.tsx";
 import useNTValueFromPath from "../../../hooks/networkTable/useNTValueFromPath.ts";
+import HardwareIcon from "./HardwareIcon.tsx";
 
 export interface HardwareStatusCardProps {
     hardwareGroup: NTGroupInfo;
@@ -17,26 +18,40 @@ export default function HardwareStatusCard(props: HardwareStatusCardProps) {
         <Box
             sx={{
                 minWidth: 300,
+                maxWidth: 300,
                 display: "flex",
                 flexDirection: "column"
             }}
         >
             <Card sx={{flex: 1}}>
                 <CardContent>
-                    <Typography
-                        variant={"body1"}
-                        component={"div"}
-                        sx={{fontWeight: "bold"}}
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "start",
+                            alignItems: "center",
+                            marginBottom: 1
+                        }}
                     >
-                        {name || "Unnamed Hardware"}
-                    </Typography>
-                    <Typography
-                        gutterBottom
-                        sx={{color: "text.secondary", fontSize: 14}}
-                    >
-                        {hardwareGroup.name} · {type || "Unknown"}
-                    </Typography>
+                        <HardwareIcon
+                            type={type?.toString()}
+                        />
 
+                        <Box sx={{marginLeft: 2}}>
+                            <Typography
+                                variant={"body1"}
+                                component={"div"}
+                                sx={{fontWeight: "bold"}}
+                            >
+                                {name || hardwareGroup.name}
+                            </Typography>
+                            <Typography
+                                sx={{color: "text.secondary", fontSize: 14}}
+                            >
+                                {type || "Unknown Hardware"}
+                            </Typography>
+                        </Box>
+                    </Box>
                     <NTGroupTable
                         groupInfo={hardwareGroup}
                         blacklist={["name", "type", "faults"]}
