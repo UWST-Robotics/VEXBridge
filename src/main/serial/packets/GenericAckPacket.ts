@@ -2,22 +2,18 @@ import SerialPacketTypeID from "../../../types/serial/SerialPacketTypeID.ts";
 import SerialPacketType from "../../../types/serial/SerialPacketType.ts";
 import SerialPacket from "../../../types/serial/SerialPacket.ts";
 
-export interface GenericAckPacket extends SerialPacket {
-    targetID: number;
-}
+export type GenericAckPacket = SerialPacket
 
 export const GenericAckPacketType: SerialPacketType<GenericAckPacket> = {
     typeID: SerialPacketTypeID.GENERIC_ACK,
     serialize: (packet) => {
-        const payload = Buffer.alloc(1);
-        payload.writeUInt8(packet.targetID, 0);
+        const payload = Buffer.alloc(0);
         return {...packet, payload};
     },
     deserialize: (packet) => {
-        const targetID = packet.payload.readUInt8(0);
-        return {...packet, targetID};
+        return {...packet};
     },
     onReceive: () => {
-        // Do nothing
+        throw new Error("GenericAckPacket should not be received");
     },
 };

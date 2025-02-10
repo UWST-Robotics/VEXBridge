@@ -8,7 +8,7 @@ import {
     serialStateEvent,
     valueChangedEvent
 } from "../common/EventHandler.ts";
-import Logger from "../common/Logger.ts";
+import logger from "../common/Logger.ts";
 
 /**
  * Manages the socket connection to the server
@@ -28,12 +28,12 @@ export class SocketService {
         this.socketServer.on("connection", (socket) => {
 
             // Log Connection
-            Logger.info(`Client connected: ${socket.id}`);
+            logger.verbose(`Client connected: ${socket.id}`);
 
             socket.on("disconnect", () => {
 
                 // Log Disconnection
-                Logger.info(`Client disconnected: ${socket.id}`);
+                logger.verbose(`Client disconnected: ${socket.id}`);
             });
         });
     }

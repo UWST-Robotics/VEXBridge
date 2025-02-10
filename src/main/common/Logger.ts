@@ -1,26 +1,14 @@
-import Chalk from "chalk";
+import {createLogger, format, transports} from "winston";
 
-/**
- * Logger class for logging messages to the console and the client
- */
-export default class Logger {
-    static log(text: string) {
-        console.log(text);
-    }
 
-    static error(error: string) {
-        Logger.log(Chalk.bgRed("[ERROR]") + " " + Chalk.red(error));
-    }
-
-    static info(info: string) {
-        Logger.log(Chalk.blue("[INFO]") + " " + info);
-    }
-
-    static warn(warn: string) {
-        Logger.log(Chalk.yellow("[WARN]") + " " + warn);
-    }
-
-    static client(info: string) {
-        Logger.log(Chalk.yellow("[CLIENT]") + " " + info);
-    }
-}
+const logger = createLogger({
+    level: "debug",
+    format: format.combine(
+        format.colorize(),
+        format.simple()
+    ),
+    transports: [
+        new transports.Console()
+    ]
+});
+export default logger;

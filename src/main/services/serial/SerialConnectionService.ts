@@ -1,8 +1,8 @@
 import getAvailableSerialPorts from "../../common/getAvailableSerialPorts.ts";
 import VEXSerialType from "../../../types/serial/VEXSerialType.ts";
 import {SERIAL_POLLING_INTERVAL, SERIAL_PORT} from "../../common/Constants.ts";
-import Logger from "../../common/Logger.ts";
 import serialService from "./SerialService.ts";
+import logger from "../../common/Logger.ts";
 
 export class SerialConnectionService {
     autoSelect = true;
@@ -22,7 +22,7 @@ export class SerialConnectionService {
      * @param autoSelect - Whether to enable auto port selection
      */
     enableAutoSelect(autoSelect = true) {
-        Logger.info(`${autoSelect ? "Enabling" : "Disabling"} auto port selection`);
+        logger.info(`${autoSelect ? "Enabling" : "Disabling"} auto port selection`);
         this.autoSelect = autoSelect;
         serialService.emitState();
     }
@@ -32,7 +32,7 @@ export class SerialConnectionService {
      * @param targetPath - The target serial port path (e.g. "COM3" or "/dev/ttyUSB0")
      */
     setTargetPath(targetPath: string) {
-        Logger.info(`Setting target serial port to '${targetPath}'`);
+        logger.info(`Searching for serial @ ${targetPath}...`);
         this.targetPath = targetPath;
         serialService.emitState();
     }
@@ -43,7 +43,7 @@ export class SerialConnectionService {
 
         this.isPolling = true;
         this.pollAsync()
-            .catch(Logger.error)
+            .catch(logger.error)
             .finally(() => this.isPolling = false);
     }
 

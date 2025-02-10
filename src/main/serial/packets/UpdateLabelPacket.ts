@@ -12,17 +12,17 @@ export interface UpdateLabelPacket extends SerialPacket {
 export const UpdateLabelPacketType: SerialPacketType<UpdateLabelPacket> = {
     typeID: SerialPacketTypeID.UPDATE_LABEL,
     serialize: (packet) => {
-        const labelLength = Buffer.byteLength(packet.label);
-        const payload = Buffer.alloc(4 + labelLength);
+        const labelLength = Math.min(Buffer.byteLength(packet.label), 0xFF);
+        const payload = Buffer.alloc(3 + labelLength);
         payload.writeUInt16BE(packet.ntID, 0);
-        payload.writeUInt16BE(labelLength, 2);
-        payload.write(packet.label, 4, labelLength, "utf8");
+        payload.writeUInt8(labelLength, 2);
+        payload.write(packet.label, 3, labelLength, "utf8");
         return {...packet, payload};
     },
     deserialize: (packet) => {
         const ntID = packet.payload.readUInt16BE(0);
-        const labelLength = packet.payload.readUInt16BE(2);
-        const label = packet.payload.toString("utf8", 4, 4 + labelLength);
+        const labelLength = packet.payload.readUInt8(2);
+        const label = packet.payload.toString("utf8", 3, 3 + labelLength);
         return {...packet, ntID, label};
     },
     onReceive: (packet) => {

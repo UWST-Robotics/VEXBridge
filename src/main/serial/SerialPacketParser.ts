@@ -1,7 +1,8 @@
 import {SerialPort} from "serialport";
 import parseSerialPacket from "./parseSerialPacket.ts";
-import Logger from "../common/Logger.ts";
 import {END_FLAG, ESCAPE_FLAG} from "../../types/serial/SerialFlags.ts";
+import {sendNackPacket} from "./sendSerialPacket.ts";
+import logger from "../common/Logger.ts";
 
 const MAX_READ_BUFFER_SIZE = 1024;
 
@@ -14,7 +15,7 @@ export default class SerialPacketParser {
      */
     listenTo(serialPort: SerialPort) {
         // Log
-        Logger.info(`Listening to serial port: ${serialPort.path}`);
+        logger.verbose(`Listening to serial @ ${serialPort.path}`);
 
         // Listen for data from Serial
         serialPort.on("data", this.onData.bind(this));
@@ -27,12 +28,16 @@ export default class SerialPacketParser {
      */
     private onData(data: Buffer) {
         try {
+            // Log
+            logger.debug(`Received data: ${data.toString("hex")}`);
+
             // Append data to buffer
             this.readBuffer = Buffer.concat([this.readBuffer, data]);
+            logger.debug(`Read buffer: ${this.readBuffer.toString("hex")}`);
 
             // Limit buffer size
             if (this.readBuffer.length > MAX_READ_BUFFER_SIZE) {
-                Logger.warn("Read buffer size exceeded maximum, discarding data");
+                logger.warn("Read buffer size exceeded maximum, discarding data");
                 this.readBuffer = Buffer.alloc(0);
                 return;
             }
@@ -58,7 +63,10 @@ export default class SerialPacketParser {
             }
         } catch (error) {
             const stack = error instanceof Error ? error.stack : "";
-            Logger.error(`Error parsing serial packet: ${error}\n${stack}`);
+            logger.error(`Error parsing serial packet: ${error}\n${stack}`);
+
+            // Send NACK
+            sendNackPacket();
         }
     }
 }
