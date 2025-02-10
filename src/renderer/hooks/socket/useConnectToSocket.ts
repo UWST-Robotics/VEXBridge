@@ -10,6 +10,7 @@ import {fetchInitialStateAtom} from "../initialization/useFetchInitialState.ts";
 import {setNTKeyFromPathAtom} from "../networkTable/actions/useSetNTKeyFromPath.ts";
 import {updateNTValueAtom} from "../networkTable/actions/useUpdateNTValue.ts";
 import {resetNTAtom} from "../networkTable/actions/useResetNT.ts";
+import {updateServerSettingsAtom} from "../settings/useUpdateServerSettings.ts";
 
 export default function useConnectToSocket() {
     const socket = useSocket();
@@ -61,6 +62,12 @@ export default function useConnectToSocket() {
         socket.on("key_path_changed", (payload: [number, string]) => {
             const [key, path] = payload;
             primaryStore.set(setNTKeyFromPathAtom, path, key);
+        });
+
+        // Settings Events
+        socket.on("settings_changed", (serverSettings) => {
+            console.log("Received settings changed from server");
+            primaryStore.set(updateServerSettingsAtom, serverSettings);
         });
 
         socket.connect();

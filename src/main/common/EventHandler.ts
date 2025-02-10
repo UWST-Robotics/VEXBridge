@@ -2,6 +2,7 @@ import {EventEmitter} from "events";
 import SerialState from "../../types/serial/SerialState.ts";
 import VEXSerialPortInfo from "../../types/serial/VEXSerialPortInfo.ts";
 import NTValue from "../../types/nt/NTValue.ts";
+import ServerSettings from "../../types/db/ServerSettings.ts";
 
 /**
  * Generic event handler
@@ -29,3 +30,4 @@ export const serialStateEvent = new EventHandler<SerialState>();
 export const serialListEvent = new EventHandler<VEXSerialPortInfo[]>();
 export const valueChangedEvent = new EventHandler<[number, NTValue, number]>(); // key, value, timestamp
 export const keyPathChangedEvent = new EventHandler<[number, string]>(); // key, path
+export const settingsChangedEvent = new EventHandler<ServerSettings>();

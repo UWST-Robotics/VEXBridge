@@ -1,6 +1,5 @@
 import express from "express";
 import http from "http";
-import {HTTP_PORT} from "../common/Constants.ts";
 import bodyParser from "body-parser";
 import serialRouter from "../routers/serialRouter.ts";
 import rootRouter from "../routers/rootRouter.ts";
@@ -8,6 +7,7 @@ import ntPathsRouter from "../routers/ntPathsRouter.ts";
 import logRouter from "../routers/logRouter.ts";
 import ntValuesRouter from "../routers/ntValuesRouter.ts";
 import logger from "../common/Logger.ts";
+import settingsService from "./SettingsService.ts";
 
 /**
  * Manages HTTP requests and responses.
@@ -34,8 +34,9 @@ export class WebService {
     }
 
     startListening() {
-        this.httpServer.listen(HTTP_PORT, () => {
-            logger.info(`Web server listening on port ${HTTP_PORT}`);
+        const {port} = settingsService.get();
+        this.httpServer.listen(port, () => {
+            logger.info(`Web server listening on port ${port}`);
         });
     }
 }

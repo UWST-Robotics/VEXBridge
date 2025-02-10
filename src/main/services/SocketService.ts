@@ -6,6 +6,7 @@ import {
     resetEvent,
     serialListEvent,
     serialStateEvent,
+    settingsChangedEvent,
     valueChangedEvent
 } from "../common/EventHandler.ts";
 import logger from "../common/Logger.ts";
@@ -24,6 +25,7 @@ export class SocketService {
         logEvent.on((msg) => this.socketServer.emit("log", msg));
         valueChangedEvent.on((payload) => this.socketServer.emit("value_changed", payload));
         keyPathChangedEvent.on((payload) => this.socketServer.emit("key_path_changed", payload));
+        settingsChangedEvent.on(() => this.socketServer.emit("settings_changed"));
 
         this.socketServer.on("connection", (socket) => {
 

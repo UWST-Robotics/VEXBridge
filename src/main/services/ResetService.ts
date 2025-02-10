@@ -8,9 +8,9 @@ export class ResetService {
 
     /**
      * Gets the milliseconds since the last reset
-     * @returns {number} The milliseconds since the last reset
+     * @returns The milliseconds since the last reset
      */
-    getTimestamp() {
+    getTimestamp(): number {
         return Date.now() - this.resetTime;
     }
 

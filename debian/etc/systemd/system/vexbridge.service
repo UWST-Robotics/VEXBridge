@@ -8,9 +8,6 @@ WorkingDirectory=/opt/vexbridge/dist
 ExecStart=/usr/bin/node server.js
 Restart=always
 Environment=NODE_ENV=production
-Environment=PORT=80
-Environment=ENABLE_RTS=true
-Environment=SERIAL_PORT=/dev/ttyAMA0
 
 [Install]
 WantedBy=multi-user.target

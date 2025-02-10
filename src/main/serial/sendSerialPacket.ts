@@ -5,7 +5,7 @@ import serialService from "../services/serial/SerialService.ts";
 import {GenericAckPacket} from "./packets/GenericAckPacket.ts";
 import SerialPacketTypeID from "../../types/serial/SerialPacketTypeID.ts";
 import logger from "../common/Logger.ts";
-import encodeByteStuffing from "./cobs/encodeByteStuffing.ts";
+import encodeByteStuffing from "./byteStuffing/encodeByteStuffing.ts";
 import {GenericNAckPacket} from "./packets/GenericNAckPacket.ts";
 
 /**

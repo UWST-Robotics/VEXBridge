@@ -20,12 +20,12 @@ init();
 //     let t = 0;
 //     setInterval(() => {
 //         t++;
-//         ntService.updateValue(thisKey, cos(t * 0.05 + offset) * 48);
+//         ntService.updateValue(thisKey, Math.cos(t * 0.05 + offset) * 48);
 //     }, 50);
 // }
 //
-// test("_poses/Odom/x", 0);
-// test("_poses/Odom/y", 1);
-// test("_poses/Odom2/x", 3);
-// test("_poses/Odom2/y", 4);
+// test("_poses/a/x", 0);
+// test("_poses/a/y", 1);
+// test("_poses/Odom2/x", 2);
+// test("_poses/Odom2/y", 3);
 // test("_hardware/LeftMotor/position", 2);

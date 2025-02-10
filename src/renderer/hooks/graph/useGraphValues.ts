@@ -12,7 +12,7 @@ export const graphValuesAtom = atom((get) => {
     const selectedPaths = get(selectedPathsAtom);
 
     return selectedPaths.map((path) => {
-        const key = get(ntKeyFromPathAtomFamily(path)) || -1;
+        const key = get(ntKeyFromPathAtomFamily(path)) ?? -1;
 
         return {
             color: get(colorFromStringAtomFamily(path)),

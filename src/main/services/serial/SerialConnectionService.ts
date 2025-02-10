@@ -1,19 +1,21 @@
 import getAvailableSerialPorts from "../../common/getAvailableSerialPorts.ts";
 import VEXSerialType from "../../../types/serial/VEXSerialType.ts";
-import {SERIAL_POLLING_INTERVAL, SERIAL_PORT} from "../../common/Constants.ts";
 import serialService from "./SerialService.ts";
 import logger from "../../common/Logger.ts";
+import settingsService from "../SettingsService.ts";
 
 export class SerialConnectionService {
     autoSelect = true;
-    targetPath = SERIAL_PORT;
+    targetPath = "";
     private isPolling = false;
 
     /**
      * Continuously polls the serial ports for VEX system ports.
      */
     init() {
-        setInterval(this.poll.bind(this), SERIAL_POLLING_INTERVAL);
+        const {pollInterval, defaultPort} = settingsService.get();
+        this.targetPath = defaultPort;
+        setInterval(this.poll.bind(this), pollInterval);
     }
 
     /**

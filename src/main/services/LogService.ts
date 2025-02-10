@@ -1,5 +1,6 @@
 import {logEvent, resetEvent} from "../common/EventHandler.ts";
-import {MAX_LOG_MEMORY} from "../common/Constants.ts";
+
+const MAX_LOG_MEMORY = 100 * 1024; // 100 KB
 
 /**
  * Manages log messages relayed to the client

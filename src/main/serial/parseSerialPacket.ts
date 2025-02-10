@@ -1,7 +1,14 @@
 import getChecksum from "../common/getChecksum.ts";
 import SerialPacketTypes from "./SerialPacketTypes.ts";
-import decodeByteStuffing from "./cobs/decodeByteStuffing.ts";
+import decodeByteStuffing from "./byteStuffing/decodeByteStuffing.ts";
 import logger from "../common/Logger.ts";
+import logService from "../services/LogService.ts";
+
+const PROS_PREFIXES = [
+    "sout",  // Standard Output
+    "serr",  // Standard Error
+    "kdbg"   // Kernel Debug
+];
 
 /**
  * Decodes, deserializes, and handles an incoming
@@ -11,7 +18,22 @@ import logger from "../common/Logger.ts";
  * @returns The decoded packet
  */
 export default function parseSerialPacket(buffer: Buffer) {
-    logger.debug(`Received serial buffer: ${buffer.toString("hex")}`);
+    logger.debug(`Parsing serial buffer: ${buffer.toString("hex")}`);
+
+    // Check for PROS Prefix
+    const bufferString = buffer.toString("utf8").slice(1);
+    const prefix = PROS_PREFIXES.find((p) => bufferString.startsWith(p));
+    if (prefix) {
+        // Parse message
+        const message = bufferString.slice(prefix.length);
+        const isError = prefix !== "sout";
+        const messagePrefix = isError ? "\x1b[31m" : "";
+        const messageSuffix = isError ? "\x1b[0m" : "";
+
+        logService.log(`${messagePrefix}${message}${messageSuffix}`);
+        logger.verbose(`PROS Serial: ${prefix} - ${message}`);
+        return;
+    }
 
     // Decode COBS
     buffer = decodeByteStuffing(buffer);
@@ -31,6 +53,7 @@ export default function parseSerialPacket(buffer: Buffer) {
     const calculatedChecksum = getChecksum(buffer, 4 + payloadLength);
     if (checksum !== calculatedChecksum)
         throw new Error(`Checksum mismatch: ${checksum} != ${calculatedChecksum}`);
+    logger.debug(`Checksum verified: ${checksum}`);
 
     // Find the packet type
     const packetType = SerialPacketTypes.find((packetType) => packetType.typeID === typeID);

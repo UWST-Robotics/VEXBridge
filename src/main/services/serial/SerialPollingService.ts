@@ -1,6 +1,6 @@
 import getAvailableSerialPorts from "../../common/getAvailableSerialPorts.ts";
-import {SERIAL_POLLING_INTERVAL} from "../../common/Constants.ts";
 import {serialListEvent} from "../../common/EventHandler.ts";
+import settingsService from "../SettingsService.ts";
 
 export class SerialPollingService {
     private lastSerialPaths: string[] = [];
@@ -9,7 +9,8 @@ export class SerialPollingService {
      * Continuously polls the serial ports for VEX system ports.
      */
     init() {
-        setInterval(this.pollAsync.bind(this), SERIAL_POLLING_INTERVAL);
+        const {pollInterval} = settingsService.get();
+        setInterval(this.pollAsync.bind(this), pollInterval);
     }
 
     private async pollAsync() {

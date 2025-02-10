@@ -1,11 +1,11 @@
 import {SerialPort} from "serialport";
-import {BAUD_RATE, ENABLE_RTS, GPIO_POST_DELAY, GPIO_PRE_DELAY, RTS_PIN} from "../../common/Constants.ts";
 import SerialState from "../../../types/serial/SerialState.ts";
 import serialConnectionService from "./SerialConnectionService.ts";
 import {serialStateEvent} from "../../common/EventHandler.ts";
 import SerialPacketParser from "../../serial/SerialPacketParser.ts";
 import Rpio from "rpio";
 import logger from "../../common/Logger.ts";
+import settingsService from "../SettingsService.ts";
 
 /**
  * Handles serial communication with the VEX V5 brain
@@ -15,10 +15,12 @@ export class SerialService {
     private packetParser = new SerialPacketParser();
 
     constructor() {
+        const {enableRTS, gpioRTSPin} = settingsService.get();
+
         // Initialize RTS Pin
-        if (ENABLE_RTS) {
-            logger.info(`Setting RTS pin to GPIO ${RTS_PIN}`);
-            Rpio.open(RTS_PIN, Rpio.OUTPUT, Rpio.LOW);
+        if (enableRTS) {
+            logger.info(`Setting RTS pin to GPIO ${gpioRTSPin}`);
+            Rpio.open(gpioRTSPin, Rpio.OUTPUT, Rpio.LOW);
         }
     }
 
@@ -50,7 +52,7 @@ export class SerialService {
         // Create Serial Port
         this.hardware = new SerialPort({
             path: serialPath,
-            baudRate: BAUD_RATE,
+            baudRate: settingsService.get().baudRate,
             autoOpen: false
         });
 
@@ -104,11 +106,12 @@ export class SerialService {
      */
     async write(buffer: Buffer) {
         logger.info(`Writing ${buffer.length} bytes: ${buffer.toString("hex")}`);
+        const {enableRTS, gpioRTSPin, gpioPreDelay, gpioPostDelay} = settingsService.get();
 
         // Pull RTS high
-        if (ENABLE_RTS) {
-            Rpio.write(RTS_PIN, Rpio.HIGH);
-            Rpio.msleep(GPIO_PRE_DELAY);
+        if (enableRTS) {
+            Rpio.write(gpioRTSPin, Rpio.HIGH);
+            Rpio.msleep(gpioPreDelay);
         }
 
         // Write data to serial port
@@ -122,9 +125,9 @@ export class SerialService {
         });
 
         // Pull RTS low
-        if (ENABLE_RTS) {
-            Rpio.msleep(GPIO_POST_DELAY);
-            Rpio.write(RTS_PIN, Rpio.LOW);
+        if (enableRTS) {
+            Rpio.msleep(gpioPostDelay);
+            Rpio.write(gpioRTSPin, Rpio.LOW);
         }
     }
 }

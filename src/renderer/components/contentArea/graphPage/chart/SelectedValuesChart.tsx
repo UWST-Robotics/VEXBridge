@@ -1,16 +1,14 @@
 import {CartesianGrid, Legend, Line, LineChart, ReferenceLine, ResponsiveContainer, XAxis, YAxis} from "recharts";
-import useCurrentTime from "../../../../hooks/common/useCurrentTime.ts";
 import useMaxTimeWindow from "../../../../hooks/graph/useMaxTimeWindow.ts";
 import useGraphValues from "../../../../hooks/graph/useGraphValues.ts";
 
 export default function SelectedValuesChart() {
-    const currentTime = useCurrentTime(30);
     const [maxTimeWindow] = useMaxTimeWindow();
     const graphValues = useGraphValues();
 
     // Time Functions
     const formatTime = (time: number) => {
-        const diff = currentTime - time;
+        const diff = Date.now() - time;
         const seconds = diff / 1000;
         return `-${seconds.toFixed(1)}s`;
     };
@@ -33,7 +31,7 @@ export default function SelectedValuesChart() {
                     dataKey={"timestamp"}
                     type={"number"}
                     allowDataOverflow={true}
-                    domain={[currentTime - maxTimeWindow, currentTime]}
+                    domain={[Date.now() - maxTimeWindow, Date.now()]}
                     tickFormatter={formatTime}
                 />
                 <Legend/>

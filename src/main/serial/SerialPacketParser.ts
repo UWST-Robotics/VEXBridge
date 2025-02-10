@@ -4,7 +4,7 @@ import {END_FLAG, ESCAPE_FLAG} from "../../types/serial/SerialFlags.ts";
 import {sendNackPacket} from "./sendSerialPacket.ts";
 import logger from "../common/Logger.ts";
 
-const MAX_READ_BUFFER_SIZE = 1024;
+const MAX_READ_BUFFER_SIZE = 100 * 1024; // 100 KB
 
 export default class SerialPacketParser {
     readBuffer: Buffer = Buffer.alloc(0);
@@ -44,9 +44,10 @@ export default class SerialPacketParser {
 
             // Iterate over buffer
             for (let i = 0; i < this.readBuffer.length; i++) {
-                // If ESCAPE_FLAG, skip next byte
+                // Check ESCAPE_FLAG
                 if (this.readBuffer[i] === ESCAPE_FLAG) {
-                    i++; // Skip next byte
+                    // Skip next byte
+                    i++;
                     continue;
                 }
 
@@ -57,6 +58,7 @@ export default class SerialPacketParser {
                 // Split the buffer at the delimiter
                 const packetBuffer = this.readBuffer.subarray(0, i); // Before delimiter
                 this.readBuffer = this.readBuffer.subarray(i + 1); // After delimiter
+                i = -1; // Reset index
 
                 // Parse packets
                 parseSerialPacket(packetBuffer);

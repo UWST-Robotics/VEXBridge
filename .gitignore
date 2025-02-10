@@ -26,3 +26,6 @@ out
 
 # SQLite database files
 *.sqlite
+
+# Configuration files
+config.json
