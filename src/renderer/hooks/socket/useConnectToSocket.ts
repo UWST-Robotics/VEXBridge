@@ -55,9 +55,9 @@ export default function useConnectToSocket() {
         });
 
         // Network Table Events
-        socket.on("value_changed", (payload: [number, NTValue, number]) => {
-            const [key, value, timestamp] = payload;
-            primaryStore.set(updateNTValueAtom, key, value, timestamp);
+        socket.on("value_changed", (payload: [number, NTValue]) => {
+            const [key, value] = payload;
+            primaryStore.set(updateNTValueAtom, key, value);
         });
         socket.on("key_path_changed", (payload: [number, string]) => {
             const [key, path] = payload;

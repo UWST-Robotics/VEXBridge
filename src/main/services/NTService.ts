@@ -41,11 +41,8 @@ export class NTService {
         // Update value
         this.valueDB[key] = value;
 
-        // Get the current timestamp
-        const timestamp = Date.now();
-
         // Emit an event
-        valueChangedEvent.emit([key, value, timestamp]);
+        valueChangedEvent.emit([key, value]);
     }
 
     /**

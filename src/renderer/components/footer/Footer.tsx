@@ -1,6 +1,5 @@
 import {Paper} from "@mui/material";
 import SerialButton from "./serial/SerialButton.tsx";
-import SettingsButton from "./SettingsButton.tsx";
 
 export default function Footer() {
     return (
@@ -13,7 +12,7 @@ export default function Footer() {
         >
 
             <SerialButton/>
-            <SettingsButton/>
+            {/*<SettingsButton/>*/}
         </Paper>
     );
 }

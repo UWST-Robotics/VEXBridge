@@ -5,11 +5,11 @@ import {ntValueHistoryAtomFamily} from "../useNTValueHistory.ts";
 
 const MAX_VALUE_MEMORY = 10000;
 
-export const updateNTValueAtom = atom(null, (_, set, key: number, value: NTValue, timestamp: number) => {
+export const updateNTValueAtom = atom(null, (_, set, key: number, value: NTValue) => {
     set(ntValueHistoryAtomFamily(key), (prev) => {
         const next = [...prev, {
             value,
-            timestamp
+            timestamp: Date.now()
         }];
 
         if (next.length > MAX_VALUE_MEMORY)

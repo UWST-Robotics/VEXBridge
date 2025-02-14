@@ -4,6 +4,7 @@ import SelectedValuesTable from "./selectedValuesTable/SelectedValuesTable.tsx";
 import MaxTimeWindowInput from "./MaxTimeWindowInput.tsx";
 import SelectedValuesChart from "./chart/SelectedValuesChart.tsx";
 import NoItemsSelectedCard from "./NoItemsSelectedCard.tsx";
+import ClearGraphButton from "./ClearGraphButton.tsx";
 
 export default function GraphPage() {
     const [currentTab] = useCurrentTab();
@@ -21,7 +22,19 @@ export default function GraphPage() {
                 overflowY: "auto",
             }}
         >
-            <MaxTimeWindowInput/>
+            <Box
+                sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "100%",
+                    flexWrap: "wrap",
+                }}
+            >
+                <MaxTimeWindowInput/>
+                <ClearGraphButton/>
+            </Box>
             <SelectedValuesChart/>
             <SelectedValuesTable/>
             <Box sx={{margin: 5}}>

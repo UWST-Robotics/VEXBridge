@@ -16,18 +16,18 @@ export const BatchPacketType: SerialPacketType<BatchPacket> = {
     typeID: SerialPacketTypeID.BATCH_PACKET,
     serialize: (packet) => {
         // Verify sub-packets are all match this packet type
-        const invalidSubPacket = packet.subPackets.find((subPacket) => subPacket.type !== packet.type);
+        const invalidSubPacket = packet.subPackets.find((subPacket) => subPacket.type !== packet.subType);
         if (invalidSubPacket)
-            throw new Error(`Invalid sub-packet type: ${invalidSubPacket.type} (expected ${packet.type})`);
+            throw new Error(`Invalid sub-packet type: ${invalidSubPacket.type} (expected ${packet.subType})`);
 
         // Verify more than 0 sub-packets
         if (packet.subPackets.length === 0)
             throw new Error("Batch packet must contain at least one sub-packet");
 
         // Find packet type
-        const packetType = SerialPacketTypes.find((type) => type.typeID === packet.type);
+        const packetType = SerialPacketTypes.find((type) => type.typeID === packet.subType);
         if (!packetType)
-            throw new Error(`Unknown packet type: ${packet.type}`);
+            throw new Error(`Unknown packet type: ${packet.subType}`);
 
         // Serialize all sub-packets
         const packetArr = packet.subPackets.map((subPacket) => packetType.serialize(subPacket));
@@ -80,6 +80,8 @@ export const BatchPacketType: SerialPacketType<BatchPacket> = {
 
             // Deserialize
             const subPacket = packetType.deserialize({type: subType, id: packet.id, payload});
+            if (!subPacket)
+                throw new Error(`Failed to deserialize sub-packet at offset ${offset}`);
             subPackets.push(subPacket);
 
             // Increment offset
@@ -91,9 +93,9 @@ export const BatchPacketType: SerialPacketType<BatchPacket> = {
     },
     onReceive: (packet) => {
         // Find packet type
-        const packetType = SerialPacketTypes.find((type) => type.typeID === packet.type);
+        const packetType = SerialPacketTypes.find((type) => type.typeID === packet.subType);
         if (!packetType)
-            throw new Error(`Unknown packet type: ${packet.type}`);
+            throw new Error(`Unknown packet type: ${packet.subType}`);
 
         // Call onReceive for all sub-packets
         packet.subPackets.forEach((subPacket) => packetType.onReceive(subPacket));

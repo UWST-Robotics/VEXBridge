@@ -105,7 +105,6 @@ export class SerialService {
      * @returns A promise that resolves when the write operation is complete
      */
     async write(buffer: Buffer) {
-        logger.info(`Writing ${buffer.length} bytes: ${buffer.toString("hex")}`);
         const {enableRTS, gpioRTSPin, gpioPreDelay, gpioPostDelay} = settingsService.get();
 
         // Pull RTS high

@@ -1,7 +1,6 @@
 import {SerialPort} from "serialport";
 import parseSerialPacket from "./parseSerialPacket.ts";
 import {END_FLAG, ESCAPE_FLAG} from "../../types/serial/SerialFlags.ts";
-import {sendNackPacket} from "./sendSerialPacket.ts";
 import logger from "../common/Logger.ts";
 
 const MAX_READ_BUFFER_SIZE = 100 * 1024; // 100 KB
@@ -55,6 +54,10 @@ export default class SerialPacketParser {
                 if (this.readBuffer[i] !== END_FLAG)
                     continue;
 
+                // Minimum 2 bytes for packet
+                if (i < 1)
+                    continue;
+
                 // Split the buffer at the delimiter
                 const packetBuffer = this.readBuffer.subarray(0, i); // Before delimiter
                 this.readBuffer = this.readBuffer.subarray(i + 1); // After delimiter
@@ -68,7 +71,7 @@ export default class SerialPacketParser {
             logger.error(`Error parsing serial packet: ${error}\n${stack}`);
 
             // Send NACK
-            sendNackPacket();
+            // sendNackPacket();
         }
     }
 }
