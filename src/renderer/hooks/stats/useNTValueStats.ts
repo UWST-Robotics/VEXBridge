@@ -2,6 +2,7 @@ import {atom, useAtomValue} from "jotai";
 import {atomFamily} from "jotai/utils";
 import {ntValueHistoryAtomFamily} from "../networkTable/useNTValueHistory.ts";
 import {ntKeyFromPathAtomFamily} from "../networkTable/useNTKeyFromPath.ts";
+import {maxTimeWindowAtom} from "../graph/useMaxTimeWindow.ts";
 
 export const ntValueStatsAtom = atomFamily((path: string) => atom((get) => {
     // Get key from path
@@ -14,9 +15,15 @@ export const ntValueStatsAtom = atomFamily((path: string) => atom((get) => {
     if (ntValueHistory === undefined)
         return undefined;
 
-    // Values could be anything, so we need to convert them to numbers
-    // and filter out any that are not numbers
+    // Get Time Window
+    const maxTimeWindow = get(maxTimeWindowAtom);
+    const oldestTime = Date.now() - maxTimeWindow;
+
+    // Filter values by time window
+    // Then convert to numbers
+    // Then filter out any that are NaN
     const numericValues = ntValueHistory
+        .filter((v) => v.timestamp >= oldestTime)
         .map((v) => Number(v.value))
         .filter((v) => !isNaN(v));
 

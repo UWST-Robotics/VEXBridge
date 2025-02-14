@@ -1,10 +1,10 @@
 import {atomFamily} from "jotai/utils";
-import {atom, useAtomValue} from "jotai";
-import NTValue from "../../../types/nt/NTValue.ts";
+import {useAtomValue} from "jotai";
+import {focusAtom} from "jotai-optics";
+import {ntValuesAtom} from "./useNTValues.ts";
 
 // Atoms
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const ntValueAtomFamily = atomFamily((_: number) => atom<NTValue>(undefined));
+export const ntValueAtomFamily = atomFamily((id: number) => focusAtom(ntValuesAtom, (optic) => optic.prop(id)));
 
 // Hooks
 export default function useNTValue(id: number) {

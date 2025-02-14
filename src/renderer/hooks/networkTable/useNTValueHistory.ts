@@ -1,10 +1,10 @@
 import {atomFamily} from "jotai/utils";
-import {atom, useAtomValue} from "jotai";
-import NTTimestampedValue from "../../../types/nt/NTTimestampedValue.ts";
+import {useAtomValue} from "jotai";
+import {focusAtom} from "jotai-optics";
+import {ntValueHistoriesAtom} from "./useNTValueHistories.ts";
 
 // Atoms
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const ntValueHistoryAtomFamily = atomFamily((_: number) => atom<NTTimestampedValue[]>([]));
+export const ntValueHistoryAtomFamily = atomFamily((id: number) => focusAtom(ntValueHistoriesAtom, (optic) => optic.prop(id)));
 
 // Hooks
 export default function useNTValueHistory(id: number) {

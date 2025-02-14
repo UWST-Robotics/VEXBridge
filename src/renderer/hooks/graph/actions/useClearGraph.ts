@@ -1,10 +1,9 @@
 import {atom, useSetAtom} from "jotai";
-import resetAtomFamily from "../../../utils/resetAtomFamily.ts";
-import {ntValueHistoryAtomFamily} from "../../networkTable/useNTValueHistory.ts";
+import {ntValueHistoriesAtom} from "../../networkTable/useNTValueHistories.ts";
 
 // Atoms
-export const clearGraphAtom = atom(null, () => {
-    resetAtomFamily(ntValueHistoryAtomFamily);
+export const clearGraphAtom = atom(null, (_, set) => {
+    set(ntValueHistoriesAtom, {});
 });
 
 // Hooks

@@ -7,10 +7,10 @@ const MAX_VALUE_MEMORY = 10000;
 
 export const updateNTValueAtom = atom(null, (_, set, key: number, value: NTValue) => {
     set(ntValueHistoryAtomFamily(key), (prev) => {
-        const next = [...prev, {
-            value,
-            timestamp: Date.now()
-        }];
+        const next = [
+            ...(prev || []),
+            {value, timestamp: Date.now()}
+        ];
 
         if (next.length > MAX_VALUE_MEMORY)
             next.shift();

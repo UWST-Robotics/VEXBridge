@@ -13,5 +13,5 @@ export default function ClearGraphButton() {
         >
             Clear Graph
         </Button>
-    )
+    );
 }
