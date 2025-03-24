@@ -32,20 +32,21 @@ export default function PoseRenderer(props: PoseRendererProps) {
         label
     } = props;
 
-    const groupRef = React.useRef<Konva.Group>(null);
+    const translateGroupRef = React.useRef<Konva.Group>(null);
+    const rotateGroupRef = React.useRef<Konva.Group>(null);
     const actualLength = length ?? WIDTH;
     const actualWidth = width ?? HEIGHT;
     const actualAngle = angle ?? 0;
 
     // Interpolate the position and angle
     React.useEffect(() => {
-        if (!groupRef.current)
+        if (!translateGroupRef.current || !rotateGroupRef.current)
             return () => {
             };
         if (props.disableLerp) {
-            groupRef.current.x(x);
-            groupRef.current.y(y);
-            groupRef.current.rotation(actualAngle);
+            translateGroupRef.current.x(x);
+            translateGroupRef.current.y(y);
+            rotateGroupRef.current.rotation(actualAngle);
             return () => {
             };
         }
@@ -55,17 +56,17 @@ export default function PoseRenderer(props: PoseRendererProps) {
         const targetAngle = actualAngle % 360;
 
         const animation = new Konva.Animation(() => {
-            const currentX = groupRef.current?.x() ?? 0;
-            const currentY = groupRef.current?.y() ?? 0;
-            const currentAngle = groupRef.current?.rotation() ?? 0;
+            const currentX = translateGroupRef.current?.x() ?? 0;
+            const currentY = translateGroupRef.current?.y() ?? 0;
+            const currentAngle = rotateGroupRef.current?.rotation() ?? 0;
 
             const newX = lerp(STEP_SIZE, currentX, targetX);
             const newY = lerp(STEP_SIZE, currentY, targetY);
             const newAngle = lerpDegrees(STEP_SIZE, currentAngle, targetAngle);
 
-            groupRef.current?.x(newX);
-            groupRef.current?.y(newY);
-            groupRef.current?.rotation(newAngle);
+            translateGroupRef.current?.x(newX);
+            translateGroupRef.current?.y(newY);
+            rotateGroupRef.current?.rotation(newAngle);
         });
 
         animation.start();
@@ -74,38 +75,53 @@ export default function PoseRenderer(props: PoseRendererProps) {
 
     return (
         <Group
-            ref={groupRef}
+            ref={translateGroupRef}
         >
-            {/* Body */}
-            <Rect
-                x={-actualLength / 2}
-                y={-actualWidth / 2}
-                width={actualLength}
-                height={actualWidth}
-                stroke={strokeColor ?? STROKE_COLOR}
-                strokeWidth={1}
-                opacity={props.opacity ?? 1}
-            />
-
-            {/* Angle */}
-            {angle !== undefined && (
-                <Line
-                    points={[0, 0, actualLength * 0.8, 0]}
+            <Group
+                ref={rotateGroupRef}
+            >
+                {/* Body */}
+                <Rect
+                    x={-actualLength / 2}
+                    y={-actualWidth / 2}
+                    width={actualLength}
+                    height={actualWidth}
                     stroke={strokeColor ?? STROKE_COLOR}
                     strokeWidth={1}
                     opacity={props.opacity ?? 1}
                 />
-            )}
+
+                {/* Angle */}
+                {angle !== undefined && (
+                    <Line
+                        points={[0, 0, actualLength * 0.8, 0]}
+                        stroke={strokeColor ?? STROKE_COLOR}
+                        strokeWidth={1}
+                        opacity={props.opacity ?? 1}
+                    />
+                )}
+            </Group>
 
             {/* Label */}
             <Text
                 x={-actualLength}
-                y={-actualWidth / 2 - 4}
+                y={-actualWidth / 2 - 10}
                 text={label}
-                fontSize={3}
+                fontSize={3.5}
+                fontVariant={"bold"}
                 width={actualLength * 2}
-                align="center"
-                fill="#aaa"
+                align={"center"}
+                fill={"#aaa"}
+                opacity={props.opacity ?? 1}
+            />
+            <Text
+                x={-actualLength}
+                y={-actualWidth / 2 - 6.8}
+                text={`(${x.toFixed(2)}, ${y.toFixed(2)}, ${angle?.toFixed(2)})`}
+                fontSize={2}
+                width={actualLength * 2}
+                align={"center"}
+                fill={"#aaa"}
                 opacity={props.opacity ?? 1}
             />
         </Group>

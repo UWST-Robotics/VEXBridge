@@ -3,9 +3,13 @@ import {atom, useSetAtom} from "jotai";
 import {ntValuesAtom} from "../useNTValues.ts";
 import {ntValueHistoriesAtom} from "../useNTValueHistories.ts";
 import {ntKeyFromPathsAtom} from "../useNTKeyFromPaths.ts";
+import {logAtom} from "../../log/useLog.ts";
 
 export const resetNTAtom = atom(null, (_, set) => {
-    
+
+    // Clear Log
+    set(logAtom, "");
+
     // Clear History
     set(ntValueHistoriesAtom, {});
 

@@ -1,7 +1,6 @@
 import * as fs from "fs";
-import DefaultSettings from "../../types/db/DefaultSettings.ts";
 import {settingsChangedEvent} from "../common/EventHandler.ts";
-import ServerSettings from "../../types/db/ServerSettings.ts";
+import ServerSettings, {DefaultServerSettings} from "../../types/db/ServerSettings.ts";
 import logger from "../common/Logger.ts";
 
 const CONFIG_FILE_NAME = "config.json";
@@ -10,7 +9,7 @@ const CONFIG_FILE_NAME = "config.json";
  * Manages local server settings
  */
 export class SettingsService {
-    private settings: ServerSettings = DefaultSettings.server;
+    private settings: ServerSettings = DefaultServerSettings;
 
     constructor() {
         this.loadFromFile();
@@ -62,7 +61,7 @@ export class SettingsService {
     set(settings: ServerSettings) {
         // Merge settings with defaults/old settings
         this.settings = {
-            ...DefaultSettings.server,
+            ...DefaultServerSettings,
             ...this.settings,
             ...settings
         };

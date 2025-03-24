@@ -33,7 +33,7 @@ export default function SceneGraph() {
                 </List>
             ) : (
                 <NonIdealState
-                    description={"No Network Table Data"}
+                    description={"No VEXBridge Data"}
                 />
             )}
         </Box>

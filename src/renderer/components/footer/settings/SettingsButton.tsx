@@ -1,7 +1,7 @@
 import {Button} from "@mui/material";
 import {Settings} from "@mui/icons-material";
 import React from "react";
-import SettingsModal from "../modals/settings/SettingsModal.tsx";
+import SettingsModal from "../../modals/settings/SettingsModal.tsx";
 
 export default function SettingsButton() {
     const [isOpen, setIsOpen] = React.useState(false);

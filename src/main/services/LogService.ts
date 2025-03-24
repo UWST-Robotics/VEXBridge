@@ -1,17 +1,19 @@
 import {logEvent, resetEvent} from "../common/EventHandler.ts";
 
 const MAX_LOG_MEMORY = 100 * 1024; // 100 KB
+const DEFAULT_LOG_TEXT = "\x1b[90m --- start of log --- \x1b[0m\n";
 
 /**
  * Manages log messages relayed to the client
  */
 export class LogService {
-    private fullLogTest = "\x1b[90m --- start of log --- \x1b[0m\n";
+    private fullLogText = DEFAULT_LOG_TEXT;
 
     constructor() {
         // Handle Reset Events
         resetEvent.on(() => {
-            this.log("\x1b[90m --- reset --- \x1b[0m\n");
+            this.fullLogText = "";
+            this.log(DEFAULT_LOG_TEXT);
         });
     }
 
@@ -20,9 +22,9 @@ export class LogService {
      * @param message - Message to append to log
      */
     log(message: string) {
-        this.fullLogTest += message;
-        if (this.fullLogTest.length > MAX_LOG_MEMORY)
-            this.fullLogTest = this.fullLogTest.slice(-MAX_LOG_MEMORY);
+        this.fullLogText += message;
+        if (this.fullLogText.length > MAX_LOG_MEMORY)
+            this.fullLogText = this.fullLogText.slice(-MAX_LOG_MEMORY);
         logEvent.emit(message);
     }
 
@@ -30,7 +32,7 @@ export class LogService {
      * Gets the full log as a string
      */
     getCurrentLog() {
-        return this.fullLogTest;
+        return this.fullLogText;
     }
 }
 

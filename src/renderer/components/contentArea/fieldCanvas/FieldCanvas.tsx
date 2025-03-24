@@ -7,6 +7,8 @@ import NetworkPoseRenderer from "./canvasRenderers/poseRenderer/NetworkPoseRende
 import NetworkLineRenderer from "./canvasRenderers/lineRenderer/NetworkLineRenderer.tsx";
 import useNTGroupInfo from "../../../hooks/ntGroupInfo/useNTGroupInfo.ts";
 import CompassRenderer from "./canvasRenderers/CompassRenderer.tsx";
+import LayoutRenderer from "./canvasRenderers/LayoutRenderer.tsx";
+import CursorRenderer from "./canvasRenderers/cursorRenderer/CursorRenderer.tsx";
 
 export default function FieldCanvas() {
     const linesGroupInfo = useNTGroupInfo(LINES_GROUP);
@@ -28,6 +30,10 @@ export default function FieldCanvas() {
                     width={canvasSize}
                     height={canvasSize}
                     fill={"#121212"}
+                />
+                <LayoutRenderer
+                    canvasSize={canvasSize}
+                    opacity={0.1}
                 />
 
                 {/* Grids */}
@@ -74,6 +80,11 @@ export default function FieldCanvas() {
                         <NetworkPoseRenderer key={group.path} poseGroup={group}/>
                     ))}
                 </Group>
+
+                {/* Cursor */}
+                <CursorRenderer
+                    canvasSize={canvasSize}
+                />
             </Layer>
         </Stage>
     );

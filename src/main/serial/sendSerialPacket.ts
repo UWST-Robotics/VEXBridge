@@ -42,7 +42,7 @@ export default function sendSerialPacket<T extends SerialPacket>(packet: T) {
 
     // Encode COBS
     buffer = encodeByteStuffing(buffer);
-    logger.debug(`Encoded buffer: ${buffer.toString("hex")}`);
+    logger.debug(`Encoded write buffer: ${buffer.toString("hex")}`);
 
     // Write buffer to serial
     return serialService.write(buffer);
