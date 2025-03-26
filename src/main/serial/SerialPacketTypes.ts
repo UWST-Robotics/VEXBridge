@@ -12,6 +12,10 @@ import {UpdateDoublePacketType} from "./packets/UpdateDoublePacket.ts";
 import {UpdateStringPacketType} from "./packets/UpdateStringPacket.ts";
 import {BatchPacketType} from "./packets/BatchPacket.ts";
 import {GenericNAckPacketType} from "./packets/GenericNAckPacket.ts";
+import {UpdateIntArrayPacketType} from "./packets/UpdateIntArrayPacket.ts";
+import {UpdateFloatArrayPacketType} from "./packets/UpdateFloatArrayPacket.ts";
+import {UpdateDoubleArrayPacketType} from "./packets/UpdateDoubleArrayPacket.ts";
+import {UpdateBoolArrayPacketType} from "./packets/UpdateBoolArrayPacket.ts";
 
 const SerialPacketTypes: SerialPacketType<any>[] = [
     ResetPacketType,
@@ -27,6 +31,11 @@ const SerialPacketTypes: SerialPacketType<any>[] = [
     UpdateFloatPacketType,
     UpdateDoublePacketType,
     UpdateStringPacketType,
+
+    UpdateBoolArrayPacketType,
+    UpdateIntArrayPacketType,
+    UpdateFloatArrayPacketType,
+    UpdateDoubleArrayPacketType,
 
     BatchPacketType
 ];

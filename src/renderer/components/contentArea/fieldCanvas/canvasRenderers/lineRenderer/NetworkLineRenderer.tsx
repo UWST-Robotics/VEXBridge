@@ -1,6 +1,5 @@
 import NTGroupInfo from "../../../../../../types/nt/NTGroupInfo.ts";
 import {Circle, Group, Line} from "react-konva";
-import useNTValuesOfGroup from "../../../../../hooks/networkTable/useNTValuesOfGroup.ts";
 import React from "react";
 import useNTValueFromPath from "../../../../../hooks/networkTable/useNTValueFromPath.ts";
 
@@ -11,21 +10,15 @@ export interface NetworkPoseRendererProps {
 export default function NetworkLineRenderer(props: NetworkPoseRendererProps) {
     const {lineGroup} = props;
     const color = useNTValueFromPath(lineGroup.path + "/color");
-    const ntValues = useNTValuesOfGroup(lineGroup.path);
+    const xValues = useNTValueFromPath(lineGroup.path + "/x");
+    const yValues = useNTValueFromPath(lineGroup.path + "/y");
 
     const points = React.useMemo(() => {
-        const points: number[][] = [];
-        for (const pointNTGroup of lineGroup.children) {
-            const path = pointNTGroup.path;
-            const x = ntValues[path + "/x"];
-            const y = ntValues[path + "/y"];
+        const xNumbers = Array.isArray(xValues) ? xValues : [];
+        const yNumbers = Array.isArray(yValues) ? yValues : [];
 
-            if (x !== undefined && y !== undefined)
-                points.push([Number(x), Number(y)]);
-        }
-
-        return points;
-    }, [lineGroup, ntValues]);
+        return xNumbers.map((x, i) => [x, yNumbers[i]]);
+    }, [xValues, yValues]);
 
     return (
         <Group>

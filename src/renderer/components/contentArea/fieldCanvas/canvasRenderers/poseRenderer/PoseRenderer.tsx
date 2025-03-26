@@ -20,6 +20,7 @@ const STROKE_COLOR = "#315495";
 const WIDTH = 4;
 const HEIGHT = 4;
 const STEP_SIZE = 0.2;
+const TEXT_WIDTH = 100;
 
 export default function PoseRenderer(props: PoseRendererProps) {
     const {
@@ -105,7 +106,7 @@ export default function PoseRenderer(props: PoseRendererProps) {
             {/* Label */}
             <Text
                 x={-actualLength}
-                y={-actualWidth / 2 - 10}
+                y={-actualWidth / 2 - 8}
                 text={label}
                 fontSize={3.5}
                 fontVariant={"bold"}
@@ -115,11 +116,11 @@ export default function PoseRenderer(props: PoseRendererProps) {
                 opacity={props.opacity ?? 1}
             />
             <Text
-                x={-actualLength}
-                y={-actualWidth / 2 - 6.8}
-                text={`(${x.toFixed(2)}, ${y.toFixed(2)}, ${angle?.toFixed(2)})`}
-                fontSize={2}
-                width={actualLength * 2}
+                x={-TEXT_WIDTH / 2}
+                y={-actualWidth / 2 - 4}
+                text={`(${x.toFixed(2)}, ${y.toFixed(2)}, ${angle?.toFixed(2) ?? "0"})`}
+                fontSize={2.5}
+                width={TEXT_WIDTH}
                 align={"center"}
                 fill={"#aaa"}
                 opacity={props.opacity ?? 1}

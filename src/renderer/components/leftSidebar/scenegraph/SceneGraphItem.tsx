@@ -39,7 +39,13 @@ export default function SceneGraphItem(props: SceneGraphItemProps) {
                 }}
             >
                 <Box
-                    sx={{}}
+                    sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        width: "100%"
+                    }}
                 >
                     <Typography>
                         {name}
@@ -52,7 +58,7 @@ export default function SceneGraphItem(props: SceneGraphItemProps) {
                             whiteSpace: "nowrap",
                             overflow: "hidden",
                             textOverflow: "ellipsis",
-                            maxWidth: 200
+                            maxWidth: 150
                         }}
                     >
                         {valueText}

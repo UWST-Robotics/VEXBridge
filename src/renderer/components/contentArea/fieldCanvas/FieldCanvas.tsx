@@ -2,7 +2,7 @@ import {Group, Layer, Rect, Stage} from "react-konva";
 import useWindowSize from "../../../hooks/common/useWindowSize.ts";
 import GridRenderer from "./canvasRenderers/GridRenderer.tsx";
 import React from "react";
-import {LINES_GROUP, POSE_GROUP} from "../../../utils/GroupNames.ts";
+import {PATHS_GROUP, POSE_GROUP} from "../../../utils/GroupNames.ts";
 import NetworkPoseRenderer from "./canvasRenderers/poseRenderer/NetworkPoseRenderer.tsx";
 import NetworkLineRenderer from "./canvasRenderers/lineRenderer/NetworkLineRenderer.tsx";
 import useNTGroupInfo from "../../../hooks/ntGroupInfo/useNTGroupInfo.ts";
@@ -11,7 +11,7 @@ import LayoutRenderer from "./canvasRenderers/LayoutRenderer.tsx";
 import CursorRenderer from "./canvasRenderers/cursorRenderer/CursorRenderer.tsx";
 
 export default function FieldCanvas() {
-    const linesGroupInfo = useNTGroupInfo(LINES_GROUP);
+    const pathsGroupInfo = useNTGroupInfo(PATHS_GROUP);
     const posesGroupInfo = useNTGroupInfo(POSE_GROUP);
     const [windowWidth, windowHeight] = useWindowSize();
 
@@ -71,7 +71,7 @@ export default function FieldCanvas() {
                     scaleY={canvasSize / 144}
                 >
                     {/* Lines */}
-                    {linesGroupInfo?.children.map((group) => (
+                    {pathsGroupInfo?.children.map((group) => (
                         <NetworkLineRenderer key={group.path} lineGroup={group}/>
                     ))}
 
