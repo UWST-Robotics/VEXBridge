@@ -3,6 +3,7 @@ import React from "react";
 import Konva from "konva";
 import lerp from "../../../../../utils/lerp.ts";
 import lerpDegrees from "../../../../../utils/lerpDegrees.ts";
+import useTransformedPose from "../../../../../hooks/common/useTransformedPose.ts";
 
 export interface PoseRendererProps {
     x: number;
@@ -33,46 +34,51 @@ export default function PoseRenderer(props: PoseRendererProps) {
         label
     } = props;
 
+    const targetPose = useTransformedPose({x, y, rotation: angle ?? 0});
     const translateGroupRef = React.useRef<Konva.Group>(null);
     const rotateGroupRef = React.useRef<Konva.Group>(null);
     const actualLength = length ?? WIDTH;
     const actualWidth = width ?? HEIGHT;
-    const actualAngle = angle ?? 0;
 
     // Interpolate the position and angle
     React.useEffect(() => {
         if (!translateGroupRef.current || !rotateGroupRef.current)
             return () => {
             };
+
+        // Animation Disabled
         if (props.disableLerp) {
-            translateGroupRef.current.x(x);
-            translateGroupRef.current.y(y);
-            rotateGroupRef.current.rotation(actualAngle);
+            translateGroupRef.current.x(targetPose.x);
+            translateGroupRef.current.y(targetPose.y);
+            rotateGroupRef.current.rotation(targetPose.rotation);
             return () => {
             };
         }
 
-        const targetX = x;
-        const targetY = y;
-        const targetAngle = actualAngle % 360;
-
+        // Animation Enabled
         const animation = new Konva.Animation(() => {
-            const currentX = translateGroupRef.current?.x() ?? 0;
-            const currentY = translateGroupRef.current?.y() ?? 0;
-            const currentAngle = rotateGroupRef.current?.rotation() ?? 0;
+            // Get the current pose
+            const currentPose = {
+                x: translateGroupRef.current?.x() ?? 0,
+                y: translateGroupRef.current?.y() ?? 0,
+                rotation: rotateGroupRef.current?.rotation() ?? 0
+            };
 
-            const newX = lerp(STEP_SIZE, currentX, targetX);
-            const newY = lerp(STEP_SIZE, currentY, targetY);
-            const newAngle = lerpDegrees(STEP_SIZE, currentAngle, targetAngle);
+            // Lerp the pose
+            const lerpedPose = {
+                x: lerp(STEP_SIZE, currentPose.x, targetPose.x),
+                y: lerp(STEP_SIZE, currentPose.y, targetPose.y),
+                rotation: lerpDegrees(STEP_SIZE, currentPose.rotation, targetPose.rotation)
+            };
 
-            translateGroupRef.current?.x(newX);
-            translateGroupRef.current?.y(newY);
-            rotateGroupRef.current?.rotation(newAngle);
+            translateGroupRef.current?.x(lerpedPose.x);
+            translateGroupRef.current?.y(lerpedPose.y);
+            rotateGroupRef.current?.rotation(lerpedPose.rotation);
         });
 
         animation.start();
         return () => animation.stop();
-    }, [x, y, actualAngle, props.disableLerp]);
+    }, [targetPose]);
 
     return (
         <Group
@@ -105,12 +111,12 @@ export default function PoseRenderer(props: PoseRendererProps) {
 
             {/* Label */}
             <Text
-                x={-actualLength}
+                x={-TEXT_WIDTH / 2}
                 y={-actualWidth / 2 - 8}
                 text={label}
                 fontSize={3.5}
                 fontVariant={"bold"}
-                width={actualLength * 2}
+                width={TEXT_WIDTH}
                 align={"center"}
                 fill={"#aaa"}
                 opacity={props.opacity ?? 1}

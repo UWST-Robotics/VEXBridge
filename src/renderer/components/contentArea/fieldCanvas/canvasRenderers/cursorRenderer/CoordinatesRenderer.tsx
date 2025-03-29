@@ -1,5 +1,6 @@
 import React from "react";
 import {Text} from "react-konva";
+import useTransformedPose from "../../../../../hooks/common/useTransformedPose.ts";
 
 enum CursorPosition {
     TOP_LEFT = 0,
@@ -32,6 +33,8 @@ export default function CoordinatesRenderer(props: CursorRendererProps) {
         return CursorPosition.TOP_LEFT;
     }, [cursorX, cursorY]);
 
+    const {x, y} = useTransformedPose({x: cursorX, y: cursorY, rotation: 0});
+
     return (
         <Text
             x={
@@ -48,7 +51,7 @@ export default function CoordinatesRenderer(props: CursorRendererProps) {
             verticalAlign={
                 cursorPosition === CursorPosition.TOP_LEFT ||
                 cursorPosition === CursorPosition.TOP_RIGHT ? "bottom" : "top"}
-            text={`${cursorX.toFixed()}, ${-cursorY.toFixed()}`}
+            text={`${x.toFixed()}, ${y.toFixed()}`}
             fontSize={3}
             fill={"#aaa"}
         />
