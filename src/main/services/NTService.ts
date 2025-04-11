@@ -18,6 +18,19 @@ export class NTService {
     }
 
     /**
+     * Searches for a key by path
+     * @param path - The path to search for
+     */
+    getKeyForPath(path: string): number | undefined {
+        const keys = Object.keys(this.pathDB);
+        for (const key of keys) {
+            if (this.pathDB[Number(key)] === path)
+                return Number(key);
+        }
+        return undefined;
+    }
+
+    /**
      * Updates the path for a key
      * @param key - The key to update
      * @param path - The new path
