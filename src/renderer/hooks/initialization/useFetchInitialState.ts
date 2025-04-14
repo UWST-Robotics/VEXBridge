@@ -8,7 +8,7 @@ import InitState from "../../../types/InitState.ts";
 import {setNTKeyFromPathAtom} from "../networkTable/actions/useSetNTKeyFromPath.ts";
 import {ntValueAtomFamily} from "../networkTable/useNTValue.ts";
 import {logAtom} from "../log/useLog.ts";
-import NTValue from "../../../types/nt/NTValue.ts";
+import NTValueInfo from "../../../types/nt/NTValueInfo.ts";
 
 // Atoms
 export const fetchInitialStateAtom = atom(null, async (_, set) => {
@@ -22,18 +22,11 @@ export const fetchInitialStateAtom = atom(null, async (_, set) => {
         set(serialListAtom, await fetchAPIEndpoint("serial/list"));
         set(logAtom, await fetchAPIEndpoint("log"));
 
-        // Get Paths from DB
-        const pathDB = await fetchAPIEndpoint<Record<number, string>>("paths");
-        for (const key in pathDB) {
-            const path = pathDB[key];
-            set(setNTKeyFromPathAtom, path, parseInt(key));
-        }
-
-        // Get Value History from DB
-        const valueDB = await fetchAPIEndpoint<Record<number, NTValue>>("values");
-        for (const key in valueDB) {
-            const value = valueDB[key];
-            set(ntValueAtomFamily(parseInt(key)), value);
+        // Get Value from DB
+        const valueDB = await fetchAPIEndpoint<NTValueInfo[]>("values");
+        for (const value of valueDB) {
+            set(setNTKeyFromPathAtom, value.label, value.key);
+            set(ntValueAtomFamily(value.key), value.value);
         }
 
         // Set the state to loaded

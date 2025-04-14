@@ -1,5 +1,6 @@
 import NTValue from "../../types/nt/NTValue.ts";
 import {keyPathChangedEvent, resetEvent, valueChangedEvent} from "../common/EventHandler.ts";
+import NTValueInfo from "../../types/nt/NTValueInfo.ts";
 
 /**
  * Manages NT values
@@ -62,8 +63,17 @@ export class NTService {
      * Gets an NT record for a given key
      * @returns The NT record
      */
-    getAllValues(): Record<number, NTValue> {
-        return this.valueDB;
+    getAllValues(): NTValueInfo[] {
+        const labeledIDs = Object.keys(this.valueDB);
+
+        return labeledIDs.map((key) => {
+            const keyNumber = Number(key);
+            return {
+                key: keyNumber,
+                label: this.pathDB[keyNumber],
+                value: this.valueDB[keyNumber],
+            };
+        });
     }
 
     /**
