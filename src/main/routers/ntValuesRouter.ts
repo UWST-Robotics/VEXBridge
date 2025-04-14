@@ -1,6 +1,8 @@
 import {Router} from "express";
 import ntService from "../services/NTService.ts";
-import valueUpdateQueueService from "../services/ValueUpdateQueueService.ts";
+import {UpdateValuePacket} from "../serial/packets/UpdateValuePacket.ts";
+import sendSerialPacket from "../serial/sendSerialPacket.ts";
+import SerialPacketTypeID from "../../types/serial/SerialPacketTypeID.ts";
 
 const ntValuesRouter = Router();
 export default ntValuesRouter;
@@ -37,7 +39,35 @@ ntValuesRouter.post("/", (req, res) => {
     // Update value
     ntService.updateValue(key, value);
 
+    // Parse value to number
+    const numericValue = Number(value);
+    const booleanValue = Boolean(value);
+
+    const isNumber = !isNaN(numericValue);
+    const isBoolean = value === "true" || value === "false";
+
     // Write value to serial port
-    valueUpdateQueueService.updateValue(key, value);
+    if (isNumber) {
+        sendSerialPacket<UpdateValuePacket<number>>({
+            id: 0,
+            type: SerialPacketTypeID.UPDATE_DOUBLE,
+            ntID: key,
+            value: numericValue
+        }).catch(console.error);
+    } else if (isBoolean) {
+        sendSerialPacket<UpdateValuePacket<boolean>>({
+            id: 0,
+            type: SerialPacketTypeID.UPDATE_BOOL,
+            ntID: key,
+            value: booleanValue
+        }).catch(console.error);
+    } else {
+        sendSerialPacket<UpdateValuePacket<string>>({
+            id: 0,
+            type: SerialPacketTypeID.UPDATE_STRING,
+            ntID: key,
+            value: value
+        }).catch(console.error);
+    }
     res.send("OK");
 });

@@ -4,7 +4,6 @@ import {PingPacketType} from "./packets/PingPacket.ts";
 import SerialPacketType from "../../types/serial/SerialPacketType.ts";
 import {LogPacketType} from "./packets/LogPacket.ts";
 import {ResetPacketType} from "./packets/ResetPacket.ts";
-import {FetchValuesPacketType} from "./packets/FetchValuesPacket.ts";
 import {UpdateBoolPacketType} from "./packets/UpdateBoolPacket.ts";
 import {UpdateIntPacketType} from "./packets/UpdateIntPacket.ts";
 import {UpdateFloatPacketType} from "./packets/UpdateFloatPacket.ts";
@@ -20,7 +19,6 @@ import {UpdateBoolArrayPacketType} from "./packets/UpdateBoolArrayPacket.ts";
 const SerialPacketTypes: SerialPacketType<any>[] = [
     ResetPacketType,
     UpdateLabelPacketType,
-    FetchValuesPacketType,
     LogPacketType,
     PingPacketType,
     GenericAckPacketType,
