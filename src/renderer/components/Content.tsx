@@ -2,6 +2,7 @@ import LeftSidebar from "./leftSidebar/LeftSidebar.tsx";
 import {Box, Paper} from "@mui/material";
 import Navbar from "./navbar/navbar.tsx";
 import HardwareStatusPage from "./contentArea/hardwareStatus/HardwareStatusPage.tsx";
+import VisionPage from "./contentArea/visionPage/VisionPage.tsx";
 import LogOutputPage from "./contentArea/logOutput/LogOutputPage.tsx";
 import FieldCanvasPage from "./contentArea/fieldCanvas/FieldCanvasPage.tsx";
 import GraphPage from "./contentArea/graphPage/GraphPage.tsx";
@@ -45,13 +46,16 @@ export default function Content() {
                         <Box
                             sx={{
                                 overflowY: "auto",
-                                height: "100%",
+                                flexGrow: 1,
+                                display: "flex",
+                                flexDirection: "column",
                             }}
                         >
                             <HardwareStatusPage/>
                             <LogOutputPage/>
                             <FieldCanvasPage/>
                             <GraphPage/>
+                            <VisionPage/>
                         </Box>
                     </Paper>
                 </Box>

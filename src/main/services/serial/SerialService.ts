@@ -3,7 +3,7 @@ import SerialState from "../../../types/serial/SerialState.ts";
 import serialConnectionService from "./SerialConnectionService.ts";
 import {serialStateEvent} from "../../common/EventHandler.ts";
 import SerialPacketParser from "../../serial/SerialPacketParser.ts";
-import Rpio from "rpio";
+// import Rpio from "rpio";
 import logger from "../../common/Logger.ts";
 import settingsService from "../SettingsService.ts";
 
@@ -20,7 +20,7 @@ export class SerialService {
         // Initialize RTS Pin
         if (enableRTS) {
             logger.info(`Setting RTS pin to GPIO ${gpioRTSPin}`);
-            Rpio.open(gpioRTSPin, Rpio.OUTPUT, Rpio.LOW);
+            // Rpio.open(gpioRTSPin, Rpio.OUTPUT, Rpio.LOW);
         }
     }
 
@@ -109,8 +109,8 @@ export class SerialService {
 
         // Pull RTS high
         if (enableRTS) {
-            Rpio.write(gpioRTSPin, Rpio.HIGH);
-            Rpio.msleep(gpioPreDelay);
+            // Rpio.write(gpioRTSPin, Rpio.HIGH);
+            // Rpio.msleep(gpioPreDelay);
         }
 
         // Write data to serial port
@@ -125,8 +125,8 @@ export class SerialService {
 
         // Pull RTS low
         if (enableRTS) {
-            Rpio.msleep(gpioPostDelay);
-            Rpio.write(gpioRTSPin, Rpio.LOW);
+            // Rpio.msleep(gpioPostDelay);
+            // Rpio.write(gpioRTSPin, Rpio.LOW);
         }
     }
 }
