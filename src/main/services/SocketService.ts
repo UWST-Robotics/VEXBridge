@@ -1,0 +1,45 @@
+import {Server} from "socket.io";
+import webService from "./WebService.ts";
+import {
+    keyPathChangedEvent,
+    logEvent,
+    resetEvent,
+    serialListEvent,
+    serialStateEvent,
+    settingsChangedEvent,
+    valueChangedEvent
+} from "../common/EventHandler.ts";
+import logger from "../common/Logger.ts";
+
+/**
+ * Manages the socket connection to the server
+ */
+export class SocketService {
+    private socketServer = new Server(webService.httpServer);
+
+    init() {
+        // Connect Event Listeners
+        resetEvent.on(() => this.socketServer.emit("reset"));
+        serialStateEvent.on((state) => this.socketServer.emit("serial_state", state));
+        serialListEvent.on((list) => this.socketServer.emit("serial_list", list));
+        logEvent.on((msg) => this.socketServer.emit("log", msg));
+        valueChangedEvent.on((payload) => this.socketServer.emit("value_changed", payload));
+        keyPathChangedEvent.on((payload) => this.socketServer.emit("key_path_changed", payload));
+        settingsChangedEvent.on(() => this.socketServer.emit("settings_changed"));
+
+        this.socketServer.on("connection", (socket) => {
+
+            // Log Connection
+            logger.verbose(`Client connected: ${socket.id}`);
+
+            socket.on("disconnect", () => {
+
+                // Log Disconnection
+                logger.verbose(`Client disconnected: ${socket.id}`);
+            });
+        });
+    }
+}
+
+const socketService = new SocketService();
+export default socketService;

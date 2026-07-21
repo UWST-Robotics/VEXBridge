@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Stop service
+service vexbridge stop || true

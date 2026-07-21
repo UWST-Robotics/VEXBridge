@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - dev
 
   workflow_dispatch:
 
@@ -20,13 +21,21 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'npm'
-      - name: Install dependencies
-        run: npm install
+          cache: 'yarn'
+      - name: Install Dependencies
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
       - name: Build
-        run: npm run build
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build
+      - name: Package Deb
+        run: |
+          chmod -R 775 ${PWD}/debian/DEBIAN
+          ${PWD}/build-deb.sh
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build
           path: dist

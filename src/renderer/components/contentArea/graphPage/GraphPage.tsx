@@ -1,0 +1,45 @@
+import useCurrentTab from "../../../hooks/navigation/currentTab.ts";
+import {Box} from "@mui/material";
+import SelectedValuesTable from "./selectedValuesTable/SelectedValuesTable.tsx";
+import MaxTimeWindowInput from "./MaxTimeWindowInput.tsx";
+import SelectedValuesChart from "./chart/SelectedValuesChart.tsx";
+import NoItemsSelectedCard from "./NoItemsSelectedCard.tsx";
+import ClearGraphButton from "./ClearGraphButton.tsx";
+
+export default function GraphPage() {
+    const [currentTab] = useCurrentTab();
+
+    if (currentTab !== "graphPage")
+        return null;
+    return (
+        <Box
+            sx={{
+                display: "flex",
+                padding: 2,
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+                overflowY: "auto",
+            }}
+        >
+            <Box
+                sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "100%",
+                    flexWrap: "wrap",
+                }}
+            >
+                <MaxTimeWindowInput/>
+                <ClearGraphButton/>
+            </Box>
+            <SelectedValuesChart/>
+            <SelectedValuesTable/>
+            <Box sx={{margin: 5}}>
+                <NoItemsSelectedCard/>
+            </Box>
+        </Box>
+    );
+}
