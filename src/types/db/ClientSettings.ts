@@ -19,5 +19,5 @@ export const DefaultClientSettings: ClientSettings = {
     reverseCompass: false,
     compassHead: "N",
 
-    fieldLayoutID: ""
+    fieldLayoutID: "Override_VEXU.png"
 };

@@ -1,5 +1,6 @@
 import {Image} from "react-konva";
 import React from "react";
+import useClientSettings from "../../../../hooks/settings/useClientSettings.ts";
 
 export interface LayoutRendererProps {
     canvasSize: number;
@@ -7,13 +8,13 @@ export interface LayoutRendererProps {
 }
 
 export default function LayoutRenderer(props: LayoutRendererProps) {
-    // const [settings] = useSettings();
+    const [clientSettings] = useClientSettings();
 
     const fieldImage = React.useMemo(() => {
         const image = new window.Image();
-        image.src = `/fields/HighStakes_VEXU-Match.png`;
+        image.src = `/fields/` + clientSettings.fieldLayoutID;
         return image;
-    }, []);
+    }, [clientSettings]);
 
     return (
         <Image
